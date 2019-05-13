@@ -1,0 +1,56 @@
+
+.weui-cell.signature-cell {
+  align-items: flex-start;
+}
+
+.actions {
+  margin-top: 30rpx;
+}
+
+.userinfo{
+  position: relative;
+  width: 100%;
+  height: 300rpx;
+  background: #FFF;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.userinfo-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 30rpx;
+  border-radius: 50%;
+}
+
+.userinfo-personalinfo {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+}
+
+.userinfo-personalinfo .userinfo-nickname {
+  color: #000000;
+}
+
+.userinfo-personalinfo .userinfo-gender {
+  display: flex;
+  align-items: center;
+  margin-left: 10rpx;
+}
+
+.weui-cell {
+  padding: 10px 0px 10px 5px;
+}
+
+.weui-cell_input {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.weui-label {
+  width: 75px;
+  margin-left: 10rpx;
+}

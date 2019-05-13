@@ -1,0 +1,155 @@
+<!--pages/explore/eventDetail.wxml-->
+<wxs src="../../utils/formatter.wxs" module="formatter">
+</wxs>
+<view class="session-detail-header">
+  <image class="session-header-bg" src="{{formatter.getImageUrl(eventDetail.tileImageSrc)}}"></image>
+  <view class="session-avatar-wrapper">
+    <image id="{{eventDetail.owner.id}}" bindtap="goRankDetail" class="event-detail-avatar" mode="scaleToFill" src="{{eventDetail.owner.avatarUrl}}"></image>
+  </view>
+  <view class="event-detail-nickname">{{eventDetail.owner.nickName}}</view>
+</view>
+
+<view class="page">
+  <view class="flex-wrp">
+    <view class="flex-item session-detail-topic">
+      <text>
+        {{eventDetail.topic}}
+      </text>
+      <view class="share">
+        <button open-type='share' plain="true">
+          <image src="../../images/share2.png" mode="aspectFit" class="iconshare" />
+        </button>
+        <image src="../../images/edit.png" class="iconshare" mode="aspectFit" bindtap="onEditSession" wx:if="{{canEdit}}"></image>
+      </view>
+    </view>
+
+    <view class="flex-item">
+      {{eventDetail.description}}
+    </view>
+    <view class="flex-item">
+      <view>Presenter</view>
+      <text>{{eventDetail.owner.nickName}}</text>
+    </view>
+    <view class="flex-item">
+      <view>When</view>
+      <text>{{eventDetail.startDate}} - {{eventDetail.endDate}}</text>
+    </view>
+    <view class="flex-item">
+      <view>Location</view>
+      <text>{{eventDetail.location.name}}</text>
+    </view>
+    <view class="flex-item">
+      <view>Difficulty</view>
+      <text>{{difficulties[eventDetail.difficulty]}}</text>
+    </view>
+    <view class="flex-item">
+      <view>Direction</view>
+      <text>{{eventDetail.direction.name}}</text>
+    </view>
+    <view class="flex-item">
+      <view>Type</view>
+      <text wx:if="{{eventDetail.tea2}}">Tea2</text>
+      <text wx:else>{{eventDetail.group.name}}</text>
+    </view>
+    <view class="flex-item">
+      <view>Enrollments</view>
+      <text>{{eventDetail.enrollments}}</text>
+    </view>
+
+    <view class="session-detail-action" wx:if="{{status == 1}}">
+      <block wx:if="{{isOwner}}">
+      </block>
+      <block wx:else>
+        <view wx:if="{{isRegistered}}" class="flex-item">
+          <modal id="checkInModal" hidden="{{isCheckInModalHidden}}" title="Please type check in code" confirm-text="Submit" cancel-text="Cancel" bindconfirm="submitCheckInCode" bindcancel="cancelCheckIn">
+            <input name="checkInCode" bindinput="onCheckInCodeInput" class="weui-input" placeholder="Check in Code" />
+          </modal>
+        </view>
+      </block>
+    </view>
+  </view>
+  <!-- new session -->
+  <view wx:if="{{status == 0}}">
+    <view wx:if="{{!isOwner}}">
+      <view class="flex-item" wx:if="{{!isRegistered}}">
+        <button bindtap='onRegister' class="uniformBtn">Register</button>
+      </view>
+      <view class="flex-item" wx:else>
+        <button bindtap='unRegister' class="uniformBtn">Unregister</button>
+      </view>
+    </view>
+    <view wx:else>
+      <view class="flex-button">
+        <button bindtap='onStartSession' class="uniformBtn">{{startBtnVal}}</button>
+      </view>
+      <view class="flex-button" wx:if="{{eventDetail.group.name == 'T2'}}">
+        <button bindtap='onManageQuiz' class="uniformBtn">{{quizBtnVal}}</button>
+      </view>
+    </view>
+  </view>
+  <!-- started t2 session -->
+  <view class="weui-footer weui-footer_fixed-bottom footerBar" wx:if="{{(isRegistered || isOwner) && status == 1 && eventDetail.group.name == 'T2'}}">
+    <view class="weui-footer__links">
+      <block wx:if="{{isOwner}}">
+        <view class='weui-footer__link'>
+          <image class="likeBtn" src="../../images/started.png" />
+          <text>{{startBtnVal}}</text>
+        </view>
+        <view class='weui-footer__link' bindtap='onManageQuiz'>
+          <image class="likeBtn" wx:if="{{!quizBtnDisabled}}" src="../../images/exam.png" />
+          <text>{{quizBtnVal}}</text>
+        </view>
+      </block>
+      <block wx:else>
+        <view class='weui-footer__link'>
+          <image class="likeBtn" wx:if="{{!checkInDisabled}}" src="../../images/unChecked.png" bindtap="onCheckIn" />
+          <image class="likeBtn" wx:else src="../../images/checkedIn.png" /> {{checkInBtnVal}}
+        </view>
+        <view class='weui-footer__link' bindtap='onStartQuiz'>
+          <image class="likeBtn" wx:if="{{!startQuizBtnDisabled}}" src="../../images/exam.png" /> {{startQuizBtnVal}}
+        </view>
+      </block>
+      <view class='weui-footer__link' bindtap='onStartLottery'>
+        <image class="likeBtn" src="../../images/gift.png" /> {{lotteryBtnVal}}
+      </view>
+      <block wx:if="{{isOwner}}">
+         <view class='weui-footer__link'>
+         <image class="likeBtn"  src="../../images/like.png" />{{totalLikeCount}}
+        </view>
+      </block>
+      <block wx:else>
+         <view class='weui-footer__link'>
+        <image class="likeBtn" wx:if="{{isLiked}}" src="../../images/like.png" bindtap="onChangeLikeStatus" />
+        <image class="likeBtn" wx:else src="../../images/unlike.png" bindtap="onChangeLikeStatus" /> {{totalLikeCount}}
+      </view>
+      </block>
+    </view>
+  </view>
+  <!-- started non-t2 session -->
+  <view wx:if="{{(isRegistered || isOwner) && status == 1 && eventDetail.group.name != 'T2' }}">
+    <view class="flex-button" wx:if="{{!isOwner}}">
+      <button bindtap='onCheckIn' class="uniformBtn" wx:if="{{!checkInDisabled}}">{{checkInBtnVal}}</button>
+    </view>
+    <view class="flex-button" wx:if="{{isOwner}}">
+      <button class="uniformBtn" disabled="{{disabled}}">Code: {{startBtnVal}}</button>
+    </view>
+    <view class="reward" wx:if="{{checkInDisabled && !isOwner}}">
+      <image class="likeBtn" wx:if="{{isLiked}}" src="../../images/like.png" bindtap="onChangeLikeStatus" />
+      <image class="likeBtn" wx:else src="../../images/unlike.png" bindtap="onChangeLikeStatus" /> {{totalLikeCount}}
+    </view>
+    <view class="reward" wx:if="{{isOwner}}">
+       <image class="likeBtn" src="../../images/like.png" />{{totalLikeCount}}
+    </view>
+  </view>
+  <!-- completed session -->
+  <view wx:if="{{status == 2}}">
+    <view class="reward" wx:if="{{isOwner}}">
+      <image class="likeBtn" src="../../images/like.png" />{{totalLikeCount}}
+    </view>
+    <view class="reward" wx:else>
+     <image class="likeBtn" wx:if="{{isLiked}}" src="../../images/like.png" bindtap="onChangeLikeStatus" />
+      <image class="likeBtn" wx:else src="../../images/unlike.png" bindtap="onChangeLikeStatus" /> {{totalLikeCount}}
+    </view>
+  </view>
+  <view  wx:if="{{share}}" bindtap="goToIndex" class="index-navigate-btn"></view>
+</view>

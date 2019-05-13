@@ -1,0 +1,130 @@
+/* pages/rankinglist/rankingdetail.wxss */
+.weui-cell__ft {
+  color: #FDBC40;
+  font-size: 1.0rem;
+}
+
+.userinfo{
+  position: relative;
+  width: 100%;
+  height: 300rpx;
+  background: #FFF;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* .userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */
+
+.userinfo-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 30rpx;
+  border-radius: 50%;
+}
+
+.userinfo-personalinfo {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+}
+
+.userinfo-personalinfo .userinfo-nickname {
+  color: #000000;
+}
+
+.userinfo-personalinfo .userinfo-gender {
+  display: flex;
+  align-items: center;
+  margin-left: 10rpx;
+}
+
+.page__bd{
+  background: #FFF;
+}
+.capabilityTabs {
+  min-height: calc(100vh - 300rpx);
+}
+.weui-navbar {
+  border-top: 1rpx solid #ccc;
+  border-bottom: none;
+}
+
+.weui-tab__panel{
+  border: none;
+}
+
+.weui-tab__content{
+    padding-top: 10px;
+    background:#f6f7f8;
+    border: none;
+}
+
+.weui-navbar__slider {
+  width: 6em;
+}
+.radarCanvas {
+  width: 400px;
+  height: 300px;
+}
+.capabilitySubTab{
+  padding: 20rpx;
+}
+.introduction {
+  display: flex;
+  flex-direction: column;
+}
+.introduction >view {
+  margin-bottom: 10rpx;
+}
+.introduction i-icon {
+  margin-right: 20rpx;
+}
+
+ .introduction text {
+  font-size: 18px;
+} 
+.githubInfo image{
+  width: 28px;
+  height: 28px;
+  margin-top: 10rpx;
+}
+.githubInfo text {
+  position: absolute;
+  margin: 8rpx 0 0 20rpx;
+}
+.skillItem {
+  position: relative;
+  margin-bottom: 40rpx;
+}
+.skillContent image{
+  width: 70rpx;
+  height: 70rpx;
+  border-radius:50%;
+}
+.skillItem i-icon{
+  position: absolute;
+  right: 10rpx;
+  top: 6rpx;
+}
+.endorsement {
+  display: flex;
+  align-items: center;
+  margin:20rpx 0;
+}
+.endorsement text {
+  color: #71777D;
+  margin-left: 20rpx;
+  font-size: 26rpx;
+}
+.skillItem .skillTag {
+  font-size: 32rpx;
+  background: #e8e8ed;
+  border-radius: 28rpx;
+  padding: 10rpx 16rpx;
+}

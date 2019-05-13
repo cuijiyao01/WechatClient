@@ -1,0 +1,25 @@
+// return '2018-10-22'
+var getDate = function (time) {
+  return time.split(' ')[0];
+}
+
+var getImageUrl = function (src){
+  if (src) {
+    //return 'http://localhost:8090' + src;
+    return 'https://sfmooc-api.techtuesday.club' + src;
+  }
+}
+var getDifficulty = function (difficulty) {
+  if (difficulty === 0) {
+    return 'Beginner';
+  } else if (difficulty === 1) {
+    return 'Intermediate';
+  } else {
+    return 'Advanced';
+  }
+}
+module.exports = {
+  getDate: getDate,
+  getImageUrl: getImageUrl,
+  getDifficulty: getDifficulty
+}

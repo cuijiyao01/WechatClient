@@ -1,0 +1,22 @@
+<!--pages/uploadQuestion/uploadQuestion.wxml-->
+<view class="page">
+  <view class="questionsWrapper">
+    <view class="questionContainer" wx:for="{{questions}}" wx:key="index">
+      <view class="questionHeader">
+        <view class="questionTitle">
+        {{index + 1}}: {{item.content}}
+        </view>
+        <view class="" wx:if="{{!isQuestionPublished}}">
+          <image class="editQuesIcon" data-quesIndex="{{index}}" src="../../images/edit_outline.png" bindtap="editQuestion"></image>
+          <image class="deleteQuesIcon" data-quesIndex="{{index}}" src="../../images/rounded_delete.png" bindtap="handleDeleteQuestionClick"></image>
+        </view>
+      </view>
+      <view class="option" wx:for="{{item.options}}" wx:key="index" wx:for-item="option">
+        {{option.number}}: {{option.content}}
+      </view>
+    </view>
+  </view>
+  <button class='fixedBottomBtn whiteBtn publishQuesBtn' bindtap="publishQuestions" wx:if="{{!isQuestionPublished}}">Publish</button>
+  <button class='fixedBottomBtn whiteBtn publishQuesBtn' bindtap="goToExamRanking" wx:else="{{isQuestionPublished}}">Ranking</button>
+  <button class="uniformBtn fixedBottomBtn addQuesBtn" bindtap="addQuestion" disabled="{{isQuestionPublished}}">Add</button>
+</view>

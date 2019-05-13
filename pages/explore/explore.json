@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "SAP Skr",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "i-drawer": "../components/popup",
+    "i-icon": "../components/icon/index"
+  }
+}

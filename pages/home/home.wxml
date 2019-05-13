@@ -1,0 +1,189 @@
+<!--home.wxml-->
+<wxs src="../../utils/formatter.wxs" module="formatter">
+</wxs>
+<view class="page {{isT2User ? 'page-with-t2entries' : ''}}">
+  <view class="userinfo">
+    <button class="loginButton" type="primary" plain="true" wx:if="{{!hasUserInfo}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo">
+      登录
+    </button>
+    <view wx:else class="myInfoCard" bindtap='goToProfilePage'>
+      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <image src="../../images/right_arrow.png" class='navIcon1'></image>
+      <view class="userinfoRightSection">
+        <view class="userinfo-personalinfo">
+          <view class="userinfo-nickname">{{userInfo.nickName}}</view>
+          <view class="userinfo-gender">
+            <image wx:if="{{userInfo.gender==2}}" style="width: 20px; height: 20px;" src="../../images/gender_girl.png"></image>
+            <image wx:else="{{userInfo.gender==1}}" style="width: 20px; height: 20px;" src="../../images/gender_boy.png"></image>
+          </view>
+        </view>
+        <!-- <navigator url="pointsDetail?userId={{userInfo.id}}"> -->
+        <view class="userinfoCredits" catchtap='goToCreditPage'>
+          <view>{{totalPoints}}</view>
+          <view class="userinfoPointsDetail">
+            <text>Credits</text>
+            <image src="../../images/right_arrow1.png" class="navIcon"></image>
+          </view>
+        </view>
+        <!-- </navigator> -->
+      </view>
+    </view>
+  </view>
+  <view class="entries">
+  
+    <view class="entry-item-wrapper">
+      <view class="entry-item entry-item-announcement" bindtap='onNoticePage'  wx:if="{{isT2User}}">
+        <image src="../../images/entry-notice.png"></image>
+      </view>
+      <text>Notice</text>
+    </view>
+    
+    <view class="entry-item-wrapper">
+      <view class="entry-item entry-item-schedule" bindtap='onSchedulePage'  wx:if="{{isT2User}}">
+        <image src="../../images/entry-schedule.png"></image>
+      </view>
+      <text>Schedule</text>
+    </view>
+
+    <view class="entry-item-wrapper">
+      <view class="entry-item entry-item-aboutMe" bindtap='onAboutMePage'>
+        <image src="../../images/entry-aboutMe.png"></image>
+      </view>
+      <text>About Us</text>
+    </view>
+
+  </view>
+  <view class="page__bd">
+    <view class="weui-tab">
+      <view class="weui-navbar">
+        <block wx:for="{{tabs}}" wx:key="*this">
+          <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
+            <view class="weui-navbar__title">{{item}}</view>
+          </view>
+        </block>
+        <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
+      </view>
+      <view class="weui-tab__panel">
+        <!-- Learning -->
+        <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
+          <view wx:if="{{learnSessionsIsPullDownLoading}}" class="weui-loadmore">
+            <view class="weui-loading"></view>
+            <view class="weui-loadmore__tips">Loading</view>
+          </view>
+          <view id="{{item.id}}" bindtap='goLearnSession' class="eventItem" wx:for="{{learnSessions}}" wx:key="id">
+            <view class='leftContent'>
+              <image wx:if="{{item.tileImageSrc}}" src="{{formatter.getImageUrl(item.tileImageSrc)}}"></image>
+              <image wx:else src="https://img1.sycdn.imooc.com/szimg/5a9ca4e80001786305400300-360-202.jpg"></image>
+            </view>
+            <view class="rightContent">
+              <view class="title">
+                <text class="topic">{{item.topic}}</text>
+                <text class="cancelled" hidden="{{item.status != -1}}">Cancelled</text>
+                <text class="completed" hidden="{{item.status !== 2}}">Done</text>
+              </view>
+              <view class="speaker">{{item.owner.nickName}}</view>
+              <view class="location">
+                {{formatter.getDate(item.startDate)}} | {{formatter.getDifficulty(item.difficulty)}}
+                <view class="count">
+                  <image src="../../images/mini_people.png"></image>
+                  <text>{{item.enrollments}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+          <view wx:if="{{learnSessionsIsLoading}}" class="weui-loadmore">
+            <view class="weui-loading"></view>
+            <view class="weui-loadmore__tips">Loading</view>
+          </view>
+          <view wx:if="{{learnSessionsIsNoData}}" class="weui-loadmore weui-loadmore_line">
+            <view class="weui-loadmore__tips weui-loadmore__tips_in-line">No More Data</view>
+          </view>
+        </view>
+
+        <!-- Sharing -->
+        <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
+          <view wx:if="{{ownedSessionsIsPullDownLoading}}" class="weui-loadmore">
+            <view class="weui-loading"></view>
+            <view class="weui-loadmore__tips">Loading</view>
+          </view>
+          <i-swipeout id="{{item.id}}" operateWidth="{{100}}" unclosable="{{swipeoutUnclosable}}" toggle="{{false}}"  wx:for="{{ownedSessions}}" wx:for-index='idx' wx:key="id">
+            <view slot="content" id="{{item.id}}" bindtap='goOwnedSession' class="eventItem">
+              <view class='leftContent'>
+                <image wx:if="{{item.tileImageSrc}}" src="{{formatter.getImageUrl(item.tileImageSrc)}}"></image>
+                <image wx:else src="https://img1.sycdn.imooc.com/szimg/5a9ca4e80001786305400300-360-202.jpg"></image>
+              </view>
+              <view class="rightContent">
+                <view class="title">
+                  <text class="topic">{{item.topic}}</text>
+                  <text class="cancelled" hidden="{{item.status !== -1}}">Cancelled</text>
+                  <text class="completed" hidden="{{item.status !== 2}}">Done</text>
+                </view>
+                <view class="speaker">{{item.owner.nickName}}</view>
+                <view class="location">
+                {{formatter.getDate(item.startDate)}} | {{formatter.getDifficulty(item.difficulty)}}
+                  <view class="count">
+                    <image src="../../images/mini_people.png"></image>
+                    <text>{{item.enrollments}}</text>
+                  </view>
+                </view>
+              </view>
+            </view>
+            <view slot="button" class="i-swipeout-button-right-group" wx:if="{{item.status == 0}}">
+              <view class="i-swipeout-button-right-item">
+                <view style="background-color:#0076cb" wx:if="{{item.enrollments &&!confirmButtonVisible}}" bindtap="onCancelOrDelete" data-itemIndex="{{idx}}">Cancel</view>
+                <view style="background-color:#c62828" wx:if="{{item.enrollments && confirmButtonVisible}}" data-itemIndex="{{idx}}" bindtap="onConfirm">Confirm</view>
+              </view>
+              <view class="i-swipeout-button-right-item">
+                <view style="background-color:#0076cb" wx:if="{{!item.enrollments && !confirmButtonVisible}}" data-itemIndex="{{idx}}" bindtap="onCancelOrDelete" type="primary" >Delete</view>
+                <view style="background-color:#c62828" wx:if="{{!item.enrollments && confirmButtonVisible}}" data-itemIndex="{{idx}}" bindtap="onConfirm">Confirm</view>
+              </view>
+            </view>
+          </i-swipeout>
+
+          <view wx:if="{{ownedSessionsIsLoading}}" class="weui-loadmore">
+            <view class="weui-loading"></view>
+            <view class="weui-loadmore__tips">Loading</view>
+          </view>
+          <view wx:if="{{ownedSessionsIsNoData}}" class="weui-loadmore weui-loadmore_line">
+            <view class="weui-loadmore__tips weui-loadmore__tips_in-line">No More Data</view>
+          </view>
+          <view wx:if="{{hasUserInfo}}" bindtap="onCreateSession" class="session-create-btn"></view>
+        </view>
+        <!-- Completed -->
+        <view class="weui-tab__content" hidden="{{activeIndex != 2}}">
+          <view wx:if="{{completedSessionsIsPullDownLoading}}" class="weui-loadmore">
+            <view class="weui-loading"></view>
+            <view class="weui-loadmore__tips">Loading</view>
+          </view>
+          <view id="{{item.id}}" bindtap='goCompletedSession' class="eventItem" wx:for="{{completedSessions}}" wx:key="id">
+            <view class='leftContent'>
+              <image wx:if="{{item.tileImageSrc}}" src="{{formatter.getImageUrl(item.tileImageSrc)}}"></image>
+              <image wx:else src="https://img1.sycdn.imooc.com/szimg/5a9ca4e80001786305400300-360-202.jpg"></image>
+            </view>
+            <view class="rightContent">
+              <view class="title">
+                <text class="topic">{{item.topic}}</text>
+                <text class="cancelled" hidden="{{item.status !== -1}}">Cancelled</text>
+              </view>
+              <view class="speaker">{{item.owner.nickName}}</view>
+              <view class="location">
+                {{formatter.getDate(item.startDate)}} | {{formatter.getDifficulty(item.difficulty)}}
+                <view class="count">
+                  <image src="../../images/mini_people.png"></image>
+                  <text>{{item.enrollments}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+          <view wx:if="{{completedSessionsIsLoading}}" class="weui-loadmore">
+            <view class="weui-loading"></view>
+            <view class="weui-loadmore__tips">Loading</view>
+          </view>
+          <view wx:if="{{completedSessionsIsNoData}}" class="weui-loadmore weui-loadmore_line">
+            <view class="weui-loadmore__tips weui-loadmore__tips_in-line">No More Data</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,76 @@
+/* pages/explore/search.wxss */
+.page {
+  height: 100vh;
+  background: #FFF;
+}
+.searchBar {
+  height: 50px;
+  border: 2px solid #FFF;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+}
+.close {
+  position: absolute;
+  right: 174rpx;
+  width: 40rpx;
+  height: 40rpx;
+  text-align: center;
+  line-height: 40rpx;
+  border-radius: 50%;
+  background: grey;
+}
+.searchBar input {
+  width: 63%;
+  height: 60rpx;
+  background: #e8e8ed;
+  border-radius: 60rpx;
+  padding: 0 50rpx;
+  font-size: 28rpx;
+  margin-left: 2%;
+}
+.searchBar button {
+  font-size: 24rpx;
+}
+.tagContainer {
+  position: relative;
+  margin-top: 15px;
+}
+.tagContainer .operation {
+  position: absolute;
+  right: 10px;
+  top: 0;
+  font-size: 12px;
+  color: #0076cb;
+}
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  padding: 5px 10px;
+}
+.searchSubmit {
+  background: #0076cb;
+  color: #fff;
+}
+.searchResultCount {
+  border-bottom: 1px solid #aaa;
+  margin-bottom: 10rpx;
+  font-size: 28rpx;
+  color: #71777D;
+}
+.searchResult {
+  padding: 0 15rpx;
+  background: #FFF;
+}
+.result {
+  height: 50px;
+  line-height: 50px;
+  width: 100%;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  padding-left: 25px;
+  color: #333;
+  font-family: "微软雅黑";
+  font-size: 16px;
+}
