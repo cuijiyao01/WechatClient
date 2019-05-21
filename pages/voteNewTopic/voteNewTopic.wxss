@@ -1,0 +1,78 @@
+.page {
+  height: 100vh;
+  background: #FFF;
+}
+
+.content {
+  display: block;
+  padding-top: 70px;
+  border: none;
+}
+
+.topic_item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30rpx;
+}
+
+.topic_item i-icon{
+  display: flex;
+  align-items: center;
+  margin-right: 30rpx;
+}
+
+.topic_item .rank {
+  padding-left: 40rpx;
+  color: #0076cb;
+  font-size: 1.0rem;
+}
+
+.topic_item .topic_name {
+  font-size: 36rpx;
+  margin-left: 30rpx; 
+}
+
+.topic_item .votes {
+  font-size: 28rpx;
+  margin-left: 10rpx; 
+  color: #71777D;
+}
+
+.session-create-btn {
+  position: fixed;
+  right: 36px;
+  bottom: 45px;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  background: #0076cb;
+  box-shadow: 0 5px 10px #888;
+}
+
+.session-create-btn::before {
+  content: '+';
+  position: absolute;
+  top: -2px;
+  left: 16px;
+  color: #fff;
+  font-size: 30px;
+}
+
+.searchInput i-icon {
+  position: absolute;
+  z-index: 100;
+  left: 6%;
+  top: 46rpx;
+}
+
+.searchInput input {
+  border-radius:35rpx;
+  border: 1px solid #CCC;
+  width: 90%;
+  position: absolute;
+  top: 50rpx;
+  left: 5%; 
+  z-index: 99;
+  background: rgba(255, 255, 255, 0.5);
+}

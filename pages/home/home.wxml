@@ -30,19 +30,25 @@
     </view>
   </view>
   <view class="entries">
-  
-    <view class="entry-item-wrapper">
-      <view class="entry-item entry-item-announcement" bindtap='onNoticePage'  wx:if="{{isT2User}}">
+    <view class="entry-item-wrapper"  wx:if="{{isT2User}}">
+      <view class="entry-item entry-item-announcement" bindtap='onNoticePage'>
         <image src="../../images/entry-notice.png"></image>
       </view>
       <text>Notice</text>
     </view>
     
-    <view class="entry-item-wrapper">
-      <view class="entry-item entry-item-schedule" bindtap='onSchedulePage'  wx:if="{{isT2User}}">
+    <view class="entry-item-wrapper" wx:if="{{isT2User}}">
+      <view class="entry-item entry-item-schedule" bindtap='onSchedulePage'>
         <image src="../../images/entry-schedule.png"></image>
       </view>
       <text>Schedule</text>
+    </view>
+
+    <view class="entry-item-wrapper" wx:if="{{hasUserInfo}}">
+      <view class="entry-item entry-item-vote" bindtap='onVotePage'>
+        <image src="../../images/entry-vote.png"></image>
+      </view>
+      <text>Vote</text>
     </view>
 
     <view class="entry-item-wrapper">

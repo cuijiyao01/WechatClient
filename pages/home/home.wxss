@@ -196,3 +196,6 @@ background: white;
 .entry-item-aboutMe {
  background-image: linear-gradient( 135deg, #81FBB8 10%, #28C76F 100%);
 }
+.entry-item-vote {
+ background-image: linear-gradient( 135deg, #7A88FF 10%, #736EFE 100%);
+}

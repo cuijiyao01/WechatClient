@@ -442,6 +442,12 @@ Page({
     });
   },
 
+  onVotePage: function () {
+    wx.navigateTo({
+      url: '../voteNewTopic/voteNewTopic'
+    });
+  },
+
   goToProfilePage: function () {
     wx.navigateTo({
       url: '../profile/profile'

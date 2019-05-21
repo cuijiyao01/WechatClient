@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "Vote for What I want to learn",
+  "usingComponents": {
+      "i-drawer": "../components/popup",
+      "i-icon": "../components/icon/index"
+  }
+}
