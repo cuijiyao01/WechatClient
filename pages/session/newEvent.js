@@ -19,27 +19,45 @@ Page({
     durationIndex: 0,
     difficulties: ['Beginner', 'Intermediate', 'Advanced'],
     difficultyIndex: 0,
-    locations: [
-      { id: 2, name: "PVG03 D5.2" },
-      { id: 3, name: "PVG03 D5.3" }
+    locations: [{
+        id: 1,
+        name: "MR PVG03 B2.1 (06) (RT)"
+      },
+      {
+        id: 2,
+        name: "MR PVG03 B3.1 (06) (RT)"
+      }
     ],
     locationIndex: 0,
-    directions: [
-      { id: 2, name: "Cutting Edge Tech", imageSrc: null },
-      { id: 3, name: "Frontend", imageSrc: null }
+    directions: [{
+        id: 2,
+        name: "Cutting Edge Tech",
+        imageSrc: null
+      },
+      {
+        id: 3,
+        name: "Frontend",
+        imageSrc: null
+      }
     ],
     directionIndex: 0,
-    groupIndex:0,
+    groupIndex: 0,
     mode: "create",
     editSessionDetail: null,
     formData: {},
-    tea2: 0
+    tea2: 0,
+    //Add for meeting rooms
+    showInputStatus: false,
+    inputLocation: '',
+    locationsName: ["MR PVG03 B2.1 (06) (RT)", "MR PVG03 B3.1 (06) (RT)"],
+    bindSource: [],
+    scrollhight: 100,
   },
 
   /**
    * Lifecycle function--Called when page load
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     this._initDateTimePicker();
     const initDataPromise = this._initData();
 
@@ -54,7 +72,8 @@ Page({
         this.setData({
           directions: retObj.directions,
           locations: retObj.locations,
-          groups: retObj.groups
+          groups: retObj.groups,
+          locationsName: retObj.locations.map(val => val.name)
         });
       }
     }).catch(e => {
@@ -99,8 +118,8 @@ Page({
             formData: retObj.session,
             startDateTime: this._calDateTimeStr2Arr(retObj.session.startDate),
             startDateTimeVal: retObj.session.startDate,
-            durationIndex: this._calDuartionIndex(retObj.session.startDate,retObj.session.endDate),
-            locationIndex: this.data.locations.map(val => val.name).indexOf(retObj.session.location.name),
+            durationIndex: this._calDuartionIndex(retObj.session.startDate, retObj.session.endDate),
+            inputLocation: retObj.session.location.name,
             directionIndex: this.data.directions.map(val => val.name).indexOf(retObj.session.direction.name),
             groupIndex: this.data.groups.map(val => val.name).indexOf(retObj.session.group.name),
             difficultyIndex: retObj.session.difficulty,
@@ -113,7 +132,7 @@ Page({
     });
   },
 
-  _initDateTimePicker: function () {
+  _initDateTimePicker: function() {
     // 获取完整的年月日 时分秒，以及默认显示的数组
     let dateTimeObj = Util.dateTimePicker(this.data.startYear, this.data.endYear);
     let dateTimeArray = dateTimeObj.dateTimeArray;
@@ -135,7 +154,7 @@ Page({
     this.inputChange('startDateTimeVal', startDateTimeVal);
   },
 
-  _calDateTimeVal: function (dateTime, oriDateTimeArray) {
+  _calDateTimeVal: function(dateTime, oriDateTimeArray) {
     let dateTimeArray = this.data.dateTimeArray || oriDateTimeArray;
     let temp = dateTime.map((val, i) => {
       return dateTimeArray[i][val];
@@ -145,7 +164,7 @@ Page({
     return dateTimeVal;
   },
 
-  _calDateTimeStr2Arr: function (dateStr) {
+  _calDateTimeStr2Arr: function(dateStr) {
     let dateTimeObj = Util.dateTimePicker(this.data.startYear, this.data.endYear);
 
     const dateStrArr = dateStr.match(/(\d+)-(\d+)-(\d+) (\d+):(\d+)/);
@@ -156,15 +175,15 @@ Page({
       return arrMap[index].indexOf(val)
     })
   },
-  _calDuartionIndex: function (startDateStr, endDateStr) {
-    const val = this._calDuartionVal(startDateStr,endDateStr);
+  _calDuartionIndex: function(startDateStr, endDateStr) {
+    const val = this._calDuartionVal(startDateStr, endDateStr);
     return this.data.durations.indexOf(val);
   },
 
-  _calDuartionVal : function (startDateStr,endDateStr) {
-    const startDateTimestamp = new Date(startDateStr.replace(" ","T")).getTime();
-    const endDateTimestamp = new Date(endDateStr.replace(" ","T")).getTime();
-    const durationMin = (endDateTimestamp - startDateTimestamp)/60000;
+  _calDuartionVal: function(startDateStr, endDateStr) {
+    const startDateTimestamp = new Date(startDateStr.replace(" ", "T")).getTime();
+    const endDateTimestamp = new Date(endDateStr.replace(" ", "T")).getTime();
+    const durationMin = (endDateTimestamp - startDateTimestamp) / 60000;
 
     if (durationMin < 60) {
       return durationMin > 1 ? `${durationMin} Minutes` : `${durationMin} Minute`
@@ -180,8 +199,8 @@ Page({
   },
 
   changeStartDateTimeColumn(e) {
-    let arr = this.data.startDateTime, 
-        dateArr = this.data.dateTimeArray;
+    let arr = this.data.startDateTime,
+      dateArr = this.data.dateTimeArray;
 
     arr[e.detail.column] = e.detail.value;
     dateArr[2] = Util.getMonthDay(dateArr[0][arr[0]], dateArr[1][arr[1]]);
@@ -196,15 +215,11 @@ Page({
     this.inputChange('durationIndex', e.detail.value);
   },
 
-  bindLocationChange: function (e) {
-    this.inputChange('locationIndex', e.detail.value);
-  },
-
   bindDirectionChange: function(e) {
     this.inputChange('directionIndex', e.detail.value);
   },
 
-  bindGroupChange: function (e) {
+  bindGroupChange: function(e) {
     this.inputChange('groupIndex', e.detail.value);
   },
 
@@ -212,7 +227,7 @@ Page({
     this.inputChange('difficultyIndex', e.detail.value);
   },
 
-  inputChange: function (name, value) {
+  inputChange: function(name, value) {
     this.setData({
       [name]: value
     });
@@ -229,7 +244,7 @@ Page({
     WXRequest.post('/session/edit', eventDetail).then(res => {
       if (res.data.msg === 'ok') {
         Util.showToast('Success', 'success', 1000);
-        setTimeout(function () {
+        setTimeout(function() {
           wx.navigateBack({
             delta: 1
           });
@@ -258,7 +273,7 @@ Page({
       },
       difficulty: value.difficulty,
       location: {
-        id: this.data.locations[value.location].id
+        id: this.data.locations.map(val => val.name).indexOf(value.location) + 1
       },
       typeId: this.data.groups[value.group].id,
       tea2: this.data.tea2
@@ -271,14 +286,14 @@ Page({
 
     let n = duration.split(' ')[0];
     let time = parseInt(n);
-    if(time < 10){
+    if (time < 10) {
       time = time * 60;
     }
     let endDateTime = new Date(new Date(iosTime).getTime() + time * 60 * 1000);
     return Util.getDateTime(endDateTime);
   },
 
-  checkboxChange: function (e) {
+  checkboxChange: function(e) {
     var tea2 = this.data.tea2 ^ 1;
     console.log("isTea2: " + tea2);
     this.setData({
@@ -289,14 +304,94 @@ Page({
   /**
    * Lifecycle function--Called when page is initially rendered
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * Lifecycle function--Called when page unload
    */
-  onUnload: function () {
+  onUnload: function() {
 
+  },
+
+  // Add for meeting rooms
+  bindKeyInput: function(e) {
+    var currentInputStatu = e.currentTarget.dataset.statu;
+    var prefix = e.detail.value
+    var newSource = []
+    if (prefix != "") {
+      this.setData({
+        showBtnStatus1: false,
+        showBtnStatus2: true
+      });
+      this.data.locationsName.forEach(function(e) {
+        if (e.indexOf(prefix) != -1) {
+          newSource.push(e)
+        }
+      })
+    } else {
+      currentInputStatu = "close";
+      this.setData({
+        isScroll: true,
+        showBtnStatus1: true,
+        showBtnStatus2: false
+      });
+    }
+    if (newSource.length != 0) {
+      this.setData({
+        bindSource: newSource,
+      })
+      if (newSource.length < 5) {
+        this.setData({
+          scrollhight: 45 * newSource.length
+        })
+      } else {
+        this.setData({
+          scrollhight: 250
+        })
+      }
+    } else {
+      this.setData({
+        bindSource: []
+      })
+      currentInputStatu = "close";
+      this.setData({
+        isScroll: "{{false}}"
+      });
+    }
+    if (currentInputStatu == "close") {
+      this.setData({
+        showInputStatus: false,
+        isScroll: true
+      });
+    }
+    if (currentInputStatu == "open") {
+      this.setData({
+        showInputStatus: true,
+        isScroll: "{{false}}"
+      });
+    }
+  },
+
+  //Add for meeting rooms
+  itemtap: function(e) {
+    var currentInputStatu = e.currentTarget.dataset.statu;
+    this.setData({
+      inputLocation: e.target.id,
+      bindSource: []
+    })
+    if (currentInputStatu == "close") {
+      this.setData({
+        showInputStatus: false,
+        isScroll: true
+      });
+    }
+    if (currentInputStatu == "open") {
+      this.setData({
+        showInputStatus: true,
+        isScroll: "{{false}}"
+      });
+    }
   }
 })

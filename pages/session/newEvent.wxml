@@ -82,19 +82,26 @@
       <!-- Location -->
     </view>
     <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell weui-cell_select">
-        <view class="weui-cell__hd weui-cell__hd_in-select-after">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
           <view class="weui-label">
             <i-icon type="coordinates" size="28" color="#80848f" />
           </view>
         </view>
         <view class="weui-cell__bd">
-          <picker name="location" bindchange="bindLocationChange" value="{{locationIndex}}" range="{{locations}}" range-key="name">
-            <view class="weui-select weui-select_in-select-after">{{locations[locationIndex].name}}</view>
-          </picker>
+          <input name="location" class="weui-input" bindinput="bindKeyInput" placeholder="Location (Required)" value="{{inputLocation}}" data-statu="open" />
         </view>
       </view>
     </view>
+
+    <view class="input_screen" bindtap="bindKeyInput" data-statu="close" wx:if="{{showInputStatus}}"></view>
+    <scroll-view class="scroll" scroll-y="true" style="height: {{scrollhight}}rpx;" wx:if="{{showInputStatus}}">
+      <view class="scroll-y">
+        <view wx:for="{{bindSource}}">
+          <view id="{{item}}" class="itemview" bindtap="itemtap" data-statu="close" wx:if="{{showInputStatus}}">{{item}}</view>
+        </view>
+      </view>
+    </scroll-view>
 
     <view class="weui-cells__title">
       <!-- Direction -->

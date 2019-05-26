@@ -14,3 +14,13 @@
 .weui-select{
   border-right: none;
 }
+
+.scroll-y .itemview{
+  margin-left: 130rpx;
+  font-size: 15px;
+}
+
+.scroll-y {
+  display: flex;
+  flex-direction: column; 
+}
