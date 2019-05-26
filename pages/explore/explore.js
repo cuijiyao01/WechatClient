@@ -25,6 +25,7 @@ Page({
     directions: [],
     hotSessions: [],
     sessions: [],
+    upComingSessions: [],
     pageNum: 1,
     showNoData: 'false',
     difficultyLevels: CONST.DIFFICULTY_LEVELS,
@@ -53,16 +54,20 @@ Page({
     })
     WXRequest.post('/session/all', {
       pageNum: 1,
-      pageSize: 10
+      pageSize: 10,
+      upcoming: 1
     }).then(res => {
       wx.hideLoading();
       if (res.data.msg === 'ok') {
         console.log(res.data);
-        let swiperHeight = this.getCoumptedSwiperHeight(res.data.retObj.sessions.length)
+        let swiperHeight = this.getCoumptedSwiperHeight(res.data.retObj.sessions.length);
+        let directions = res.data.retObj.directions;
+        let newDirections = directions.splice(0, 0, { id: 1, name: "Up Coming", imageSrc: null });
         this.setData({
           directions: res.data.retObj.directions,
           hotSessions: res.data.retObj.hotSessions,
-          sessions: res.data.retObj.sessions,
+          sessions: res.data.retObj.upComingSessions,
+          upComingSessions: res.data.retObj.upComingSessions,
           swiperHeight: swiperHeight
         });
       }
@@ -91,13 +96,21 @@ Page({
     this.setData({
       selectedTabIndex: selectedTabIndex
     });
-    let directionId = this.data.directions[selectedTabIndex].id;
-    let options = {
-      "pageNum": 1,
-      "pageSize": 10,
-      "directionId": directionId
-    };
-    this._fetchSessionList(options);
+    console.log("new selectedTabIndex is " + selectedTabIndex);
+    if (selectedTabIndex === 0){
+      this.setData({
+        sessions: this.data.upComingSessions
+      })
+    }
+    else {
+      let directionId = this.data.directions[selectedTabIndex].id;
+      let options = {
+        "pageNum": 1,
+        "pageSize": 10,
+        "directionId": directionId
+      };
+      this._fetchSessionList(options);
+    }
   },
   getCoumptedSwiperHeight: function (count) {
     let itemsHeight = count * 200;
