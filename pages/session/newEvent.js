@@ -318,7 +318,7 @@ Page({
   // Add for meeting rooms
   bindKeyInput: function(e) {
     var currentInputStatu = e.currentTarget.dataset.statu;
-    var prefix = e.detail.value
+    var prefix = e.detail.value.toUpperCase()
     var newSource = []
     if (prefix != "") {
       this.setData({

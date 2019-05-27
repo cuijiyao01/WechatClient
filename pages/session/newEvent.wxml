@@ -52,8 +52,7 @@
         </view>
         <view class="weui-cell__bd">
           <picker mode="multiSelector" name="startDateTime" value="{{startDateTime}}" bindchange="changeSartDateTimeVal" bindcolumnchange="changeStartDateTimeColumn" range="{{dateTimeArray}}">
-            <view class="weui-input">
-              {{dateTimeArray[0][startDateTime[0]]}}-{{dateTimeArray[1][startDateTime[1]]}}-{{dateTimeArray[2][startDateTime[2]]}} {{dateTimeArray[3][startDateTime[3]]}}:{{dateTimeArray[4][startDateTime[4]]}}
+            <view class="weui-input">{{dateTimeArray[0][startDateTime[0]]}}-{{dateTimeArray[1][startDateTime[1]]}}-{{dateTimeArray[2][startDateTime[2]]}} {{dateTimeArray[3][startDateTime[3]]}}:{{dateTimeArray[4][startDateTime[4]]}}
             </view>
           </picker>
         </view>
@@ -96,10 +95,8 @@
 
     <view class="input_screen" bindtap="bindKeyInput" data-statu="close" wx:if="{{showInputStatus}}"></view>
     <scroll-view class="scroll" scroll-y="true" style="height: {{scrollhight}}rpx;" wx:if="{{showInputStatus}}">
-      <view class="scroll-y">
-        <view wx:for="{{bindSource}}">
-          <view id="{{item}}" class="itemview" bindtap="itemtap" data-statu="close" wx:if="{{showInputStatus}}">{{item}}</view>
-        </view>
+      <view class="scroll-y" wx:for="{{bindSource}}">
+        <view id="{{item}}" class="itemview" bindtap="itemtap" data-statu="close" wx:if="{{showInputStatus}}">{{item}}</view>
       </view>
     </scroll-view>
 

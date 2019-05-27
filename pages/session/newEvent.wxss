@@ -15,12 +15,7 @@
   border-right: none;
 }
 
-.scroll-y .itemview{
-  margin-left: 130rpx;
+.itemview{
+  padding-left: 16.5%;
   font-size: 15px;
-}
-
-.scroll-y {
-  display: flex;
-  flex-direction: column; 
 }
