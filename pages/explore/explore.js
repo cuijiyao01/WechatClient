@@ -250,13 +250,20 @@ Page({
   onPullDownRefresh: function () {
     console.log('onPullDownRefresh...');
     let selectedIndex = this.data.selectedTabIndex;
-    let directionId = this.data.directions[selectedIndex].id;
-    let options = {
-      "pageNum": 1,
-      "pageSize": 10,
-      "directionId": directionId,
-    };
-    this._fetchSessionList(options);
+    if (selectedIndex === 0) {
+      this.setData({
+        sessions: this.data.upComingSessions
+      })
+    }
+    else {
+      let directionId = this.data.directions[selectedIndex].id;
+      let options = {
+        "pageNum": 1,
+        "pageSize": 10,
+        "directionId": directionId
+      };
+      this._fetchSessionList(options);
+    }
     wx.stopPullDownRefresh();
   },
 
