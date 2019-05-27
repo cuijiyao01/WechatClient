@@ -60,7 +60,7 @@ Page({
       wx.hideLoading();
       if (res.data.msg === 'ok') {
         console.log(res.data);
-        let swiperHeight = this.getCoumptedSwiperHeight(res.data.retObj.sessions.length);
+        let swiperHeight = this.getCoumptedSwiperHeight(res.data.retObj.upComingSessions.length);
         let directions = res.data.retObj.directions;
         let newDirections = directions.splice(0, 0, { id: 1, name: "Up Coming", imageSrc: null });
         this.setData({
@@ -68,7 +68,8 @@ Page({
           hotSessions: res.data.retObj.hotSessions,
           sessions: res.data.retObj.upComingSessions,
           upComingSessions: res.data.retObj.upComingSessions,
-          swiperHeight: swiperHeight
+          swiperHeight: swiperHeight,
+          showNoData: res.data.retObj.upComingSessions.length === 0
         });
       }
     }).catch(e => {
@@ -98,8 +99,11 @@ Page({
     });
     console.log("new selectedTabIndex is " + selectedTabIndex);
     if (selectedTabIndex === 0){
+      let swiperHeight = this.getCoumptedSwiperHeight(this.data.upComingSessions.length);
       this.setData({
-        sessions: this.data.upComingSessions
+        swiperHeight: swiperHeight,
+        sessions: this.data.upComingSessions,
+        showNoData: this.data.upComingSessions.length === 0
       })
     }
     else {
@@ -251,8 +255,11 @@ Page({
     console.log('onPullDownRefresh...');
     let selectedIndex = this.data.selectedTabIndex;
     if (selectedIndex === 0) {
-      this.setData({
-        sessions: this.data.upComingSessions
+      let swiperHeight = this.getCoumptedSwiperHeight(this.data.upComingSessions.length);
+      this.setData({    
+        sessions: this.data.upComingSessions,
+        swiperHeight: swiperHeight,
+        showNoData: this.data.upComingSessions.length === 0
       })
     }
     else {
