@@ -48,7 +48,7 @@ Page({
   },
 
   onShow: function(e){
-    this.doLoadDetail();
+    //this.doLoadDetail();
     this.setData({
       share: app.globalData.share
     })
@@ -67,25 +67,24 @@ Page({
   },
 
   _doLoadQR: function () {
-    this._getAccessToken().then(res => {
       wx.request({
-        url: 'https://api.weixin.qq.com/wxa/getwxacode?access_token=' + this.data.accessToken,
+        url: app.globalData.host + '/web/getwxacode',
         method: 'POST',
-        responseType: 'arraybuffer',
         data: { 
           path: '/pages/session/eventDetail?id=' + this.data.sessionId,
           width: 430
         },
         success: res => {
-          this.setData({
-            sessionQRCode: wx.arrayBufferToBase64(res.data)
-          })
+          if(res.data.msg === 'ok'){
+            this.setData({
+              sessionQRCode: res.data.retObj
+            })
+          }
         },
         fail: err => {
           console.log(err);
         }
-      })
-    })
+      });
   },
 
   doLoadDetail: function () {
