@@ -18,7 +18,8 @@ Page({
     groupArr: [],
     selectedGroupId: 1,
     selectedGroupName: 'Public',
-    canJoin: false
+    canJoin: false,
+    canQuit: false
   },
   onLoad: function () {
     console.log('userRankingList::onLoad');
@@ -64,7 +65,8 @@ Page({
     this.setData({
       selectedGroupId: this.data.groupArr[selectedGroupIndex].id,
       selectedGroupName: this.data.groupArr[selectedGroupIndex].name,
-      canJoin: this.data.groupArr[selectedGroupIndex].canJoin
+      canJoin: this.data.groupArr[selectedGroupIndex].canJoin,
+      canQuit: this.data.groupArr[selectedGroupIndex].canQuit
     });
     this._refreshRanking();
   },
@@ -190,12 +192,59 @@ Page({
         if (res.data.msg === 'ok') {
           console.log(res.data);
           that.setData({
-            canJoin: false
+            canJoin: false,
+            canQuit: true
           })
           Util.showToast('Welcome', 'success', 1000);
           that._loadUserRanking();
         } else {
           Util.showToast('Join failed. Please try again', 'none');
+        }
+      }).catch(e => {
+        Util.showToast('Please try again', 'none');
+        console.log(e);
+      });
+    } else {
+      Util.showToast('Please login first', 'none');
+    }
+  },
+
+  onQuitClick: function (e) {
+    console.log('id:' + e.currentTarget.id);
+    let groupId = Number(e.currentTarget.id);
+    let groupName = e.currentTarget.dataset.name;
+    console.log('groupName:' + groupName);
+    var that = this;
+    wx.showModal({
+      content: 'Are your sure to leave ' + groupName + ' ?',
+      cancelText: 'Cancel',
+      confirmText: 'Confirm',
+      success: function (res) {
+        if (res.confirm) {
+          that.leaveGroup(groupId);
+        }
+      }
+    })
+  },
+
+  leaveGroup: function (groupId) {
+    var that = this;
+    let userInfo = wx.getStorageSync('userInfo');
+    if (userInfo) {
+      WXRequest.post('/group/leave/', {
+        userId: userInfo.id,
+        groupId: groupId
+      }).then(res => {
+        if (res.data.msg === 'ok') {
+          console.log(res.data);
+          that.setData({
+            canJoin: true,
+            canQuit: false
+          })
+          Util.showToast('Bye', 'success', 1000);
+          that._loadUserRanking();
+        } else {
+          Util.showToast('Leave failed. Please try again', 'none');
         }
       }).catch(e => {
         Util.showToast('Please try again', 'none');
