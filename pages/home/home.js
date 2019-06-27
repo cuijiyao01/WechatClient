@@ -232,9 +232,14 @@ Page({
   },
 
   _setLoading(name, showLoading) {
-    this.setData({
-      [name + 'IsLoading']: showLoading
-    });
+    if (showLoading) {
+      wx.showLoading({
+        title: name,
+        mask: true
+      });
+    } else {
+      wx.hideLoading();
+    }
   },
 
   goOwnedSession(event) {
