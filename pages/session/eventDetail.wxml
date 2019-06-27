@@ -52,8 +52,10 @@
       <text wx:else>{{eventDetail.group.name}}</text>
     </view>
     <view class="flex-item">
-      <view>Enrollments</view>
-      <text>{{eventDetail.enrollments}}</text>
+
+      <i-cell class="i-cell-enrollments" wx:if="{{eventDetail.enrollments}}" style="padding: 0px" title="Enrollments" value="{{eventDetail.enrollments}}" is-link url="/pages/session/enrollmentList?sessionId={{sessionId}}"></i-cell>
+      <i-cell wx:else style="padding: 0px" title="Enrollments" value="0" ></i-cell>
+
     </view>
     <view class="flex-item">
       <view>QR Code</view>

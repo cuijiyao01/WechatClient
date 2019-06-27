@@ -1,0 +1,7 @@
+<view class="weui-cells weui-cells_after-title">
+  <navigator class="weui-cell" wx:for="{{aEnrollmentList}}" wx:key="nickName">
+    <view class="firstCol">{{index+1}}</view>
+    <image src="{{item.avatarUrl}}" class="userinfo-avatar"></image>
+    <view class="weui-cell__bd">{{item.nickName}}</view>
+  </navigator>
+</view>

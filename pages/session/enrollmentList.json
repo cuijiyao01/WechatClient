@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "Enrollment List",
+  "usingComponents": {
+    "i-icon": "../components/icon/index"
+  }
+}
