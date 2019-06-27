@@ -12,9 +12,11 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.0.4",
-	"appid": "wxdb6534b9d348f82b",
-	"projectname": "SFMoocClient",
+	"appid": "wxa167a8c6e31bd7bd",
+	"projectname": "WechatClient",
 	"isGameTourist": false,
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,
