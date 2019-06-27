@@ -48,16 +48,13 @@ Page({
   },
 
   init: function(){
-    wx.showLoading({
-      title: 'Loading',
-      mask: true
-    })
+    this._setLoadingText('isLoading', true);
     WXRequest.post('/session/all', {
       pageNum: 1,
       pageSize: 10,
       upcoming: 1
     }).then(res => {
-      wx.hideLoading();
+      this._setLoadingText('isLoading', false);
       if (res.data.msg === 'ok') {
         console.log(res.data);
         let swiperHeight = this.getCoumptedSwiperHeight(res.data.retObj.upComingSessions.length);
@@ -73,7 +70,7 @@ Page({
         });
       }
     }).catch(e => {
-        wx.hideLoading();
+        this._setLoadingText('isLoading', false);
         console.log(e)
     });
   },
@@ -113,9 +110,11 @@ Page({
         "pageSize": 10,
         "directionId": directionId
       };
+      this._setLoadingText('isLoading', true);
       this._fetchSessionList(options);
     }
   },
+
   getCoumptedSwiperHeight: function (count) {
     let itemsHeight = count * 200;
     let swiperHeight = itemsHeight > this.data.listVisibleHeight  ? itemsHeight : this.data.listVisibleHeight;
@@ -163,6 +162,7 @@ Page({
   },
 
   comfirmFilter: function () {
+    this._setLoadingText('isLoading', true);
     this.setData({
       showFilterPopup: false
     });
@@ -178,6 +178,7 @@ Page({
       "difficulty": this.data.selectedLevel,
       "orderField": this.data.selectedOrder
     }).then(res => {
+      this._setLoadingText('isLoading', false);
       console.log(res);
       if (res.data.msg === 'ok') {
         let swiperHeight = this.getCoumptedSwiperHeight(res.data.retObj.length);
@@ -202,6 +203,7 @@ Page({
   },
   _fetchSessionList: function (options) {
     return WXRequest.post('/session/list', options).then(res => {
+      this._setLoadingText('isLoading', false);
       let swiperHeight = this.getCoumptedSwiperHeight(res.data.retObj.length);
       this.setData({
         sessions: res.data.retObj,
@@ -269,6 +271,7 @@ Page({
         "pageSize": 10,
         "directionId": directionId
       };
+      this._setLoadingText('isLoading', true);
       this._fetchSessionList(options);
     }
     wx.stopPullDownRefresh();
@@ -292,6 +295,7 @@ Page({
       "directionId": directionId
       // "orderField": "total_members"
     }).then(res => {
+      this._setLoadingText('isLoading', false);
       if (res.data.msg === 'ok') {
         console.log(this.data.sessions);
         if (res.data.retObj.length) {
@@ -315,7 +319,7 @@ Page({
       this._setLoadingText('isLoading', false);
     });
   },
-  // Todo: miss loading text
+
   _setLoadingText: function (propName, status) {
     this.data.loadingStatusVals[propName] = status;
     this.setData({
@@ -326,7 +330,16 @@ Page({
         swiperHeight: this.data.swiperHeight + 85
       })
     }
+    if (propName === 'isLoading' && status) {
+      wx.showLoading({
+        title: "Loading",
+        mask: true
+      });
+    } else if (propName === 'isLoading' && !status) {
+      wx.hideLoading();
+    }
   },
+
   _resetData: function () {
     this.setData({
       pageNum: 1,
