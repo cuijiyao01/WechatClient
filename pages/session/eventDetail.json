@@ -1,4 +1,7 @@
 {
   "navigationBarTitleText": "Session Detail",
-  "enablePullDownRefresh": true
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "i-cell": "../components/cell/index"
+  }
 }

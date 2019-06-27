@@ -5,6 +5,7 @@
     "pages/home/home",
     "pages/session/eventDetail",
     "pages/session/newEvent",
+    "pages/session/enrollmentList",
     "pages/rankinglist/rankinglist",
     "pages/rankinglist/rankingdetail",
     "pages/schedule/schedule",
@@ -52,5 +53,6 @@
         "selectedIconPath": "images/people_fill.png"
       }
     ]
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }
