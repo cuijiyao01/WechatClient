@@ -1,71 +1,17 @@
 import Util from '../../utils/util';
 import wxCharts from '../../utils/wxcharts.js';
+import WXRequest from '../../utils/wxRequest';
 
 const app = getApp();
-let hotTopics = [
-  {
-    rank: 1,
-    name: 'HANA',
-    points: 19967,
-    voted: false
-  },
-  {
-    rank: 2,
-    name: 'SAPUI5',
-    points: 18689,
-    voted: false
-  },
-  {
-    rank: 3,
-    name: 'Javascript',
-    points: 16375,
-    voted: false
-  },
-  {
-    rank: 4,
-    name: 'Cloud',
-    points: 12752,
-    voted: false
-  },
-  {
-    rank: 5,
-    name: 'Java8',
-    points: 8798,
-    voted: false
-  },
-  {
-    rank: 6,
-    name: 'UI Design',
-    points: 6550,
-    voted: false
-  },
-  {
-    rank: 7,
-    name: 'Metadata Framwork',
-    points: 6510,
-    voted: false
-  },
-  {
-    rank: 8,
-    name: 'Role-Based Permission',
-    points: 6310,
-    voted: false
-  },
-  {
-    rank: 9,
-    name: 'Redis',
-    points: 4311,
-    voted: false
-  }
-]
 
 Page({
 
   data: {
     userInfo: {},
-    hotTopics: hotTopics,
+    topics: {},
     hasUserInfo: false,
-    isCreateTopicModalHidden: true
+    isCreateTopicModalHidden: true,
+    newTopic: ''
   },
 
   onLoad: function () {
@@ -76,21 +22,48 @@ Page({
         hasUserInfo: true
       })
     }
+    this.loadTopics();
   },
-  voteForTopic: function (evt) {
-    let index = evt.target.dataset.topicindex;
-    this.data.hotTopics[index].points += 1;
-    this.data.hotTopics[index].voted = true;
-    this.setData({
-      hotTopics: this.data.hotTopics
+
+  loadTopics: function () {
+    return WXRequest.get('/topic/list/' + Util.getUserId()).then(res => {
+      if (res.data.msg === 'ok') {
+        this.setData({
+          topics: res.data.retObj
+        });
+      }
+    }).catch(e => {
+      console.log(e);
     });
   },
+
+  voteForTopic: function (evt) {
+    let that = this;
+    let topicId = evt.target.dataset.topicid;
+    WXRequest.post('/topic/vote', {
+      userId: Util.getUserId(),
+      topicId: topicId
+    }).then(res => {
+      if (res.data.msg === 'ok'){
+        that.loadTopics();
+      }
+    }).catch(e => {
+       console.log(e);
+    });
+  },
+
   revertVoteForTopic: function (evt) {
-    let index = evt.target.dataset.topicindex;
-    this.data.hotTopics[index].points -= 1;
-    this.data.hotTopics[index].voted = false;
-    this.setData({
-      hotTopics: this.data.hotTopics
+    let that = this;
+    let topicId = evt.target.dataset.topicid;
+    WXRequest.post('/topic/cancel', {
+      userId: Util.getUserId(),
+      topicId: topicId
+    }).then(res => {
+      if (res.data.msg === 'ok') {
+        that.loadTopics();
+      }
+    }).catch(e => {
+      console.log(e);
     });
   },
 
@@ -106,9 +79,35 @@ Page({
     })
   },
 
-  submitNewTopic: function(){
+  onNewTopicInput(event) {
     this.setData({
-      isCreateTopicModalHidden: true
-    })
+      newTopic: event.detail.value
+    });
+  },
+
+  submitNewTopic: function(){
+    let that = this;
+    let topicName = this.data.newTopic;
+    console.log('topicName: ' + topicName);
+    WXRequest.post('/topic/add', {
+      topicName: topicName
+    }).then(res => {
+      if(res.data.msg === 'ok') {
+        Util.showToast('Success', 'success', 2000);
+        this.setData({
+          isCreateTopicModalHidden: true
+        })
+        that.loadTopics();
+      }else{
+        Util.showToast(res.data.msg, 'none', 2000);
+      }
+    }).catch(e => {
+      console.log(e);
+    });
+  },
+
+  onPullDownRefresh: function () {
+    this.loadTopics();
+    wx.stopPullDownRefresh();
   }
 })

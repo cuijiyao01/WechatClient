@@ -7,17 +7,17 @@
     <input disabled="false" bindtap="goToSearchPage"></input>
   </view>
   <view class="content">
-    <view class="topic_item" wx:for="{{hotTopics}}" wx:key="index">
+    <view class="topic_item" wx:for="{{topics}}" wx:key="index" wx:for-index="idx">
       <view class="topic">
-        <text class="rank">{{item.rank}}</text>
-        <text class="topic_name">{{item.name}}</text>
-        <text class="votes">{{item.points}}</text>
+        <text class="rank">{{idx+1}}</text>
+        <text class="topic_name">{{item.topicName}}</text>
+        <text class="votes">{{item.votes}}</text>
       </view>
       <view wx:if="{{!item.voted}}">
-        <i-icon type="add" size="28" color="#0076cb" custom="sfAdd" data-topicIndex="{{index}}" bindtap="voteForTopic" />
+        <i-icon type="add" size="28" color="#0076cb" custom="sfAdd" data-topicIndex="{{idx}}" data-topicId="{{item.topicId}}" bindtap="voteForTopic" />
       </view>
       <view wx:else>
-        <i-icon type="right" size="28" color="#0076cb" custom="sfRight" data-topicIndex="{{index}}" bindtap="revertVoteForTopic" />
+        <i-icon type="right" size="28" color="#0076cb" custom="sfRight" data-topicIndex="{{idx}}" data-topicId="{{item.topicId}}" bindtap="revertVoteForTopic" />
       </view>
     </view>
   </view>

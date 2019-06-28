@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "Vote for What I want to learn",
+  "enablePullDownRefresh": true,
   "usingComponents": {
       "i-drawer": "../components/popup",
       "i-icon": "../components/icon/index"
