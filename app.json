@@ -19,8 +19,9 @@
     "pages/notice/notice",
     "pages/notice/editNotice",
     "pages/profile/profile",
-    "pages/aboutMe/aboutMe",
-    "pages/voteNewTopic/voteNewTopic"
+    "pages/voteNewTopic/voteNewTopic",
+    "pages/voteNewTopic/search",
+    "pages/aboutMe/aboutMe"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -1,0 +1,30 @@
+<!--pages/explore/search/search.wxml-->
+<wxs src="../../utils/formatter.wxs" module="formatter">
+</wxs>
+<view class="page">
+  <view class="searchBar">
+    <input placeholder="Search event" confirm-type="search" bindinput="handleInputChange" value="{{searchValue}}" />
+    <view class="close" hidden="{{isCloseHidden}}" bindtap="resetInputValue">X</view>
+    <button formType="submit" class="searchSubmit" hidden="{{searchSubmitHidden}}" bindtap="searchEvents">Search</button>
+    <button formType="reset" class="searchReset" hidden="{{searchResetHidden}}" bindtap="cancelSearch">Cancel</button>
+  </view>
+  <!--search result-->
+  <!-- <view class="searchResult" hidden="{{!searchKeywordsHidden}}">
+    <view class="searchResultCount">There are {{searchResultCount}} topic(s) related</view>    
+  </view> -->
+  <view class="content">
+    <view class="topic_item" wx:for="{{searchResult}}" wx:key="index" wx:for-index="idx">
+      <view class="topic">
+        <text class="rank">{{idx+1}}</text>
+        <text class="topic_name">{{item.topicName}}</text>
+        <text class="votes">{{item.votes}}</text>
+      </view>
+      <view wx:if="{{!item.voted}}">
+        <i-icon type="add" size="26" color="#0076cb" custom="sfAdd" data-topicIndex="{{idx}}" data-topicId="{{item.topicId}}" bindtap="voteForTopic" />
+      </view>
+      <view wx:else>
+        <i-icon type="right" size="26" color="#0076cb" custom="sfRight" data-topicIndex="{{idx}}" data-topicId="{{item.topicId}}" bindtap="revertVoteForTopic" />
+      </view>
+    </view>
+  </view>
+</view>

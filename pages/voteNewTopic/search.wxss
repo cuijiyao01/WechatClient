@@ -1,0 +1,81 @@
+/* pages/explore/search.wxss */
+.page {
+  height: 100vh;
+  background: #FFF;
+}
+.searchBar {
+  height: 50px;
+  border: 2px solid #FFF;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+}
+.close {
+  position: absolute;
+  right: 174rpx;
+  width: 40rpx;
+  height: 40rpx;
+  text-align: center;
+  line-height: 40rpx;
+  border-radius: 50%;
+  background: grey;
+}
+.searchBar input {
+  width: 63%;
+  height: 60rpx;
+  background: #e8e8ed;
+  border-radius: 60rpx;
+  padding: 0 50rpx;
+  font-size: 28rpx;
+  margin-left: 2%;
+}
+.searchBar button {
+  font-size: 24rpx;
+}
+
+.searchSubmit {
+  background: #0076cb;
+  color: #fff;
+}
+
+.searchResult {
+  padding: 0 15rpx;
+  background: #FFF;
+}
+
+.content {
+  display: block;
+  padding-top: 30rpx;
+  border: none;
+}
+
+.topic_item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30rpx;
+}
+
+.topic_item i-icon{
+  display: flex;
+  align-items: center;
+  margin-right: 60rpx;
+}
+
+.topic_item .rank {
+  padding-left: 40rpx;
+  color: #0076cb;
+  font-size: 1.0rem;
+}
+
+.topic_item .topic_name {
+  font-size: 36rpx;
+  margin-left: 30rpx; 
+}
+
+.topic_item .votes {
+  font-size: 28rpx;
+  margin-left: 10rpx; 
+  color: #71777D;
+}

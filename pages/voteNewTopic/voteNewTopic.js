@@ -26,7 +26,11 @@ Page({
   },
 
   loadTopics: function () {
-    return WXRequest.get('/topic/list/' + Util.getUserId()).then(res => {
+    return WXRequest.post('/topic/list',{
+      "pageNum": 1,
+      "pageSize": 10,
+      "userId": Util.getUserId()
+    }).then(res => {
       if (res.data.msg === 'ok') {
         this.setData({
           topics: res.data.retObj
@@ -35,6 +39,12 @@ Page({
     }).catch(e => {
       console.log(e);
     });
+  },
+
+  goToSearchPage: function (evt) {
+    wx.navigateTo({
+      url: 'search'
+    })
   },
 
   voteForTopic: function (evt) {

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "Search",
+  "usingComponents": {
+    "i-drawer": "../components/popup",
+    "i-icon": "../components/icon/index"
+  }
+}
