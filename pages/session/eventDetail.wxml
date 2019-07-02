@@ -88,13 +88,13 @@
       <view class="flex-button">
         <button bindtap='onStartSession' class="uniformBtn">{{startBtnVal}}</button>
       </view>
-      <view class="flex-button" wx:if="{{eventDetail.group.name == 'T2'}}">
+      <view class="flex-button" wx:if="{{eventDetail.group.name != 'Public'}}">
         <button bindtap='onManageQuiz' class="uniformBtn">{{quizBtnVal}}</button>
       </view>
     </view>
   </view>
-  <!-- started t2 session -->
-  <view class="weui-footer weui-footer_fixed-bottom footerBar" wx:if="{{(isRegistered || isOwner) && status == 1 && eventDetail.group.name == 'T2'}}">
+  <!-- started non-public session -->
+  <view class="weui-footer weui-footer_fixed-bottom footerBar" wx:if="{{(isRegistered || isOwner) && status == 1 && eventDetail.group.name != 'Public'}}">
     <view class="weui-footer__links">
       <block wx:if="{{isOwner}}">
         <view class='weui-footer__link'>
@@ -131,8 +131,8 @@
       </block>
     </view>
   </view>
-  <!-- started non-t2 session -->
-  <view wx:if="{{(isRegistered || isOwner) && status == 1 && eventDetail.group.name != 'T2' }}">
+  <!-- started public session -->
+  <view wx:if="{{(isRegistered || isOwner) && status == 1 && eventDetail.group.name == 'Public' }}">
     <view class="flex-button" wx:if="{{!isOwner}}">
       <button bindtap='onCheckIn' class="uniformBtn" wx:if="{{!checkInDisabled}}">{{checkInBtnVal}}</button>
     </view>
