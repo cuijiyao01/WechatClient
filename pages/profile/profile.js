@@ -12,7 +12,7 @@ Page({
   data: {
     userInfo:{},
     isLoading:false,
-    isModified: false,
+    isModified: false
   },
 
   /**
@@ -88,19 +88,31 @@ Page({
   onSubmit: function (e) {
     let value = e.detail.value;
     let userDetail = this._buildUserDetail(value);
+    if (this.checkEmail(userDetail.email)){
+      WXRequest.post('/user/edit', userDetail).then(res => {
+        if (res.data.msg === 'ok') {
+          Util.showToast('Success', 'success', 1000);
+          setTimeout(function () {
+            wx.navigateBack({
+              delta: 1
+            });
+          }, 1000);
+        }
+      }).catch(e => {
+        console.log(e);
+      });
+    }
+  },
 
-    WXRequest.post('/user/edit', userDetail).then(res => {
-      if (res.data.msg === 'ok') {
-        Util.showToast('Success', 'success', 1000);
-        setTimeout(function () {
-          wx.navigateBack({
-            delta: 1
-          });
-        }, 1000);
+  checkEmail: function(email) {
+    if (email) {
+      let str = /\S+@\S+\.\S+/;
+      if (!str.test(email)) {
+        Util.showToast('Email is not correct', 'none', 2000)
+        return false;
       }
-    }).catch(e => {
-      console.log(e);
-    });
+    }
+    return true;
   },
 
   _buildUserDetail: function (value) {
@@ -112,7 +124,8 @@ Page({
       blog: value.blog,
       signature:value.signature,
       github:value.github,
-      seat:value.seat
+      seat:value.seat,
+      email:value.email
     };
     return userDetail;
   },

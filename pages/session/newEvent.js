@@ -273,7 +273,8 @@ Page({
       },
       difficulty: value.difficulty,
       location: {
-        id: this.data.locations.map(val => val.name).indexOf(value.location) + 1
+        id: this.data.locations.map(val => val.name).indexOf(value.location) + 1,
+        name: value.location
       },
       typeId: this.data.groups[value.group].id,
       tea2: this.data.tea2
