@@ -436,11 +436,11 @@ Page({
   //Add for presenter select
   bindUserInput: function (e) {
     var currentInputStatu = e.currentTarget.dataset.statu;
-    var prefix = e.detail.value.toUpperCase()
+    var prefix = e.detail.value.toUpperCase();
     var newMatched = []
     if (prefix != "") {
       this.data.allUserInfo.forEach(function (e) {
-        if (e.nickName.indexOf(prefix) != -1) {
+        if (e.nickName.toUpperCase().indexOf(prefix) != -1) {
           newMatched.push(e);
         }
       })
