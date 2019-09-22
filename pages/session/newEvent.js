@@ -52,15 +52,21 @@ Page({
     locationsName: ["MR PVG03 B2.1 (06) (RT)", "MR PVG03 B3.1 (06) (RT)"],
     bindSource: [],
     scrollhight: 100,
+    allUserInfo: [],
+    // createdBy: '',
+    // lastModifiedBy: '', 
+    presenterInput: '',
+    // presenterId: '',
+    userMatched: [],
   },
-
   /**
    * Lifecycle function--Called when page load
    */
   onLoad: function(options) {
     this._initDateTimePicker();
+    this._initPresenter();
     const initDataPromise = this._initData();
-
+    this._initAllUserInfo();
     this._initEditData(options, initDataPromise);
   },
 
@@ -80,6 +86,33 @@ Page({
       console.log(e);
     });
   },
+
+  _initPresenter: function () {
+    this.setData({
+      presenterInput: Util.getUserNickname(),
+      presenterId: Util.getUserId()
+    });
+  },
+
+  _initAllUserInfo: function () {
+    WXRequest.post('/user/all', {
+      pageNum: 1, 
+      pageSize: 1000 
+    }).then(res => {
+      if (res.data.msg === 'ok') {
+        console.log('/session/init', res.data);
+        let retObj = res.data.retObj;
+        this.setData({
+          allUserInfo: res.data.retObj
+        });
+      }
+    }).catch(e => {
+      console.log(e);
+    });
+    
+  },
+
+
 
   _initEditData: function(options, initDataPromise) {
     // if there is no 'id' params in page options, means it's not an edit action
@@ -123,7 +156,8 @@ Page({
             directionIndex: this.data.directions.map(val => val.name).indexOf(retObj.session.direction.name),
             groupIndex: this.data.groups.map(val => val.name).indexOf(retObj.session.group.name),
             difficultyIndex: retObj.session.difficulty,
-            tea2: retObj.session.tea2
+            tea2: retObj.session.tea2,
+            presenterInput: retObj.session.owner.nickName,
           });
         })
       }
@@ -239,6 +273,9 @@ Page({
 
     if (this.data.mode == "edit" && this.data.editSessionDetail != null) {
       eventDetail.id = this.data.editSessionDetail.id
+      eventDetail.lastModifiedBy = Util.getUserId();
+    } else {
+      eventDetail.createdBy = Util.getUserId();
     }
 
     WXRequest.post('/session/edit', eventDetail).then(res => {
@@ -262,7 +299,7 @@ Page({
 
     let eventDetail = {
       owner: {
-        id: Util.getUserId()
+        id: this.data.presenterId
       },
       topic: value.topic,
       description: value.description,
@@ -392,6 +429,83 @@ Page({
       this.setData({
         showInputStatus: true,
         isScroll: "{{false}}"
+      });
+    }
+  },
+
+  //Add for presenter select
+  bindUserInput: function (e) {
+    var currentInputStatu = e.currentTarget.dataset.statu;
+    var prefix = e.detail.value.toUpperCase()
+    var newMatched = []
+    if (prefix != "") {
+      this.data.allUserInfo.forEach(function (e) {
+        if (e.nickName.indexOf(prefix) != -1) {
+          newMatched.push(e);
+        }
+      })
+    } else {
+      currentInputStatu = "close";
+      this.setData({
+        isScroll: true,
+        showBtnStatus1: true,
+        showBtnStatus2: false
+      });
+    }
+    if (newMatched.length != 0) {
+      this.setData({
+        userMatched: newMatched,
+      })
+      if (newMatched.length < 5) {
+        this.setData({
+          scrollhight: 45 * newMatched.length
+        })
+      } else {
+        this.setData({
+          scrollhight: 250
+        })
+      }
+    } else {
+      this.setData({
+        userMatched: []
+      })
+      currentInputStatu = "close";
+      this.setData({
+        isScroll: "{{false}}"
+      });
+    }
+    if (currentInputStatu == "close") {
+      this.setData({
+        showPresenterInputStatus: false,
+        isScroll: true
+      });
+    }
+    if (currentInputStatu == "open") {
+      this.setData({
+        showPresenterInputStatus: true,
+        isScroll: "{{false}}"
+      });
+    }
+  },
+
+  //Add for select presenter
+  useritemtap: function (e) {
+    var currentInputStatu = e.currentTarget.dataset.statu;
+    this.setData({
+      presenterInput: e.target.dataset.name,
+      presenterId: e.target.id,
+      userMatched: []
+    })
+    if (currentInputStatu == "close") {
+      this.setData({
+        showPresenterInputStatus: false,
+        isScroll: true
+      });
+    }
+    if (currentInputStatu == "open") {
+      this.setData({
+        showPresenterInputStatus: true,
+        isScroll: "false"
       });
     }
   }
