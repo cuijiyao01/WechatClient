@@ -111,6 +111,7 @@ Page({
         let eventDetail = retObj.session;
         let likeCount = retObj.session.likeCount;
         let isOwner = this._isOwner(eventDetail.owner.id);
+        let isCreator = eventDetail.createdBy === Util.getUserId();
         let checkInCode = eventDetail.checkInCode;
         if (checkInCode) {
           this._markStarted(checkInCode);
@@ -119,7 +120,7 @@ Page({
           isOwner: isOwner,
           eventDetail: eventDetail,
           status: retObj.session.status,
-          canEdit: isOwner && (retObj.session.status == 0),
+          canEdit: (isOwner || isCreator ) && (retObj.session.status == 0),
           totalLikeCount: likeCount
         });
         if (userId && retObj.userRegistered) {

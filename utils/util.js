@@ -16,6 +16,12 @@ const getUserId = function () {
   return userId;
 };
 
+const getUserNickname = function () {
+  var userInfo = wx.getStorageSync('userInfo');
+  var userNickname = userInfo && userInfo.nickName || 'abc';
+  return userNickname;
+};
+
 const formatNumber = (n) => {
   n = n.toString();
   return n[1] ? n : '0' + n;
@@ -128,6 +134,6 @@ function dateTimePicker(startYear, endYear, date) {
 }
 
 export default {
-  getCurrentDate, getDateTime, showToast, getUserId, dateTimePicker, getMonthDay
+  getCurrentDate, getDateTime, showToast, getUserId, getUserNickname, dateTimePicker, getMonthDay
 };
 

@@ -18,6 +18,29 @@
     </view>
 
     <view class="weui-cells__title">
+      <!-- Owner -->
+    </view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">
+            <i-icon type="emoji" size="28" color="#80848f" />
+          </view>
+        </view>
+        <view class="weui-cell__bd">
+          <input name="location" class="weui-input" bindinput="bindUserInput" value="{{presenterInput}}" data-statu="open" />
+        </view>
+      </view>
+    </view>
+        <view class="input_screen" bindtap="bindUserInput" data-statu="close" wx:if="{{showPresenterInputStatus}}"></view>
+    <scroll-view class="scroll" scroll-y="true" style="height: {{scrollhight}}rpx;" wx:if="{{showPresenterInputStatus}}">
+      <view class="scroll-y" wx:for="{{userMatched}}">
+        <view id="{{item.id}}" data-name="{{item.nickName}}" class="itemview" bindtap="useritemtap" data-statu="close" wx:if="{{showPresenterInputStatus}}">{{item.nickName}}</view>
+      </view>
+    </scroll-view>
+
+
+    <view class="weui-cells__title">
       <!-- Group -->
     </view>
     <view class="weui-cells weui-cells_after-title">
