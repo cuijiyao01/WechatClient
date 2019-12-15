@@ -256,7 +256,7 @@ Page({
 
   onCheckCode: function(){
     wx.showModal({
-      title: 'Code',
+      title: 'Check in Code',
       content: this.data.startBtnVal,
       showCancel: false,
       confirmText: 'Confirm',
