@@ -97,9 +97,9 @@
   <view class="weui-footer weui-footer_fixed-bottom footerBar" wx:if="{{(isRegistered || isOwner) && status == 1 && eventDetail.group.name != 'Public'}}">
     <view class="weui-footer__links">
       <block wx:if="{{isOwner}}">
-        <view class='weui-footer__link'>
+        <view class='weui-footer__link' bindtap="onCheckCode">
           <image class="likeBtn" src="../../images/started.png" />
-          <text>{{startBtnVal}}</text>
+          <text>Code</text>
         </view>
         <view class='weui-footer__link' bindtap='onManageQuiz'>
           <image class="likeBtn" wx:if="{{!quizBtnDisabled}}" src="../../images/exam.png" />

@@ -254,6 +254,20 @@ Page({
     });
   },
 
+  onCheckCode: function(){
+    wx.showModal({
+      title: 'Code',
+      content: this.data.startBtnVal,
+      showCancel: false,
+      confirmText: 'Confirm',
+      success(res) {
+        if (res.confirm) {
+          console.log('Click Confirm');
+        } 
+      }
+    })
+  },
+
   _isCheckedIn() {
     let isCheckedIn = WCache.get(this.data.sessionId + '_checkedIn');
     if (isCheckedIn) {
