@@ -94,7 +94,7 @@
     </view>
   </view>
   <!-- started non-public session -->
-  <view class="weui-footer weui-footer_fixed-bottom footerBar" wx:if="{{(isRegistered || isOwner) && status == 1 && eventDetail.group.name != 'Public'}}">
+  <view class="weui-footer weui-footer_fixed-bottom footerBar" wx:if="{{(isRegistered || isOwner) && status == 1}}">
     <view class="weui-footer__links">
       <block wx:if="{{isOwner}}">
         <view class='weui-footer__link' bindtap="onCheckCode">
@@ -132,7 +132,7 @@
     </view>
   </view>
   <!-- started public session -->
-  <view wx:if="{{(isRegistered || isOwner) && status == 1 && eventDetail.group.name == 'Public' }}">
+  <!-- <view wx:if="{{(isRegistered || isOwner) && status == 1 && eventDetail.group.name == 'Public' }}">
     <view class="flex-button" wx:if="{{!isOwner}}">
       <button bindtap='onCheckIn' class="uniformBtn" wx:if="{{!checkInDisabled}}">{{checkInBtnVal}}</button>
     </view>
@@ -146,7 +146,7 @@
     <view class="reward" wx:if="{{isOwner}}">
        <image class="likeBtn" src="../../images/like.png" />{{totalLikeCount}}
     </view>
-  </view>
+  </view> -->
   <!-- completed session -->
   <view wx:if="{{status == 2}}">
     <view class="reward" wx:if="{{isOwner}}">
