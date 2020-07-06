@@ -39,7 +39,7 @@ class Request {
 }
 
 const request = new Request({
-  baseURL: 'https://sfmooc-api.techtuesday.club',
+  baseURL: 'https://tc-api.techtuesday.club',
   // baseURL: 'http://localhost:8090',
   withBaseURL: true
 })

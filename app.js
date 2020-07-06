@@ -3,9 +3,9 @@ import Util from 'utils/util';
 App({
   globalData: {
      //host: 'http://localhost:8090',
-     host: 'https://sfmooc-api.techtuesday.club',
+     host: 'https://tc-api.techtuesday.club',
      //wshost: 'ws://localhost:8090',
-     wshost: 'wss://sfmooc-api.techtuesday.club',
+     wshost: 'wss://tc-api.techtuesday.club',
      openId:'',
      template_id:'WFa-LEeLhk9H-ICIDuaH1VaLIOhpWoT_9eYdJpvMcB4',
      systemInfo: {},

@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "SAP Skr",
+  "navigationBarTitleText": "Digital School Skr",
   "enablePullDownRefresh": true,
   "usingComponents": {
     "i-drawer": "../components/popup",
