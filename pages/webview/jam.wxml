@@ -1,0 +1,1 @@
+<web-view src="{{jam_url}}"></web-view>

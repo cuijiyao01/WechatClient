@@ -158,6 +158,7 @@ Page({
             difficultyIndex: retObj.session.difficulty,
             tea2: retObj.session.tea2,
             presenterInput: retObj.session.owner.nickName,
+            presenterId: retObj.session.owner.id
           });
         })
       }
