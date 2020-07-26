@@ -23,7 +23,7 @@ Page({
     scrollLeft: 0,
     showFilterPopup: false,
     directions: [],
-    hotSessions: [],
+    bannerImgs: [],
     sessions: [],
     upComingSessions: [],
     pageNum: 1,
@@ -44,7 +44,20 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.loadBanner();
     this.init();
+  },
+
+  loadBanner: function(){
+    return WXRequest.get('/banner/list/').then(res => {
+      if (res.data.msg === 'ok') {
+        this.setData({
+          bannerImgs: res.data.retObj
+        })
+      }
+    }).catch(e => {
+      console.log(e);
+    });
   },
 
   init: function(){
@@ -62,7 +75,6 @@ Page({
         let newDirections = directions.splice(0, 0, { id: 1, name: "Up Coming", imageSrc: null });
         this.setData({
           directions: res.data.retObj.directions,
-          hotSessions: res.data.retObj.hotSessions,
           sessions: res.data.retObj.upComingSessions,
           upComingSessions: res.data.retObj.upComingSessions,
           swiperHeight: swiperHeight,
@@ -137,6 +149,16 @@ Page({
     wx.navigateTo({
       url: '../session/eventDetail?id=' + id,
     })
+  },
+
+  goLink: function (e) {
+    let url = e.currentTarget.id;
+    console.log('url:' + url);
+    if(url){
+      wx.navigateTo({
+        url: '../webview/jam?url=' + url,
+      })
+    }
   },
 
   onTagChange: function (evt) {
