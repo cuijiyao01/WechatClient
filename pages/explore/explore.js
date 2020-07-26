@@ -26,6 +26,7 @@ Page({
     bannerImgs: [],
     sessions: [],
     upComingSessions: [],
+    subDirections: [],
     pageNum: 1,
     showNoData: 'false',
     difficultyLevels: CONST.DIFFICULTY_LEVELS,
@@ -65,20 +66,24 @@ Page({
     WXRequest.post('/session/all', {
       pageNum: 1,
       pageSize: 10,
-      upcoming: 1
+      upcoming: 1,
+      digitalSchool:1
     }).then(res => {
       this._setLoadingText('isLoading', false);
       if (res.data.msg === 'ok') {
         console.log(res.data);
         let swiperHeight = this.getCoumptedSwiperHeight(res.data.retObj.upComingSessions.length);
         let directions = res.data.retObj.directions;
-        let newDirections = directions.splice(0, 0, { id: 1, name: "Up Coming", imageSrc: null });
+        directions.splice(0, 0, { id: 1, name: "Up Coming", imageSrc: null });
+        directions.splice(0, 0, directions.pop());
         this.setData({
           directions: res.data.retObj.directions,
-          sessions: res.data.retObj.upComingSessions,
+          subDirections: res.data.retObj.subDirections,
+          hotSessions: res.data.retObj.hotSessions,
+          sessions: res.data.retObj.sessions,
           upComingSessions: res.data.retObj.upComingSessions,
           swiperHeight: swiperHeight,
-          showNoData: res.data.retObj.upComingSessions.length === 0
+          showNoData: res.data.retObj.sessions.length === 0
         });
       }
     }).catch(e => {
@@ -107,7 +112,7 @@ Page({
       selectedTabIndex: selectedTabIndex
     });
     console.log("new selectedTabIndex is " + selectedTabIndex);
-    if (selectedTabIndex === 0){
+    if (selectedTabIndex === 1){
       let swiperHeight = this.getCoumptedSwiperHeight(this.data.upComingSessions.length);
       this.setData({
         swiperHeight: swiperHeight,
@@ -278,7 +283,7 @@ Page({
   onPullDownRefresh: function () {
     console.log('onPullDownRefresh...');
     let selectedIndex = this.data.selectedTabIndex;
-    if (selectedIndex === 0) {
+    if (selectedIndex === 1) {
       let swiperHeight = this.getCoumptedSwiperHeight(this.data.upComingSessions.length);
       this.setData({    
         sessions: this.data.upComingSessions,

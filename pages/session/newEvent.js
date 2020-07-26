@@ -41,6 +41,8 @@ Page({
       }
     ],
     directionIndex: 0,
+    multiArray: [["Cutting Edge Tech"],[]],
+    multiIndex: [0, 0],
     groupIndex: 0,
     mode: "create",
     editSessionDetail: null,
@@ -77,6 +79,8 @@ Page({
         let retObj = res.data.retObj;
         this.setData({
           directions: retObj.directions,
+          subDirections: retObj.subDirections,
+          multiArray: [retObj.directions.map(val => val.name), []],
           locations: retObj.locations,
           groups: retObj.groups,
           locationsName: retObj.locations.map(val => val.name)
@@ -251,9 +255,32 @@ Page({
   },
 
   bindDirectionChange: function(e) {
-    this.inputChange('directionIndex', e.detail.value);
+    this.inputChange('multiIndex', e.detail.value);
+    console.log(e.detail.value);
   },
 
+  bindMultiPickerColumnChange: function (e) {
+   var multiArray = [this.data.multiArray[0], []];
+   var direction = 0; 
+   var subdirection = 0;
+   if (e.detail.column === 0)
+   {
+     direction = e.detail.value;
+     if (direction === 13)
+       {multiArray[1] = this.data.subDirections.map(val => val.name);}
+   }
+   else{
+     multiArray[1] = this.data.subDirections.map(val => val.name);
+     direction = 13;
+     subdirection = e.detail.value;
+   }
+    this.inputChange('multiArray', multiArray);
+    this.inputChange('multiIndex', [direction, subdirection]);
+    console.log(this.data.multiIndex); 
+
+   
+  },
+  
   bindGroupChange: function(e) {
     this.inputChange('groupIndex', e.detail.value);
   },
@@ -297,7 +324,9 @@ Page({
     let startDateTimeVal = this.data.startDateTimeVal;
     let duration = this.data.durations[value.duration];
     let endDateTimeVal = this._calEndDateTimeVal(startDateTimeVal, duration);
-
+    let subDirection = null;
+    if (this.data.multiIndex[0] === 13)
+      subDirection = {id: this.data.subDirections[this.data.multiIndex[1]].id};
     let eventDetail = {
       owner: {
         id: this.data.presenterId
@@ -307,8 +336,9 @@ Page({
       startDate: startDateTimeVal,
       endDate: endDateTimeVal,
       direction: {
-        id: this.data.directions[value.direction].id
+       id: this.data.directions[this.data.multiIndex[0]].id
       },
+      subDirection: subDirection, 
       difficulty: value.difficulty,
       location: {
         id: this.data.locations.map(val => val.name).indexOf(value.location) + 1,

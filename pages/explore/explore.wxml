@@ -39,7 +39,8 @@
             <text class="topic">{{item.topic}}</text>
             <text class="completed" hidden="{{item.status !== 2}}">Done</text>
             </view>
-            <view class="speaker">{{item.owner.nickName}}</view>
+           <!-- <view class="speaker">{{item.owner.nickName}}</view> -->
+           <view class="speaker">{{subDirections[item.subDirection.id-1].name}} {{item.owner.nickName}}</view>
             <view class="location">
             {{formatter.getDate(item.startDate)}} | {{formatter.getDifficulty(item.difficulty)}}
             <view class="count">
