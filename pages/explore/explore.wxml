@@ -8,9 +8,9 @@
       <i-icon type="search" size="28" color="#80848f"/>
       <input placeholder='Java SAPUI5 HANA' disabled ="false" bindtap="goToSearchPage"></input>
       <swiper class="swiper" indicator-dots="true" autoplay="true" interval="5000" duration="1000">  
-        <block wx:for="{{hotSessions}}" wx:key="index">  
+        <block wx:for="{{bannerImgs}}" wx:key="index">  
           <swiper-item>
-           <image id="{{item.id}}" bindtap='goDetail' src="{{formatter.getImageUrl(item.tileImageSrc)}}" class="slide-image" mode="aspectFill"/>
+           <image id="{{item.linkUrl}}" bindtap='goLink' src="{{formatter.getImageUrl(item.imageSrc)}}" class="slide-image" mode="aspectFill"/>
           </swiper-item>  
         </block>  
       </swiper>
@@ -39,7 +39,8 @@
             <text class="topic">{{item.topic}}</text>
             <text class="completed" hidden="{{item.status !== 2}}">Done</text>
             </view>
-            <view class="speaker">{{item.owner.nickName}}</view>
+           <!-- <view class="speaker">{{item.owner.nickName}}</view> -->
+           <view class="speaker">{{subDirections[item.subDirection.id-1].name}} {{item.owner.nickName}}</view>
             <view class="location">
             {{formatter.getDate(item.startDate)}} | {{formatter.getDifficulty(item.difficulty)}}
             <view class="count">
