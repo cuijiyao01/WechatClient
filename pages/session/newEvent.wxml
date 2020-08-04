@@ -134,17 +134,30 @@
 					</view>
 				</view>
 				<view class="weui-cell__bd">
-			<!--	<picker name="direction" bindchange="bindDirectionChange" value="{{directionIndex}}" range="{{directions}}" range-key="name">
+			  	<picker name="direction" bindchange="bindDirectionChange" value="{{directionIndex}}" range="{{directions}}" range-key="name">
 							<view class="weui-select weui-select_in-select-after">{{directions[directionIndex].name}}</view>
-					</picker> -->
-				<picker mode="multiSelector" bindchange="bindDirectionChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
-    				<view class="picker">
-    				  {{multiArray[0][multiIndex[0]]}} {{multiArray[1][multiIndex[1]]}}
-    				</view>
- 			 </picker>	
+					</picker> 
 				</view>
 			</view>
 		</view>
+
+		<view class="weui-cells__title">
+			
+		</view>
+		<view class="weui-cells weui-cells_after-title" hidden="{{subDirectionIndex == -1}}">
+			<view class="weui-cell weui-cell_select">
+				<view class="weui-cell__hd weui-cell__hd_in-select-after">
+					<view class="weui-label">
+						<i-icon type="flag" size="28" color="#80848f" />
+					</view>
+				</view>
+				<view class="weui-cell__bd">
+			  	<picker name="subDirection" bindchange="bindSubDirectionChange" value="{{subDirectionIndex}}" range="{{subDirections}}" range-key="name">
+							<view class="weui-select weui-select_in-select-after">{{subDirections[subDirectionIndex].name}}</view>
+					</picker> 
+				</view>
+			</view>
+		</view> 
 
 		<view class="weui-cells__title">
 			<!-- Difficulty -->
@@ -171,7 +184,7 @@
 		<view class="weui-cells weui-cells_after-title">
 			<view class="weui-cell">
 				<view class="weui-cell__bd">
-					<textarea name="description" class="weui-textarea" placeholder="Description" style="height: 3.3em" value="{{formData.description}}" />
+					<textarea name="description" class="weui-textarea" maxlength="300" placeholder="Description" style="height: 3.3em" value="{{formData.description}}" />
 					<view class="weui-textarea-counter">0/200</view>
         </view>
       </view>

@@ -29,20 +29,9 @@ Page({
       }
     ],
     locationIndex: 0,
-    directions: [{
-        id: 2,
-        name: "Cutting Edge Tech",
-        imageSrc: null
-      },
-      {
-        id: 3,
-        name: "Frontend",
-        imageSrc: null
-      }
-    ],
+    directions: [], 
     directionIndex: 0,
-    multiArray: [["Cutting Edge Tech"],[]],
-    multiIndex: [0, 0],
+    subDirectionIndex: 0,
     groupIndex: 0,
     mode: "create",
     editSessionDetail: null,
@@ -77,10 +66,11 @@ Page({
       if (res.data.msg === 'ok') {
         console.log('/session/init', res.data);
         let retObj = res.data.retObj;
+        let directions = retObj.directions;
+        directions.splice(0, 0, directions.pop());
         this.setData({
-          directions: retObj.directions,
+          directions: directions,
           subDirections: retObj.subDirections,
-          multiArray: [retObj.directions.map(val => val.name), []],
           locations: retObj.locations,
           groups: retObj.groups,
           locationsName: retObj.locations.map(val => val.name)
@@ -135,7 +125,7 @@ Page({
       title: "Edit Session Detail"
     })
     let userId = Util.getUserId();
-
+ 
     wx.showLoading({
       title: 'Loading',
       mask: true
@@ -255,32 +245,22 @@ Page({
   },
 
   bindDirectionChange: function(e) {
-    this.inputChange('multiIndex', e.detail.value);
+    this.inputChange('directionIndex', e.detail.value);
+    if (e.detail.value == 0)
+    {
+      this.inputChange('subDirectionIndex', 0);
+    }
+    else{
+      this.inputChange('subDirectionIndex', -1);
+    }
     console.log(e.detail.value);
   },
 
-  bindMultiPickerColumnChange: function (e) {
-   var multiArray = [this.data.multiArray[0], []];
-   var direction = 0; 
-   var subdirection = 0;
-   if (e.detail.column === 0)
-   {
-     direction = e.detail.value;
-     if (direction === 13)
-       {multiArray[1] = this.data.subDirections.map(val => val.name);}
-   }
-   else{
-     multiArray[1] = this.data.subDirections.map(val => val.name);
-     direction = 13;
-     subdirection = e.detail.value;
-   }
-    this.inputChange('multiArray', multiArray);
-    this.inputChange('multiIndex', [direction, subdirection]);
-    console.log(this.data.multiIndex); 
-
-   
+  bindSubDirectionChange: function(e) {
+    this.inputChange('subDirectionIndex', e.detail.value);
+    console.log(e.detail.value);
   },
-  
+
   bindGroupChange: function(e) {
     this.inputChange('groupIndex', e.detail.value);
   },
@@ -324,9 +304,10 @@ Page({
     let startDateTimeVal = this.data.startDateTimeVal;
     let duration = this.data.durations[value.duration];
     let endDateTimeVal = this._calEndDateTimeVal(startDateTimeVal, duration);
-    let subDirection = null;
-    if (this.data.multiIndex[0] === 13)
-      subDirection = {id: this.data.subDirections[this.data.multiIndex[1]].id};
+    var subDirection = null;
+    if (this.data.subDirections[this.data.subDirectionIndex])
+      subDirection=this.data.subDirections[this.data.subDirectionIndex].id;
+    console.log(this.data.directionIndex);
     let eventDetail = {
       owner: {
         id: this.data.presenterId
@@ -336,9 +317,11 @@ Page({
       startDate: startDateTimeVal,
       endDate: endDateTimeVal,
       direction: {
-       id: this.data.directions[this.data.multiIndex[0]].id
+       id: this.data.directions[this.data.directionIndex].id
       },
-      subDirection: subDirection, 
+      subDirection: {
+        id: subDirection
+       }, 
       difficulty: value.difficulty,
       location: {
         id: this.data.locations.map(val => val.name).indexOf(value.location) + 1,
