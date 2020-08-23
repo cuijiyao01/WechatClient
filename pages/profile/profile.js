@@ -125,7 +125,8 @@ Page({
       signature:value.signature,
       github:value.github,
       seat:value.seat,
-      email:value.email
+      email:value.email,
+      title: value.title
     };
     return userDetail;
   },

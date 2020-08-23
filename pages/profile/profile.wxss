@@ -54,3 +54,12 @@
   width: 75px;
   margin-left: 10rpx;
 }
+
+.weui-label1 {
+  width: 80px;
+  margin-left: 10rpx;
+}
+
+.weui-cell1 {
+  padding: 10px 0px 10px 5px;
+}

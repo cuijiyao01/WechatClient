@@ -21,6 +21,7 @@
 
   <form bindsubmit="onSubmit" bindreset="onReset">
     <template is='formInput' data="{{ type:'group', title:'Dept.', value:userInfo.department, name:'department', onInput: 'onProfileDataChange' }}" />
+    <template is='formInput' data="{{ type:'group', title:'Title.', value:userInfo.title, name:'title', onInput: 'onProfileDataChange' }}" />
     <template is='formInput' data="{{ type:'coordinates', title:'Seat', value:userInfo.seat, name:'seat', onInput: 'onProfileDataChange' }}" />
     <template is='formInput' data="{{ type:'mail', title:'Email', value:userInfo.email, name:'email', onInput: 'onProfileDataChange' }}" />
      <template is='formInput' data="{{ type:'eit', title:'Blog', value:userInfo.blog, name:'blog', onInput: 'onProfileDataChange' }}" />
@@ -48,12 +49,12 @@
       <view class="weui-cell signature-cell">
         <i-icon type="brush" size="28" color="#80848f" />
         <view class="weui-cell__hd">
-          <view class="weui-label">
-            Sign
+          <view class="weui-label1">
+            Biography
           </view>
         </view>
         <view class="weui-cell__bd">
-          <textarea name="signature" class="weui-textarea" placeholder="No Data" style="height: 3.3em" bindinput="onProfileDataChange" value="{{userInfo.signature}}" />
+          <textarea name="signature" class="weui-textarea" maxlength="300" placeholder="No Data" style="height: 3.3em" bindinput="onProfileDataChange" value="{{userInfo.signature}}" />
           <view class="weui-textarea-counter">0/200</view>
         </view>
 

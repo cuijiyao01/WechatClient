@@ -29,6 +29,13 @@
     <view class="flex-item">
       <view>Presenter</view>
       <text>{{eventDetail.owner.nickName}}</text>
+      <text hidden="{{eventDetail.owner.title == null}}">, {{eventDetail.owner.title}}\n</text>
+      <text hidden="{{eventDetail.owner.title != null}}">\n</text>
+      <text hidden="{{eventDetail.owner.signature == null}}">{{eventDetail.owner.signature}}</text>
+    </view>
+    <view class="flex-item">
+      <view>Recording</view>
+      <text bindtap="copyText" class="linkstyle">{{eventDetail.recording}}</text>
     </view>
     <view class="flex-item">
       <view>When</view>
@@ -45,6 +52,7 @@
     <view class="flex-item">
       <view>Direction</view>
       <text>{{eventDetail.direction.name}}</text>
+    <!--  <text hidden="{{eventDetail.subDirection.id == 0}}">, {{eventDetail.subDirection.name}}</text> -->
     </view>
     <view class="flex-item">
       <view>Type</view>

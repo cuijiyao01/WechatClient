@@ -90,11 +90,12 @@ Page({
 
   doLoadDetail: function () {
     const {id} = this.data.pageQueries;
-
+    
     let userId = Util.getUserId();
     this.setData({
       sessionId: id
     });
+  
     this._checkGuest(userId);
     this._isCheckedIn();
     wx.showLoading({
@@ -115,6 +116,7 @@ Page({
         let isGroupOwner = this._isOwner(eventDetail.group.ownerId);
         let isCreator = eventDetail.createdBy === Util.getUserId();
         let checkInCode = eventDetail.checkInCode;
+        let recording = eventDetail.recording;
         if (checkInCode) {
           this._markStarted(checkInCode);
         }
@@ -123,7 +125,8 @@ Page({
           eventDetail: eventDetail,
           status: retObj.session.status,
           canEdit: ((isOwner || isCreator ) && (retObj.session.status == 0)) || isGroupOwner,
-          totalLikeCount: likeCount
+          totalLikeCount: likeCount,
+          recording: recording
         });
         if (userId && retObj.userRegistered) {
           this._markRegistered();
@@ -140,6 +143,27 @@ Page({
     let userId = e.currentTarget.id;
     wx.navigateTo({
       url: '../rankinglist/rankingdetail?userId=' + userId,
+    })
+  },
+
+  goRecording() {
+    let recording = this.data.recording;
+    console.log(recording);
+  },
+
+  copyText: function (e) {
+    console.log(e.currentTarget)
+    wx.setClipboardData({
+      data: this.data.recording,
+      success: function (res) {
+        wx.getClipboardData({
+          success: function (res) {
+            wx.showToast({
+              title: '复制成功'
+            })
+          }
+        })
+      }
     })
   },
 

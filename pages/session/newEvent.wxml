@@ -18,6 +18,22 @@
 		</view>
 
 		<view class="weui-cells__title">
+			<!-- Recording -->
+		</view>
+		<view class="weui-cells weui-cells_after-title">
+			<view class="weui-cell weui-cell_input">
+				<view class="weui-cell__hd">
+					<view class="weui-label">
+						<i-icon type="activity" size="28" color="#80848f" />
+					</view>
+				</view>
+				<view class="weui-cell__bd">
+					<input name="recording" class="weui-input" value="{{formData.recording}}" />
+				</view>
+			</view>
+		</view>
+
+		<view class="weui-cells__title">
 			<!-- Owner -->
 		</view>
 		<view class="weui-cells weui-cells_after-title">

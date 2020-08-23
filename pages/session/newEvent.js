@@ -156,6 +156,7 @@ Page({
           });
         })
       }
+      console.log(retObj.session);
     }).catch(e => {
       console.log(e);
     });
@@ -313,6 +314,7 @@ Page({
         id: this.data.presenterId
       },
       topic: value.topic,
+      recording: value.recording,
       description: value.description,
       startDate: startDateTimeVal,
       endDate: endDateTimeVal,
