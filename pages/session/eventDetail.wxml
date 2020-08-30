@@ -35,7 +35,7 @@
     </view>
     <view class="flex-item">
       <view>Recording</view>
-      <text bindtap="copyText" class="linkstyle">{{eventDetail.recording}}</text>
+      <text bindtap="copyText">{{eventDetail.recording}}</text>
     </view>
     <view class="flex-item">
       <view>When</view>
