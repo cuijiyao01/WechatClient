@@ -1,3 +1,5 @@
+const app = getApp()
+
 class Request {
   constructor(parms) {
     this.withBaseURL = parms.withBaseURL
@@ -17,11 +19,16 @@ class Request {
   }
   request(method, url, data) {
     const vm = this
+    let that = this
+    console.log('jwtToken: ' + app.globalData.jwtToken);
     return new Promise((resolve, reject) => {
       wx.request({
         url: vm.withBaseURL ? vm.baseURL + url : url,
         data,
         method,
+        header: {
+          'Authorization': app.globalData.jwtToken
+        },
         success(res) {
           resolve(res)
         },
@@ -39,8 +46,8 @@ class Request {
 }
 
 const request = new Request({
-  baseURL: 'https://tc-api.techtuesday.club',
-  // baseURL: 'http://localhost:8090',
+  //baseURL: 'https://carapi.techtuesday.club',
+   baseURL: 'http://localhost:8090',
   withBaseURL: true
 })
 

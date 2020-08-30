@@ -71,6 +71,9 @@ Page({
       wx.request({
         url: app.globalData.host + '/web/getwxacode',
         method: 'POST',
+        header: {
+          'Authorization': app.globalData.jwtToken
+        },
         data: { 
           path: '/pages/session/eventDetail?id=' + this.data.sessionId,
           width: 430

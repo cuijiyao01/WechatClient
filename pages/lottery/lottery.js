@@ -61,6 +61,9 @@ Page({
     wx.request({
       url: app.globalData.host + '/session/usercount/' + sessionId,
       method: 'GET',
+      header: {
+        'Authorization': app.globalData.jwtToken
+      },
       success: function (res) {
         that.setData({ userCount: res.data.retObj })
       },
@@ -88,6 +91,9 @@ Page({
       wx.request({
         url: app.globalData.host + '/lottery/bet/',
         method: 'POST',
+        header: {
+          'Authorization': app.globalData.jwtToken
+        },
         data:{
           userId: app.globalData.openId,
           sessionId: this.data.sessionId,

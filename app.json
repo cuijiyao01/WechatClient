@@ -21,7 +21,8 @@
     "pages/profile/profile",
     "pages/voteNewTopic/voteNewTopic",
     "pages/voteNewTopic/search",
-    "pages/aboutMe/aboutMe"
+    "pages/aboutMe/aboutMe",
+    "pages/webview/jam"
   ],
   "window": {
     "backgroundTextStyle": "light",

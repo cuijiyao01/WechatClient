@@ -6,7 +6,7 @@ var getDate = function (time) {
 var getImageUrl = function (src){
   if (src) {
     //return 'http://localhost:8090' + src;
-    return 'https://tc-api.techtuesday.club' + src;
+    return 'https://carapi.techtuesday.club' + src;
   }
 }
 var getDifficulty = function (difficulty) {

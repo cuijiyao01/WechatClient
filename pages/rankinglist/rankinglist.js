@@ -101,6 +101,9 @@ Page({
     wx.request({
       url: app.globalData.host + '/ranking/list/' + this.data.selectedGroupId,
       method: 'GET',
+      header: {
+        'Authorization': app.globalData.jwtToken
+      },
       success: function (res) {
         console.log(res.data);
         that.setData({
@@ -131,6 +134,9 @@ Page({
     wx.request({
       url: app.globalData.host + '/ranking/listSession/' + this.data.selectedGroupId,
       method: 'GET',
+      header: {
+        'Authorization': app.globalData.jwtToken
+      },
       success: function (res) {
         console.log(res.data);
         that.setData({

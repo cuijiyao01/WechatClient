@@ -47,6 +47,9 @@ Page({
     wx.request({
       url: app.globalData.host + '/question/load_one',
       method: 'POST',
+      header: {
+        'Authorization': app.globalData.jwtToken
+      },
       data: {
         questionId: questionId,
         questionIndex: questionIndex
@@ -148,6 +151,9 @@ Page({
       wx.request({
         url: app.globalData.host + '/question/edit',
         method: 'post',
+        header: {
+          'Authorization': app.globalData.jwtToken
+        },
         data: { 
           sessionId: that.data.sessionId,
           id: that.data.id,

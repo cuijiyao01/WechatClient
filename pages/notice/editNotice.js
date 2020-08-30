@@ -29,6 +29,9 @@ Page({
     wx.request({
       url: app.globalData.host + '/announcement/edit',
       method: 'POST',
+      header: {
+        'Authorization': app.globalData.jwtToken
+      },
       data: {
         id: this.data.noticeId,
         content: content,
