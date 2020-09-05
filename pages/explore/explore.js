@@ -163,7 +163,13 @@ Page({
       wx.navigateTo({
         url: '../webview/jam?url=' + url,
       })
-    }
+    } 
+    else{
+      wx.navigateTo({
+        url: '../subSchool/subSchool?',
+      })
+    } 
+
   },
 
   onTagChange: function (evt) {
