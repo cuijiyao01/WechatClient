@@ -29,6 +29,9 @@ Page({
     wx.request({
       url: app.globalData.host + '/exam/load/question/' + options.sessionId,
       method: 'GET',
+      header: {
+        'Authorization': app.globalData.jwtToken
+      },
       success: function (res) {
         if (res.data.msg === 'ok') {
           let isExamAvailable = res.data.retObj.length > 0 && res.data.retObj[0].options[0].isAnswer === null;
@@ -88,6 +91,9 @@ Page({
       wx.request({
         url: app.globalData.host + '/exam/submit',
         method: 'POST',
+        header: {
+          'Authorization': app.globalData.jwtToken
+        },
         data: {
           sessionId: that.data.sessionId,
           userId: app.globalData.openId,

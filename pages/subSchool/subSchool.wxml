@@ -1,0 +1,32 @@
+<!--pages/subSchool.wxml-->
+<!--<text>pages/subSchool.wxml</text>-->
+
+<view class='page subSchool'>
+
+  <view class='title'>About SAP Labs China Digital School</view>
+
+  <view class="SchoolInnovation">
+   <image src="../../images/SchoolInnovation.png"></image>
+  </view>
+  <view class="subtitle">Cultivate innovation mindset </view>
+  <view class="paragragh">Main programs include: Demo Jam collaborated with NVT Intrapreneurship and 1BL, Patent Management program and etc </view>
+  
+  <view class="SubSchool">
+   <image src="../../images/SchoolNewtech.png"></image>
+  </view>
+  <view class="subtitle">Enable cutting-edge technology </view>
+  <view class="paragragh">Main programs include: SAP devX activities, community-driven activities (Machine learning/Blockchain/PM/UX/Cloud/Early Talent/Security/Zero-waste), Development Learning and etc.</view>
+
+  <view class="SubSchool">
+   <image src="../../images/SchoolLeadership.png"></image>
+  </view>
+  <view class="subtitle">Improve leadership and domain-expertise</view>
+  <view class="paragragh">Main programs include: Lecture Hall, Outside-in Lecture, Expert community activities and etc. </view>
+
+  <view class="SubSchool">
+   <image src="../../images/SchoolCustomer.png"></image>
+  </view>
+  <view class="subtitle">Empower customer-facing skillsets</view>
+  <view class="paragragh">Main programs include: Customer-centric Community, story-telling bootcamp, pitch coaching sessions,  XChange Program (Knowledge exchange between Customer Success and Product Engineering) and etc. </view>
+</view>
+

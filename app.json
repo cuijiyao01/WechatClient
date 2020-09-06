@@ -22,6 +22,7 @@
     "pages/voteNewTopic/voteNewTopic",
     "pages/voteNewTopic/search",
     "pages/aboutMe/aboutMe",
+    "pages/webview/jam",
     "pages/subSchool/subSchool"
   ],
   "window": {

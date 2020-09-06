@@ -31,6 +31,9 @@ Page({
     wx.request({
       url: app.globalData.host + '/exam/ranking/list/' + sessionId,
       method: 'GET',
+      header: {
+        'Authorization': app.globalData.jwtToken
+      },
       success: function (res) {
         console.log(res.data.retObj);
         if (res.data.msg == 'ok') {

@@ -287,6 +287,9 @@ Page({
       wx.request({
         url: app.globalData.host + '/user/save',
         method: 'POST',
+        header: {
+          'Authorization': app.globalData.jwtToken
+        },
         data: user,
         success: function (res) {
           console.log(res.data);
@@ -311,6 +314,9 @@ Page({
     wx.request({
       url: app.globalData.host + '/user/totalPoints/' + openid,
       method: 'GET',
+      header: {
+        'Authorization': app.globalData.jwtToken
+      },
       success: function (res) {
         that.setData({
           totalPoints: res.data.retObj
@@ -327,6 +333,9 @@ Page({
     wx.request({
       url: app.globalData.host + '/user/groups/' + openid,
       method: 'GET',
+      header: {
+        'Authorization': app.globalData.jwtToken
+      },
       success: function (res) {
         var groups = res.data.retObj;
         for(var i = 0; i < groups.length; i++){
