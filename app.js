@@ -2,10 +2,10 @@
 import Util from 'utils/util';
 App({
   globalData: {
-     host: 'http://localhost:8090',
-    // host: 'https://carapi.techtuesday.club',
-     wshost: 'ws://localhost:8090',
-     //wshost: 'wss://carapi.techtuesday.club',
+    //  host: 'http://localhost:8090',
+    host: 'https://carapi.techtuesday.club',
+    //  wshost: 'ws://localhost:8090',
+     wshost: 'wss://carapi.techtuesday.club',
      openId:'',
      jwtToken: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJvcGVuSWQiOiIxMjM0NSJ9.jRKQjv2JJNx2LixkHC3cYs7E1JJnbtNB9RYOxxqzLUQ',
      template_id:'WFa-LEeLhk9H-ICIDuaH1VaLIOhpWoT_9eYdJpvMcB4',

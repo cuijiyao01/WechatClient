@@ -161,7 +161,8 @@ Page({
     console.log('url:' + url);
     if(url){
       wx.navigateTo({
-        url: '../webview/jam?url=' + url,
+        // url: '../webview/jam?url=' + url,
+        url: '../jamPage/jamPage?url=' + url
       })
     } 
     else{

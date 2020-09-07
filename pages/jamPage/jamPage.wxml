@@ -1,0 +1,7 @@
+<!--pages/jamPage/jamPage.wxml-->
+<view class="page jam">
+    <view class="jamContent">
+      <view class="title">If you want to know more about this, please directly click the link/button and copy it to your browser:</view>
+      <view class="link" bindtap='copyJamUrl'>{{jamUrl}}</view>
+    <button class="copyButton" bindtap='copyJamUrl'>Copy Link</button>    </view>
+</view>

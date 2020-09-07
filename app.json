@@ -23,7 +23,8 @@
     "pages/voteNewTopic/search",
     "pages/aboutMe/aboutMe",
     "pages/webview/jam",
-    "pages/subSchool/subSchool"
+    "pages/subSchool/subSchool",
+    "pages/jamPage/jamPage"
   ],
   "window": {
     "backgroundTextStyle": "light",
