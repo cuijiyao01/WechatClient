@@ -40,7 +40,9 @@ Page({
     totalLikeCount: 0,
     share: app.globalData.share,
     accessToken: '',
-    sessionQRCode: null
+    sessionQRCode: null,
+    externalSpeaker: false,
+    canManage: false
   },
 
   onLoad: function (e) {
@@ -120,21 +122,28 @@ Page({
         let isCreator = eventDetail.createdBy === Util.getUserId();
         let checkInCode = eventDetail.checkInCode;
         let recording = eventDetail.recording;
+        let externalSpeaker = eventDetail.owner.externalSpeaker;
         if (checkInCode) {
           this._markStarted(checkInCode);
         }
         this.setData({
           isOwner: isOwner,
+          isGroupOwner: isGroupOwner,
           eventDetail: eventDetail,
           status: retObj.session.status,
-          canEdit: ((isOwner || isCreator ) && (retObj.session.status == 0)) || isGroupOwner,
+          canEdit: ((isOwner || isCreator || isGroupOwner) && (retObj.session.status == 0)), // when status is not finished, owner, creator, groupowner can edit
+          canManage: (isOwner || isCreator || (isGroupOwner && externalSpeaker)), // 
           totalLikeCount: likeCount,
-          recording: recording
+          recording: recording,
+          externalSpeaker: externalSpeaker
         });
         if (userId && retObj.userRegistered) {
           this._markRegistered();
         }
         this._doLoadQR();
+        console.log(this.data.isGroupOwner);
+        console.log(this.data.canEdit);
+        console.log(this.data.canManage);
       }
     }).catch(e => {
       console.log(e);
@@ -228,7 +237,8 @@ Page({
       Util.showToast('Please check in first', 'none', 2000);
     } else {
       wx.navigateTo({
-        url: '../lottery/lottery?sessionId=' + this.data.sessionId + '&isOwner=' + this.data.isOwner,
+      //  url: '../lottery/lottery?sessionId=' + this.data.sessionId + '&isOwner=' + this.data.isOwner,
+        url: '../lottery/lottery?sessionId=' + this.data.sessionId + '&isOwner=' + this.data.canManage,
       })
     }
   },
@@ -367,13 +377,14 @@ Page({
     });
   },
   onStartSession(event) {
-    let userId = Util.getUserId();
+  //  let userId = Util.getUserId();
     let canStart = this._canStart(this.data.eventDetail.enrollments);
     var that = this;
     if (canStart) {
       WXRequest.post('/session/start', {
         sessionId: this.data.eventDetail.id,
-        userId: userId
+      //  userId: userId
+        userId: this.data.eventDetail.owner.id
       }).then(res => {
         if (res.data.msg === 'ok') {
           console.log(res.data);

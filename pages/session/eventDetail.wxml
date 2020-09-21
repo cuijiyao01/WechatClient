@@ -71,7 +71,8 @@
     </view>
 
     <view class="session-detail-action" wx:if="{{status == 1}}">
-      <block wx:if="{{isOwner}}">
+      <!--<block wx:if="{{isOwner}}"> -->
+      <block wx:if="{{canManage}}">
       </block>
       <block wx:else>
         <view wx:if="{{isRegistered}}" class="flex-item">
@@ -84,7 +85,8 @@
   </view>
   <!-- new session -->
   <view wx:if="{{status == 0}}">
-    <view wx:if="{{!isOwner}}">
+   <!--<view wx:if="{{!isOwner}}"> -->
+    <view wx:if="{{!canManage}}">
       <view class="flex-item" wx:if="{{!isRegistered}}">
         <button bindtap='onRegister' class="uniformBtn">Register</button>
       </view>
@@ -100,9 +102,10 @@
     </view>
   </view>
   <!-- started session -->
-  <view class="weui-footer weui-footer_fixed-bottom footerBar" wx:if="{{(isRegistered || isOwner) && status == 1}}">
+  <view class="weui-footer weui-footer_fixed-bottom footerBar" wx:if="{{(isRegistered || canManage) && status == 1}}">
     <view class="weui-footer__links">
-      <block wx:if="{{isOwner}}">
+     <!-- <block wx:if="{{isOwner}}"> -->
+       <block wx:if="{{canManage}}}">
         <view class='weui-footer__link' bindtap="onCheckCode">
           <image class="likeBtn" src="../../images/started.png" />
           <text>Code</text>
@@ -124,7 +127,8 @@
       <view class='weui-footer__link' bindtap='onStartLottery'>
         <image class="likeBtn" src="../../images/gift.png" /> {{lotteryBtnVal}}
       </view>
-      <block wx:if="{{isOwner}}">
+     <!-- <block wx:if="{{isOwner || isGroupOwner}}"> -->
+      <block wx:if="{{canManage}}">
          <view class='weui-footer__link'>
          <image class="likeBtn"  src="../../images/like.png" />{{totalLikeCount}}
         </view>
@@ -155,7 +159,8 @@
   </view> -->
   <!-- completed session -->
   <view wx:if="{{status == 2}}">
-    <view class="reward" wx:if="{{isOwner}}">
+   <!-- <view class="reward" wx:if="{{isOwner || isGroupOwner}}"> -->
+    <view class="reward" wx:if="{{canManage}}">
       <image class="likeBtn" src="../../images/like.png" />{{totalLikeCount}}
     </view>
     <view class="reward" wx:else>

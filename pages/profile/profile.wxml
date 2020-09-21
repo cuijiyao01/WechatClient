@@ -50,7 +50,7 @@
         <i-icon type="brush" size="28" color="#80848f" />
         <view class="weui-cell__hd">
           <view class="weui-label1">
-            Biography
+            Intro
           </view>
         </view>
         <view class="weui-cell__bd">
