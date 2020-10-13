@@ -1,7 +1,7 @@
 <view class="page">
   <view class="userinfo">
     <block>
-      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <image class="userinfo-avatar" src="{{userInfo.avatarUrl ? userInfo.avatarUrl : '../../images/avatar.png'}}" mode="cover"></image>
       <view class="userinfo-personalinfo">
         <view class="userinfo-nickname">{{userInfo.nickName}}</view>
         <view class="userinfo-gender">

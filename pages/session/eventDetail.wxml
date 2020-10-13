@@ -4,7 +4,7 @@
 <view class="session-detail-header">
   <image class="session-header-bg" src="{{formatter.getImageUrl(eventDetail.tileImageSrc)}}"></image>
   <view class="session-avatar-wrapper">
-    <image id="{{eventDetail.owner.id}}" bindtap="goRankDetail" class="event-detail-avatar" mode="scaleToFill" src="{{eventDetail.owner.avatarUrl}}"></image>
+    <image id="{{eventDetail.owner.id}}" bindtap="goRankDetail" class="event-detail-avatar" mode="scaleToFill" src="{{eventDetail.owner.avatarUrl ? eventDetail.owner.avatarUrl  : '../../images/avatar.png'}} "></image>
   </view>
   <view class="event-detail-nickname">{{eventDetail.owner.nickName}}</view>
 </view>

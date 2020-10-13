@@ -38,7 +38,7 @@
           <view class="weui-cells weui-cells_after-title">
             <navigator url="rankingdetail?userId={{item.userId}}" class="weui-cell" wx:for="{{userRankingList}}" wx:key="userId">
               <view class="firstCol">{{item.rank}}</view>
-              <image src="{{item.avatarUrl}}" class="userinfo-avatar"></image>
+              <image src="{{item.avatarUrl ? item.avatarUrl : '../../images/avatar.png'}}" class="userinfo-avatar"></image>
               <view class="weui-cell__bd">{{item.nickname}}</view>
               <view class="weui-cell__ft">{{item.points}}</view>
             </navigator>
