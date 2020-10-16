@@ -1,0 +1,12 @@
+<!--pages/welcome/welcome.wxml-->
+<!-- <text>pages/welcome/welcome.wxml</text> -->
+
+<view class='page welcome'>
+  <image src="../../images/SchoolInnovation.png"></image>
+  <view class="title">Digital School Skr</view>
+  <view class="subtitle">Your journey to Skr!</view>
+  <view class="subtitle">Share Knowledge and Ranking</view>
+  <button class="uniformBtn" type="primary" plain="true" open-type="getUserInfo" bindgetuserinfo="getUserInfo">Sign Up</button>
+  <view class="paragragh">Innovate in China, for China, and as created by a group of SAP Labs engineers for this from Demo jam to you now. </view>
+  
+  </view>
