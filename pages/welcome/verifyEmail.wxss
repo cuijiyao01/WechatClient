@@ -1,12 +1,10 @@
 /* pages/welcome/verifyEmail.wxss */
-page {
-  height: 100%;
-}
 
 .page.verifyEmail {
   height: 100%;
   margin: 30rpx;
-  padding: 8rpx 30rpx 30rpx;
+  margin-bottom: 500rpx;
+  padding: 8rpx 30rpx 710rpx ;
   background: #fff;
   box-shadow: 0 0 20rpx 2rpx rgba(0, 0, 0, 0.02);
   border-radius: 5rpx;
@@ -41,10 +39,14 @@ page {
 }
 
 .paragragh {
-  line-height: 1.4;
+  /* line-height: 1.4;
   font-family: Calibri;
   letter-spacing: 1rpx;
-  margin-top: 10rpx;
+  margin-top: 10rpx; */
+  font-family: Calibri;
+  font-size: 30rpx;
+  font-weight: bold;
+  margin: 20rpx 0 5rpx 20rpx;
 }
 
 .uniformBtn {
@@ -54,26 +56,59 @@ page {
 }
 
 .input {
-  height: 1.7rem;
-  width: 150px;
+  height: 1.5rem;
+  width: 50%;
   border: 1px solid lightgray;
+  border-radius: 5%;
+  padding: 0.1rem;
 }
 
+.codeBtn {
+  height: 1.7rem;
+  font-size: 26rpx;
+  background-color: #589ee9;
+  color: #fff
+}
 .itemView{
   margin-top: 10px;
   margin-left: 10px;
   margin-right: 10px;
   height: 50px;
- 
   justify-content: flex-start;
   display: flex;
   align-items: center;
+  font-size: 28rpx;
+  width: 100%;
+}
+
+.itemTitle {
+  width: 20%;
+  padding-right: 2%;
+  text-align: right;
+}
+
+.itemContent {
+  width: 80%;
+  display: flex;
 }
 
 .agreement{
   font-size: 0.75rem;
+  font-style: italic;
 }
 
 .emailText{
-  margin: 0.5rem;
+margin-top: 0.3rem;
+margin-left: 0.1rem;
+color: gray;
+}
+
+.link {
+  margin-bottom: 8rpx;
+  word-wrap: break-word;
+  color: #096dd9;
+}
+
+.privacyCheckBox {
+  color: #589ee9;
 }

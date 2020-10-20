@@ -1,0 +1,23 @@
+/* pages/welcome/dataPrivacy.wxss */
+
+.page.dataPrivacy {
+  margin: 30rpx;
+  padding: 0 30rpx;
+  padding-top: 30rpx;
+  padding-bottom: 700rpx;
+  background: #fff;
+  box-shadow: 0 0 20rpx 2rpx rgba(0, 0, 0, 0.02);
+  border-radius: 5rpx;
+}
+
+.title {
+ font-size: 30rpx;
+ font-weight: bold;
+ color: #096dd9;
+ text-align: center
+}
+
+.content {
+  font-size: 26rpx;
+  margin: 30rpx;
+}

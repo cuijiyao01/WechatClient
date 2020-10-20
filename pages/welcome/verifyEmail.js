@@ -20,60 +20,60 @@ Page({
   /**
    * Lifecycle function--Called when page load
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
 
   },
 
   /**
    * Lifecycle function--Called when page is initially rendered
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * Lifecycle function--Called when page show
    */
-  onShow: function () {
+  onShow: function() {
 
   },
 
   /**
    * Lifecycle function--Called when page hide
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * Lifecycle function--Called when page unload
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * Page event handler function--Called when user drop down
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * Called when page reach bottom
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * Called when user click on the top right corner to share
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   },
 
-  sendCode: function () {
+  sendCode: function() {
     var email = this.data.email;
     // Check Email Logic
     var reg = /^([a-zA-Z]|[0-9])(\w|\-)/;
@@ -99,11 +99,10 @@ Page({
             var buttonLabel = "Sent ( " + countdown + " )";
             if (countdown > 0) {
               countdown--;
-            }
-            else{
+            } else {
               buttonLabel = "Sent"
             }
-            setTimeout(function () {
+            setTimeout(function() {
               setTime(val);
             }, 1000);
             that.setData({
@@ -125,7 +124,7 @@ Page({
     }
   },
 
-  logIn: function () {
+  logIn: function() {
     var openid = wx.getStorageSync('openid');
     // append check for email logic later
     var email = this.data.email;
@@ -143,41 +142,70 @@ Page({
         that.setData({
           bSuccess: true
         });
+      } else {
+        wx.showModal({
+          title: 'Error',
+          content: res.data.msg,
+          success: function (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        });
       }
     }).catch(e => {
       console.log(e);
-    });
-    if(!this.data.bSuccess){
       wx.showModal({
-        title: 'Error' ,
+        title: 'Error',
         content: 'Incorrect Code.',
-        success: function(res) {
+        success: function (res) {
           if (res.confirm) {
-          console.log('用户点击确定')
+            console.log('用户点击确定')
           } else if (res.cancel) {
-          console.log('用户点击取消')
+            console.log('用户点击取消')
           }
         }
       });
-    }
-   
+    })
+    // if (!this.data.bSuccess) {
+    //   wx.showModal({
+    //     title: 'Error',
+    //     content: 'Incorrect Code.',
+    //     success: function (res) {
+    //       if (res.confirm) {
+    //         console.log('用户点击确定')
+    //       } else if (res.cancel) {
+    //         console.log('用户点击取消')
+    //       }
+    //     }
+    //   });
+    // }
+  
   },
 
-  onVerifyCodeChange: function (e) {
+  onVerifyCodeChange: function(e) {
     this.setData({
       verifyCode: e.detail.value
     });
   },
 
-  onEmailChange: function (e) {
+  onEmailChange: function(e) {
     this.setData({
       email: e.detail.value
     });
   },
 
-  checkboxChange: function (e) {
+  checkboxChange: function(e) {
     this.setData({
       agreement: e.detail.value.length
     });
+  },
+
+  onPrivacyTap: function(e) {
+    wx.navigateTo({        
+      url:   '../welcome/dataPrivacy',
+    })
   }
 })

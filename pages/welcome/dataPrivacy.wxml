@@ -1,0 +1,7 @@
+<!--pages/welcome/dataPrivacy.wxml-->
+<view class="page dataPrivacy">
+    <view class="privacyContent">
+      <view class="title">隐私条款</view>
+      <view class="content">{{privacyContent}}</view>
+    </view>
+</view>
