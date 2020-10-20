@@ -169,20 +169,6 @@ Page({
         }
       });
     })
-    // if (!this.data.bSuccess) {
-    //   wx.showModal({
-    //     title: 'Error',
-    //     content: 'Incorrect Code.',
-    //     success: function (res) {
-    //       if (res.confirm) {
-    //         console.log('用户点击确定')
-    //       } else if (res.cancel) {
-    //         console.log('用户点击取消')
-    //       }
-    //     }
-    //   });
-    // }
-  
   },
 
   onVerifyCodeChange: function(e) {
