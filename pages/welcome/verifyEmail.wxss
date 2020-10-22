@@ -55,12 +55,15 @@
   width: 85%;
 }
 
+
+
 .input {
   height: 1.5rem;
-  width: 50%;
+  width: 100%;
   border: 1px solid lightgray;
   border-radius: 5%;
   padding: 0.1rem;
+
 }
 
 .codeBtn {
