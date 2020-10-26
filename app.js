@@ -3,9 +3,11 @@ import Util from 'utils/util';
 App({
   globalData: {
     //  host: 'http://localhost:8090',
-    host: 'https://carapi.techtuesday.club',
+      host: 'https://carapi.techtuesday.club',
+//     host: 'https://skr.sapdigitallunch.com',
     //  wshost: 'ws://localhost:8090',
-     wshost: 'wss://carapi.techtuesday.club',
+      wshost: 'wss://carapi.techtuesday.club',
+//     wshost: 'wss://skr.sapdigitallunch.com',
      openId:'',
      jwtToken: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJvcGVuSWQiOiIxMjM0NSJ9.jRKQjv2JJNx2LixkHC3cYs7E1JJnbtNB9RYOxxqzLUQ',
      template_id:'WFa-LEeLhk9H-ICIDuaH1VaLIOhpWoT_9eYdJpvMcB4',
@@ -14,9 +16,9 @@ App({
   },
   data: {
   },
-  onLaunch: function (options) {
+  onLaunch: function (options) {          
     console.log('app::onLaunch')
-    let openid = wx.getStorageSync('openid');
+    // let openid = wx.getStorageSync('openid');
     this.globalData.systemInfo = wx.getSystemInfoSync();
     //if (!openid) {
       var that = this
