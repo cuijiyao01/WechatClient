@@ -1,36 +1,35 @@
 <!--pages/welcome/verifyEmail.wxml-->
 <view class='page verifyEmail'>
-  <view class="paragragh">Please verify your SAP mail box.</view>
-  <view class="itemView">
-    <text class="itemTitle">Email:</text>
-    <view class="itemContent">
-      <input name="email" class="input" placeholder="address" value="{{email}}" bindinput="onEmailChange" />
-      <text class="emailText">@sap.com</text>
-    </view>
-  </view>
-  <view class="itemView">
-    <text class="itemTitle">Captcha:</text>
-    <view class="itemContent">
-      <input name="veryfyCode" class="input" placeholder="code" value="{{verifyCode}}" bindinput="onVerifyCodeChange" />
-      <button bindtap="sendCode" class="codeBtn" disabled="{{!email ||sentCode}}">{{sentCodeButton}}</button>
-    </view>
-  </view>
-  <view>
-    <view class="weui-cell">
-      <view class="weui-cell__bd">
-        <checkbox-group bindchange="checkboxChange">
-          <checkbox class="privacyCheckBox" value="{{item.agreement}}" checked="{{item.agreement}}"></checkbox>
-        </checkbox-group>
-      </view>
-      <view class="weui-cell__hd">
-        <view class="agreement">I understand and agree to Digital School Skr
-          <text class="link" bindtap="onPrivacyTap">Data Privacy</text> by login.
-        </view>
-      </view>
-    </view>
-  </view>
+	<view class="paragragh">Please verify your SAP mail box.</view>
+	<view class="itemView">
+			<text class="itemTitle">Email:</text>
+			<view class="itemContent">
+				<input name="email" class="input" placeholder="address" value="{{email}}" bindinput="onEmailChange" />
+				<text class="emailText">@sap.com</text>
+			</view>
+	</view>
+	<view class="itemView">
+		<text class="itemTitle">Captcha:</text>
+		<view class="itemContent">
+			<input name="veryfyCode" class="input" placeholder="code" value="{{verifyCode}}" bindinput="onVerifyCodeChange" />
+			<button bindtap="sendCode" class="codeBtn" disabled="{{!email ||sentCode}}">{{sentCodeButton}}</button>
+		</view>
+	</view>
+	<view>
+		<view class="weui-cell">
+			<view class="weui-cell__bd">
+				<checkbox-group bindchange="checkboxChange">
+					<checkbox class="privacyCheckBox" value="{{item.agreement}}" checked="{{item.agreement}}"></checkbox>
+				</checkbox-group>
+			</view>
+			<view class="weui-cell__hd">
+				<view class="agreement">I understand and agree to Digital School Skr
+					<text class="link" bindtap="onPrivacyTap">Data Privacy</text> by login.
+				</view>
+			</view>
+		</view>
+	</view>
 
-  <view class="paragragh" wx:if="{{sentCode}}">If you did not receive code, please exit Skr and enter again.</view>
-  <button class="uniformBtn" bindtap="logIn" disabled="{{!email || !verifyCode || !agreement}}">Log in</button>
-  <!-- disabled="{{!sentCode || !agreement}}" -->
+	<view class="paragragh" wx:if="{{sentCode}}">If you did not receive code, please exit Skr and enter again.</view>
+	<button class="uniformBtn" bindtap="logIn" disabled="{{!email || !verifyCode || !agreement}}">Log in</button>
 </view>

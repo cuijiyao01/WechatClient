@@ -3,11 +3,11 @@ import Util from 'utils/util';
 
 App({
   globalData: {
-   // host: 'http://localhost:8090',
-     host: 'https://carapi.techtuesday.club',
+    // host: 'http://localhost:8090',
+    host: 'https://carapi.techtuesday.club',
     //     host: 'https://skr.sapdigitallunch.com',
     // wshost: 'ws://localhost:8090',
-     wshost: 'wss://carapi.techtuesday.club',
+    wshost: 'wss://carapi.techtuesday.club',
     //     wshost: 'wss://skr.sapdigitallunch.com',
     openId: '',
     jwtToken: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJvcGVuSWQiOiIxMjM0NSJ9.jRKQjv2JJNx2LixkHC3cYs7E1JJnbtNB9RYOxxqzLUQ',
@@ -39,18 +39,19 @@ App({
                 that.globalData.verifyEmail = res.data.retObj.verified;
                 wx.setStorageSync('openid', res.data.retObj.openid);
                 wx.setStorageSync('jwtToken', res.data.retObj.jwtToken);
+                wx.setStorageSync('verifyEmail', res.data.retObj.verified);
                 if (this.openIdCallback) {
                   this.openIdCallback(res.data.retObj.openid)
                 }
-                if (res.data.retObj.verified) {
-                  wx.switchTab({
-                    url: '../explore/explore',
-                  })
-                }
-                else{
-                  wx.switchTab({
+                var pages = getCurrentPages(); //获取加载的页面
+                var currentPage = pages[pages.length - 1]; //获取当前页面的对象
+                var url = currentPage.route; //当前页面url
+                console.log(url);
+                // 第一次打开小程序，发现没有验证过邮箱；如果不是welcome界面，就跳到welcome界面
+                if ((!res.data.retObj.verified) && (url !== "pages/welcome/welcome") && (url !== "pages/welcome/verifyEmail")) {
+                  wx.navigateTo({
                     url: '../welcome/welcome',
-                  })
+                  });
                 }
               }
             }

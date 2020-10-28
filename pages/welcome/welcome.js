@@ -18,6 +18,14 @@ Page({
    * Lifecycle function--Called when page load
    */
   onLoad: function (options) {
+    // 第n次打开小程序，发现验证过邮箱，就跳到verifyEmail界面
+    var verifyEmail = wx.getStorageSync('verifyEmail');
+    console.log('verifyEmail: ' + verifyEmail);
+    if (verifyEmail) {
+      wx.switchTab({
+        url: '../explore/explore',
+      });
+    }
     // console.log('home::onLoad::openId:' + app.globalData.openId);
     // if (!app.globalData.openId) {
     //   app.openIdCallback = openId => {
