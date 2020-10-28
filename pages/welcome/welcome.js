@@ -18,43 +18,43 @@ Page({
    * Lifecycle function--Called when page load
    */
   onLoad: function (options) {
-    console.log('home::onLoad::openId:' + app.globalData.openId);
-    if (!app.globalData.openId) {
-      app.openIdCallback = openId => {
-        console.log('home::openIdCallback:' + openId)
-        if (openId) {
-          WXRequest.get('/user/' + openId).then(res => {
-            if (res.data.msg === 'ok') {
-              console.log('/user/', res.data);
-              this.setData({
-                userInfo: res.data.retObj,
-                email: res.data.retObj.email
-              });
-              WXRequest.get('/user/email/status', {
-                userId: res.data.retObj.id,
-                email: res.data.retObj.email
-              }).then(res => {
-                if (res.data.msg === 'ok') {
-                  console.log('/email/status', res.data);
-                  this.setData({
-                    emailVerified: res.data.status
-                  });
-                  if (res.data.status){
-                    wx.switchTab({
-                      url: '../explore/explore',
-                    })
-                  }
-                }
-              }).catch(e => {
-                console.log(e);
-              });
-            }
-          }).catch(e => {
-            console.log(e);
-          });
-        }
-      }
-    }
+    // console.log('home::onLoad::openId:' + app.globalData.openId);
+    // if (!app.globalData.openId) {
+    //   app.openIdCallback = openId => {
+    //     console.log('home::openIdCallback:' + openId)
+    //     if (openId) {
+    //       WXRequest.get('/user/' + openId).then(res => {
+    //         if (res.data.msg === 'ok') {
+    //           console.log('/user/', res.data);
+    //           this.setData({
+    //             userInfo: res.data.retObj,
+    //             email: res.data.retObj.email
+    //           });
+    //           WXRequest.get('/user/email/status', {
+    //             userId: res.data.retObj.id,
+    //             email: res.data.retObj.email
+    //           }).then(res => {
+    //             if (res.data.msg === 'ok') {
+    //               console.log('/email/status', res.data);
+    //               this.setData({
+    //                 emailVerified: res.data.status
+    //               });
+    //               if (res.data.status){
+    //                 wx.switchTab({
+    //                   url: '../explore/explore',
+    //                 })
+    //               }
+    //             }
+    //           }).catch(e => {
+    //             console.log(e);
+    //           });
+    //         }
+    //       }).catch(e => {
+    //         console.log(e);
+    //       });
+    //     }
+    //   }
+    // }
 
 
   },
@@ -112,7 +112,7 @@ Page({
     console.log(e)
     if (e.detail.userInfo) {
       this.addUser(e.detail.userInfo);
-      if (!this.data.emailVerified) {
+      if (!app.globalData.verifyEmail) {
         wx.navigateTo({
           url: './verifyEmail',
         });
