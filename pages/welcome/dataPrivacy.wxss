@@ -19,5 +19,14 @@
 
 .content {
   font-size: 26rpx;
-  margin: 30rpx;
+  width: 100%;
+  margin-top: 6rpx;
+}
+
+.l2 {
+  margin-left: 32rpx;
+}
+
+.l3 {
+  margin-left: 64rpx;
 }
