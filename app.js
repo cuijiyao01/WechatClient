@@ -47,6 +47,11 @@ App({
                     url: '../explore/explore',
                   })
                 }
+                else{
+                  wx.switchTab({
+                    url: '../welcome/welcome',
+                  })
+                }
               }
             }
           })
