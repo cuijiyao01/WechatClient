@@ -4,9 +4,7 @@ Page({
   /**
    * Page initial data
    */
-  data: {
-    privacyContent: "我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意我同意"
-  },
+  data: {},
 
   /**
    * Lifecycle function--Called when page load
