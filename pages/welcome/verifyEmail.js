@@ -142,6 +142,7 @@ Page({
         that.setData({
           bSuccess: true
         });
+        wx.setStorageSync('verifyEmail', true)
       } else {
         wx.showModal({
           title: 'Error',

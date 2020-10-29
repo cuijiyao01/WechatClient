@@ -141,9 +141,11 @@ Page({
           this._markRegistered();
         }
         this._doLoadQR();
-        console.log(this.data.isGroupOwner);
-        console.log(this.data.canEdit);
-        console.log(this.data.canManage);
+        console.log("isGroupOwner", this.data.isGroupOwner);
+        console.log("canEdit",this.data.canEdit);
+        console.log("canManage",isOwner, isCreator, isGroupOwner, externalSpeaker);
+        console.log("status", this.data.status);
+        console.log("register", this.data.isRegistered);
       }
     }).catch(e => {
       console.log(e);
