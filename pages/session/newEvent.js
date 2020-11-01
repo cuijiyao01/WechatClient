@@ -49,6 +49,7 @@ Page({
     presenterInput: '',
     // presenterId: '',
     userMatched: [],
+    t_length: 0
   },
   /**
    * Lifecycle function--Called when page load
@@ -152,11 +153,12 @@ Page({
             difficultyIndex: retObj.session.difficulty,
             tea2: retObj.session.tea2,
             presenterInput: retObj.session.owner.nickName,
-            presenterId: retObj.session.owner.id
+            presenterId: retObj.session.owner.id,
+            t_length: retObj.session.description.length
           });
         })
       }
-      console.log(retObj.session);
+   //   console.log(retObj.session);
     }).catch(e => {
       console.log(e);
     });
@@ -367,6 +369,14 @@ Page({
    */
   onUnload: function() {
 
+  },
+
+  bindText: function (e) {
+    var t_text = e.detail.value.length;
+    // console.log(t_text)
+    this.setData({
+      t_length: t_text
+    }) 
   },
 
   // Add for meeting rooms

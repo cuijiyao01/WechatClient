@@ -188,7 +188,7 @@
 					</view>
 				</view>
 				<view class="weui-cell__bd">
-					<input name="recording" class="weui-input" value="{{formData.recording}}" placeholder="Recording Link (Optional)"/>
+					<input name="recording" class="weui-input" maxlength="4000" value="{{formData.recording}}" placeholder="Recording Link (Optional)"/>
 				</view>
 			</view>
 		</view>
@@ -201,8 +201,9 @@
 		<view class="weui-cells weui-cells_after-title">
 			<view class="weui-cell">
 				<view class="weui-cell__bd">
-					<textarea name="description" class="weui-textarea" maxlength="300" placeholder="Description" style="height: 3.3em" value="{{formData.description}}" />
-					<view class="weui-textarea-counter">0/200</view>
+					<textarea name="description" class="weui-textarea" maxlength="1000" placeholder="Description" style="height: 4.3em" value="{{formData.description}}" bindinput="bindText"/>
+					 <text class="weui-textarea-counter">{{t_length}}/1000</text> 
+					<!-- <view class="weui-textarea-counter">0/200</view> -->
         </view>
       </view>
     </view>

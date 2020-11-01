@@ -131,7 +131,8 @@ Page({
           isGroupOwner: isGroupOwner,
           eventDetail: eventDetail,
           status: retObj.session.status,
-          canEdit: ((isOwner || isCreator || isGroupOwner) && (retObj.session.status == 0)), // when status is not finished, owner, creator, groupowner can edit
+        //  canEdit: ((isOwner || isCreator || isGroupOwner) && (retObj.session.status == 0)), // when status is not finished, owner, creator, groupowner can edit
+          canEdit: ((isOwner || isCreator || isGroupOwner)), // this time we open the edit authority to owner, creator and group owner even if the session is finished
           canManage: (isOwner || isCreator || (isGroupOwner && externalSpeaker)), // 
           totalLikeCount: likeCount,
           recording: recording,

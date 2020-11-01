@@ -12,7 +12,8 @@ Page({
   data: {
     userInfo:{},
     isLoading:false,
-    isModified: false
+    isModified: false,
+    t_length: 0
   },
 
   /**
@@ -27,7 +28,8 @@ Page({
         if (res.data.msg === 'ok') {
           console.log('/user/', res.data);
           this.setData({
-            userInfo: res.data.retObj
+            userInfo: res.data.retObj,
+            t_length: res.data.retObj.signature.length
           });
         }
       }).catch(e => {
@@ -126,9 +128,22 @@ Page({
       github:value.github,
       seat:value.seat,
       email:value.email,
-      title: value.title
+      title: value.title,
+      t_length: value.signature.length
     };
     return userDetail;
+  },
+
+  bindText: function (e) {
+    var t_text = e.detail.value.length;
+    this.setData({
+      t_length: t_text
+    }) 
+    if (!this.data.isModified) {
+      this.setData({
+        isModified: true
+      })
+    }
   },
 
   onProfileDataChange: function(e) {
