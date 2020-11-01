@@ -71,11 +71,13 @@ Page({
     }).then(res => {
       this._setLoadingText('isLoading', false);
       if (res.data.msg === 'ok') {
-        console.log(res.data);
         let swiperHeight = this.getCoumptedSwiperHeight(res.data.retObj.upComingSessions.length);
         let directions = res.data.retObj.directions;
+        console.log(directions);
         directions.splice(0, 0, { id: 1, name: "Up Coming", imageSrc: null });
         directions.splice(0, 0, directions.pop());
+        directions.splice(3, 3);
+        directions.splice(4, 4);
         this.setData({
           directions: res.data.retObj.directions,
           subDirections: res.data.retObj.subDirections,
