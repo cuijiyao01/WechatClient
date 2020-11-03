@@ -7,7 +7,7 @@
     <text class="addOptionTitle">add options(2-4)</text>
     <view wx:for="{{options}}" wx:key="index" >
       <label name="item.label" for="">{{item.label}}:</label>
-      <input class="optionInput" name="{{item.label}}" data-index="{{index}}"  value="{{item.value}}" bindblur="onOptionChange"></input>
+      <input class="optionInput" name="{{item.label}}" data-index="{{index}}"  value="{{item.value}}" bindinput="onOptionChange"></input>
       <image wx:if="{{index >=2 }}" class="deleteIcon" src="../../images/rounded_delete.png" data-index="{{index}}" bindtap="handleDeleteOptionClick"></image>
     </view>
     <view class="imgWrapper addQuesIcon">

@@ -55,45 +55,6 @@ Page({
     this.setData({
       share: app.globalData.share
     })
-  },
-
-  _getAccessToken: function () {
-    return WXRequest.get('/web/access_token').then(res => {
-      if (res.data.msg === 'ok') {
-        this.setData({
-          accessToken: res.data.retObj
-        })
-      }
-    }).catch(e => {
-      console.log(e);
-    });
-  },
-
-  _doLoadQR: function () {
-      wx.request({
-        url: app.globalData.host + '/web/getwxacode',
-        method: 'POST',
-        header: {
-          'Authorization': app.globalData.jwtToken
-        },
-        data: { 
-          path: '/pages/session/eventDetail?id=' + this.data.sessionId,
-          width: 430
-        },
-        success: res => {
-          if(res.data.msg === 'ok'){
-            this.setData({
-              sessionQRCode: res.data.retObj
-            })
-          }
-        },
-        fail: err => {
-          console.log(err);
-        }
-      });
-  },
-
-  doLoadDetail: function () {
     const {id} = this.data.pageQueries;
     
     let userId = Util.getUserId();
@@ -107,6 +68,7 @@ Page({
       title: 'Loading',
       mask: true
     })
+
     WXRequest.post('/session/detail', {
       sessionId: id,
       userId: userId
@@ -154,6 +116,46 @@ Page({
       console.log(e);
     });
     this._getLike(userId);
+  },
+
+  _getAccessToken: function () {
+    return WXRequest.get('/web/access_token').then(res => {
+      if (res.data.msg === 'ok') {
+        this.setData({
+          accessToken: res.data.retObj
+        })
+      }
+    }).catch(e => {
+      console.log(e);
+    });
+  },
+
+  _doLoadQR: function () {
+      wx.request({
+        url: app.globalData.host + '/web/getwxacode',
+        method: 'POST',
+        header: {
+          'Authorization': app.globalData.jwtToken
+        },
+        data: { 
+          path: '/pages/session/eventDetail?id=' + this.data.sessionId,
+          width: 430
+        },
+        success: res => {
+          if(res.data.msg === 'ok'){
+            this.setData({
+              sessionQRCode: res.data.retObj
+            })
+          }
+        },
+        fail: err => {
+          console.log(err);
+        }
+      });
+  },
+
+  doLoadDetail: function () {
+   
   },
 
   goRankDetail(e) {
