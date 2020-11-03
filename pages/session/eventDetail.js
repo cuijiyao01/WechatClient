@@ -113,7 +113,7 @@ Page({
     }).then(res => {
       wx.hideLoading();
       if (res.data.msg === 'ok') {
-        console.log(res.data);
+        console.log(res.data.retObj.session);
         let retObj = res.data.retObj;
         let eventDetail = retObj.session;
         let likeCount = retObj.session.likeCount;
@@ -122,6 +122,7 @@ Page({
         let isCreator = eventDetail.createdBy === Util.getUserId();
         let checkInCode = eventDetail.checkInCode;
         let recording = eventDetail.recording;
+        let meetingLink = eventDetail.meetingLink;
         let externalSpeaker = eventDetail.owner.externalSpeaker;
         if (checkInCode) {
           this._markStarted(checkInCode);
@@ -136,6 +137,7 @@ Page({
           canManage: (isOwner || isCreator || (isGroupOwner && externalSpeaker)), // 
           totalLikeCount: likeCount,
           recording: recording,
+          meetingLink: meetingLink,
           externalSpeaker: externalSpeaker
         });
         if (userId && retObj.userRegistered) {
@@ -161,15 +163,31 @@ Page({
     })
   },
 
-  goRecording() {
-    let recording = this.data.recording;
-    console.log(recording);
-  },
+  // goRecording() {
+  //   let recording = this.data.recording;
+  //   console.log(recording);
+  // },
 
   copyText: function (e) {
     console.log(e.currentTarget)
     wx.setClipboardData({
       data: this.data.recording,
+      success: function (res) {
+        wx.getClipboardData({
+          success: function (res) {
+            wx.showToast({
+              title: 'Copy Success'
+            })
+          }
+        })
+      }
+    })
+  },
+
+  copyTextMeeting: function (e) {
+    console.log(e.currentTarget)
+    wx.setClipboardData({
+      data: this.data.meetingLink,
       success: function (res) {
         wx.getClipboardData({
           success: function (res) {

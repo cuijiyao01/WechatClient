@@ -45,6 +45,10 @@
       <view>Location</view>
       <text>{{eventDetail.location.name}}</text>
     </view>
+     <view class="flex-item">
+      <view>Meeting Link</view>
+      <text bindtap="copyTextMeeting">{{eventDetail.meetingLink}}</text>
+    </view>
     <view class="flex-item">
       <view>Difficulty</view>
       <text>{{difficulties[eventDetail.difficulty]}}</text>
