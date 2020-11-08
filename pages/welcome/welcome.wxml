@@ -2,7 +2,7 @@
 <!-- <text>pages/welcome/welcome.wxml</text> -->
 
 <view class='page welcome'>
-  <image src="../../images/SchoolInnovation.png"></image>
+  <image src="../../images/DigitalSchool.png"></image>
   <view class="title">Digital School Skr</view>
   <view class="subtitle">Your journey to Skr!</view>
   <view class="subtitle">Share Knowledge and Ranking</view>

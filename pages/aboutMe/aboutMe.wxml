@@ -19,7 +19,7 @@
  <view class = "list-title">Team</view>
   <view class="list">
     <view class="list-item">Operation Lead: Zhenjia Hu</view>
-    <view class="list-item">Backend: Min Huang, Qin Tang </view>
+    <view class="list-item">Backend: Qin Tang, Jason Cui </view>
     <view class="list-item">Frontend: Rita Liu </view>
     <view class="list-item">PM: Tao Zhang </view>
   </view>
@@ -30,6 +30,7 @@
   </view>
 
   <view class="copyright">
+  Special thanks to Min Huang, Shawn Shao and all contributtors to this project.
     Copyright © 2020 Labs China Digital School Skr Team All rights reserved.
   </view>
 

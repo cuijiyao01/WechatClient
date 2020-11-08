@@ -1,4 +1,5 @@
 <!--index.wxml-->
+<view class="paragraph">Please select which group to check your ranking: </view>
 <wxs src="../../utils/formatter.wxs" module="formatter">
 </wxs>
 <view class="page">
