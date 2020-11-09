@@ -55,6 +55,67 @@ Page({
     this.setData({
       share: app.globalData.share
     })
+    const {id} = this.data.pageQueries;
+    
+    let userId = Util.getUserId();
+    this.setData({
+      sessionId: id
+    });
+  
+    this._checkGuest(userId);
+    this._isCheckedIn();
+    wx.showLoading({
+      title: 'Loading',
+      mask: true
+    })
+
+    WXRequest.post('/session/detail', {
+      sessionId: id,
+      userId: userId
+    }).then(res => {
+      wx.hideLoading();
+      if (res.data.msg === 'ok') {
+        console.log(res.data.retObj.session);
+        let retObj = res.data.retObj;
+        let eventDetail = retObj.session;
+        let likeCount = retObj.session.likeCount;
+        let isOwner = this._isOwner(eventDetail.owner.id);
+        let isGroupOwner = this._isOwner(eventDetail.group.ownerId);
+        let isCreator = eventDetail.createdBy === Util.getUserId();
+        let checkInCode = eventDetail.checkInCode;
+        let recording = eventDetail.recording;
+        let meetingLink = eventDetail.meetingLink;
+        let externalSpeaker = eventDetail.owner.externalSpeaker;
+        if (checkInCode) {
+          this._markStarted(checkInCode);
+        }
+        this.setData({
+          isOwner: isOwner,
+          isGroupOwner: isGroupOwner,
+          eventDetail: eventDetail,
+          status: retObj.session.status,
+        //  canEdit: ((isOwner || isCreator || isGroupOwner) && (retObj.session.status == 0)), // when status is not finished, owner, creator, groupowner can edit
+          canEdit: ((isOwner || isCreator || isGroupOwner)), // this time we open the edit authority to owner, creator and group owner even if the session is finished
+          canManage: (isOwner || isCreator || (isGroupOwner && externalSpeaker)), // 
+          totalLikeCount: likeCount,
+          recording: recording,
+          meetingLink: meetingLink,
+          externalSpeaker: externalSpeaker
+        });
+        if (userId && retObj.userRegistered) {
+          this._markRegistered();
+        }
+        this._doLoadQR();
+        console.log("isGroupOwner", this.data.isGroupOwner);
+        console.log("canEdit",this.data.canEdit);
+        console.log("canManage",isOwner, isCreator, isGroupOwner, externalSpeaker);
+        console.log("status", this.data.status);
+        console.log("register", this.data.isRegistered);
+      }
+    }).catch(e => {
+      console.log(e);
+    });
+    this._getLike(userId);
   },
 
   _getAccessToken: function () {
@@ -94,64 +155,7 @@ Page({
   },
 
   doLoadDetail: function () {
-    const {id} = this.data.pageQueries;
-    
-    let userId = Util.getUserId();
-    this.setData({
-      sessionId: id
-    });
-  
-    this._checkGuest(userId);
-    this._isCheckedIn();
-    wx.showLoading({
-      title: 'Loading',
-      mask: true
-    })
-    WXRequest.post('/session/detail', {
-      sessionId: id,
-      userId: userId
-    }).then(res => {
-      wx.hideLoading();
-      if (res.data.msg === 'ok') {
-        console.log(res.data);
-        let retObj = res.data.retObj;
-        let eventDetail = retObj.session;
-        let likeCount = retObj.session.likeCount;
-        let isOwner = this._isOwner(eventDetail.owner.id);
-        let isGroupOwner = this._isOwner(eventDetail.group.ownerId);
-        let isCreator = eventDetail.createdBy === Util.getUserId();
-        let checkInCode = eventDetail.checkInCode;
-        let recording = eventDetail.recording;
-        let externalSpeaker = eventDetail.owner.externalSpeaker;
-        if (checkInCode) {
-          this._markStarted(checkInCode);
-        }
-        this.setData({
-          isOwner: isOwner,
-          isGroupOwner: isGroupOwner,
-          eventDetail: eventDetail,
-          status: retObj.session.status,
-        //  canEdit: ((isOwner || isCreator || isGroupOwner) && (retObj.session.status == 0)), // when status is not finished, owner, creator, groupowner can edit
-          canEdit: ((isOwner || isCreator || isGroupOwner)), // this time we open the edit authority to owner, creator and group owner even if the session is finished
-          canManage: (isOwner || isCreator || (isGroupOwner && externalSpeaker)), // 
-          totalLikeCount: likeCount,
-          recording: recording,
-          externalSpeaker: externalSpeaker
-        });
-        if (userId && retObj.userRegistered) {
-          this._markRegistered();
-        }
-        this._doLoadQR();
-        console.log("isGroupOwner", this.data.isGroupOwner);
-        console.log("canEdit",this.data.canEdit);
-        console.log("canManage",isOwner, isCreator, isGroupOwner, externalSpeaker);
-        console.log("status", this.data.status);
-        console.log("register", this.data.isRegistered);
-      }
-    }).catch(e => {
-      console.log(e);
-    });
-    this._getLike(userId);
+   
   },
 
   goRankDetail(e) {
@@ -161,15 +165,31 @@ Page({
     })
   },
 
-  goRecording() {
-    let recording = this.data.recording;
-    console.log(recording);
-  },
+  // goRecording() {
+  //   let recording = this.data.recording;
+  //   console.log(recording);
+  // },
 
   copyText: function (e) {
     console.log(e.currentTarget)
     wx.setClipboardData({
       data: this.data.recording,
+      success: function (res) {
+        wx.getClipboardData({
+          success: function (res) {
+            wx.showToast({
+              title: 'Copy Success'
+            })
+          }
+        })
+      }
+    })
+  },
+
+  copyTextMeeting: function (e) {
+    console.log(e.currentTarget)
+    wx.setClipboardData({
+      data: this.data.meetingLink,
       success: function (res) {
         wx.getClipboardData({
           success: function (res) {

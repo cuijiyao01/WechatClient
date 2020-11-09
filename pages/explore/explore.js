@@ -270,6 +270,7 @@ Page({
         hasUserInfo: true
       })
     }
+    this.onLoad();
   },
 
   /**

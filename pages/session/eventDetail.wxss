@@ -204,3 +204,15 @@ button[plain] {
   color: rgb(5, 5, 5);
   font-size: 20rpx;
 }
+
+.meetingLink
+{
+  color: blue;
+  text-decoration: underline;
+}
+
+.recordingLink
+{
+  color: blue;
+  text-decoration: underline;
+}

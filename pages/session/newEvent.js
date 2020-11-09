@@ -29,6 +29,7 @@ Page({
       }
     ],
     locationIndex: 0,
+    
     directions: [], 
     directionIndex: 0,
     subDirectionIndex: 0,
@@ -317,6 +318,7 @@ Page({
       },
       topic: value.topic,
       recording: value.recording,
+      meetingLink: value.meetingLink,
       description: value.description,
       startDate: startDateTimeVal,
       endDate: endDateTimeVal,

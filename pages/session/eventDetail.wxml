@@ -36,7 +36,7 @@
     </view>
     <view class="flex-item">
       <view>Recording</view>
-      <text bindtap="copyText">{{eventDetail.recording}}</text>
+      <text bindtap="copyText" class="recordingLink">{{eventDetail.recording}}</text>
     </view>
     <view class="flex-item">
       <view>When</view>
@@ -45,6 +45,10 @@
     <view class="flex-item">
       <view>Location</view>
       <text>{{eventDetail.location.name}}</text>
+    </view>
+     <view class="flex-item">
+      <view>Meeting Link</view>
+      <text bindtap="copyTextMeeting" class="meetingLink">{{eventDetail.meetingLink}}</text>
     </view>
     <view class="flex-item">
       <view>Difficulty</view>
@@ -56,7 +60,7 @@
     <!--  <text hidden="{{eventDetail.subDirection.id == 0}}">, {{eventDetail.subDirection.name}}</text> -->
     </view>
     <view class="flex-item">
-      <view>Type</view>
+      <view>Ranking Group</view>
       <text wx:if="{{eventDetail.tea2}}">Tea2</text>
       <text wx:else>{{eventDetail.group.name}}</text>
     </view>
