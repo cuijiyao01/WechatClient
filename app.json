@@ -1,5 +1,7 @@
 {
   "pages": [
+    "pages/welcome/welcome",
+    "pages/welcome/verifyEmail",
     "pages/explore/explore",
     "pages/explore/search/search",
     "pages/home/home",
@@ -25,8 +27,6 @@
     "pages/webview/jam",
     "pages/subSchool/subSchool",
     "pages/jamPage/jamPage",
-    "pages/welcome/welcome",
-    "pages/welcome/verifyEmail",
     "pages/welcome/dataPrivacy" 
   ],
   "window": {

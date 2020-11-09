@@ -270,11 +270,11 @@ Page({
         hasUserInfo: true
       })
     }
-    if (!app.globalData.verifyEmail) {
-      wx.navigateTo({
-        url: '../welcome/welcome',
-      });
-    }
+    // if (!app.globalData.verifyEmail) {
+    //   wx.navigateTo({
+    //     url: '../welcome/welcome',
+    //   });
+    // }
     this.onLoad();
   },
 
