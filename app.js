@@ -43,6 +43,9 @@ App({
                 if (this.openIdCallback) {
                   this.openIdCallback(res.data.retObj.openid)
                 }
+                if (this.verifiedCallback) {
+                  this.verifiedCallback(res.data.retObj.verified)
+                }
                 // var url = options.path;
                 // if ((!res.data.retObj.verified) && (url !== "pages/welcome/welcome") && (url !== "pages/welcome/verifyEmail")) {
                 //   wx.navigateTo({
