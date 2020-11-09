@@ -270,7 +270,7 @@ Page({
         hasUserInfo: true
       })
     }
-    if (!this.globalData.verifyEmail) {
+    if (!app.globalData.verifyEmail) {
       wx.navigateTo({
         url: 'pages/welcome/welcome',
       });
