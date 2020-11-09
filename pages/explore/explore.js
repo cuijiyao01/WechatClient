@@ -272,7 +272,7 @@ Page({
     }
     if (!app.globalData.verifyEmail) {
       wx.navigateTo({
-        url: 'pages/welcome/welcome',
+        url: '../welcome/welcome',
       });
     }
     this.onLoad();
