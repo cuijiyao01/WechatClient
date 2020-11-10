@@ -8,7 +8,7 @@
 .paragraph{
   font-size: 28rpx;
   padding: 10rpx 16rpx;
-  margin: 0rpx 0rpx 0 0rpx;
+  margin: 0rpx 0rpx 0 20rpx;
   background: #ffffff;
 }
 .label {
@@ -17,7 +17,7 @@
   background: #e8e8ed;
   border-radius: 10rpx;
   padding: 10rpx 16rpx;
-  margin: 5rpx 20rpx 40rpx 310rpx;
+  margin: 5rpx 20rpx 40rpx 30rpx;
 }
 
 .joinBtn {
