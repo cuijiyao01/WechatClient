@@ -47,6 +47,7 @@ Page({
   onLoad: function (options) {
     this.loadBanner();
     this.init();
+    
   },
 
   loadBanner: function(){
@@ -255,7 +256,6 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
   },
 
   /**
@@ -270,6 +270,13 @@ Page({
         hasUserInfo: true
       })
     }
+    var verifyEmail = wx.getStorageSync('verifyEmail');
+    if (!verifyEmail) {
+      wx.navigateTo({
+        url: '../welcome/welcome',
+      });
+    }
+   
     this.onLoad();
   },
 

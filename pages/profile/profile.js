@@ -29,7 +29,7 @@ Page({
           console.log('/user/', res.data);
           this.setData({
             userInfo: res.data.retObj,
-            t_length: res.data.retObj.signature.length
+            t_length: res.data.retObj.signature? res.data.retObj.signature.length: 0
           });
         }
       }).catch(e => {
@@ -42,7 +42,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    
+    console.log('user infois ' + this.data.userInfo.toString());
   },
 
   /**
@@ -124,12 +124,12 @@ Page({
       // gender: value.gender,
       department: value.department,
       blog: value.blog,
-      signature:value.signature,
+      signature:value.signature? value.signature: "",
       github:value.github,
       seat:value.seat,
       email:value.email,
       title: value.title,
-      t_length: value.signature.length
+      t_length: value.signature?value.signature.length: 0
     };
     return userDetail;
   },

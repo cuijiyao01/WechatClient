@@ -32,6 +32,7 @@
       <text hidden="{{eventDetail.owner.title == null}}">, {{eventDetail.owner.title}}\n</text>
       <text hidden="{{eventDetail.owner.title != null}}">\n</text>
       <text hidden="{{eventDetail.owner.signature == null}}">{{eventDetail.owner.signature}}</text>
+      <text hidden="{{eventDetail.owner.introduction == null}}">{{eventDetail.owner.introduction}}</text>
     </view>
     <view class="flex-item">
       <view>Recording</view>

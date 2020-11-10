@@ -3,7 +3,7 @@
 
 <view class="page">
 	<view class="userinfo">
-		<block>
+		<block >
 			<image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
 			<view class="userinfo-personalinfo">
 				<view class="userinfo-nickname">{{userInfo.nickName}}</view>
@@ -55,7 +55,7 @@
 				</view>
 				<view class="weui-cell__bd">
 					<textarea name="signature" class="weui-textarea" maxlength="1000" placeholder="No Data" style="height: 3.3em" bindinput="bindText" value="{{userInfo.signature}}" />
-          <text class="weui-textarea-counter">{{t_length}}/1000</text> 
+          <!-- <text class="weui-textarea-counter">{{t_length}}/1000</text>  -->
 					<!-- <view class="weui-textarea-counter">0/1000</view> -->
         </view>
 
