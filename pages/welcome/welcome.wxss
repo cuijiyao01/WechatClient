@@ -16,10 +16,9 @@
   color: #555555;
   margin: -200rpx 0 5rpx 0rpx;
   text-align:center;
-
  }
 
-.welcome image {
+ .welcome image {
   height:320px;
 }
 
@@ -32,16 +31,24 @@
   color: #555555;
 }
 
-.paragragh {
+.paragragh{
   color: #555555;
-  font-size: 32rpx;
+  font-size: 26rpx;
+  font-style: italic;
   line-height: 1.4;
   font-family: Calibri;
   letter-spacing: 1rpx;
-  margin-top: 40rpx;
+  margin-top: 60rpx;
   text-align: center;
 }
 
-.uniformBtn {
-  margin-top: 40rpx;
+.description {
+  color: #555555;
+  font-size: 26rpx;
+  line-height: 1.4;
+  font-family: Calibri;
+  letter-spacing: 1rpx;
+  margin-top: 60rpx;
+  margin-bottom: 60rpx;
+  text-align: center;
 }
