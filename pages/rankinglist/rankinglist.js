@@ -37,6 +37,12 @@ Page({
   },
 
   onShow: function(){
+    var verifyEmail = wx.getStorageSync('verifyEmail');
+    if (!verifyEmail) {
+      wx.navigateTo({
+        url: '../welcome/welcome',
+      });
+    }
   },
 
   getGroupList: function(){
