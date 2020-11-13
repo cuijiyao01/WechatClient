@@ -77,7 +77,7 @@ Page({
     var email = this.data.email;
     // Check Email Logic
     // var reg = /^([a-zA-Z]|[0-9])(\w|\-)/;
-    var reg = /^[a-z]([a-z0-9]*[-_]?[a-z0-9]+)*/;
+    var reg = /^[a-z]([a-z0-9]*[-_]?[a-z0-9]+)*/i;
     if (reg.test(email)) {
       console.log("邮箱格式正确");
       this.setData({
