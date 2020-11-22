@@ -32,7 +32,7 @@ Page({
     
     directions: [], 
     directionIndex: 0,
-    subDirectionIndex: 0,
+    subDirectionIndex: -1,
     groupIndex: 0,
     mode: "create",
     editSessionDetail: null,
@@ -69,7 +69,7 @@ Page({
         console.log('/session/init', res.data);
         let retObj = res.data.retObj;
         let directions = retObj.directions;
-        directions.splice(0, 0, directions.pop());
+     //   directions.splice(0, 0, directions.pop());
         this.setData({
           directions: directions,
           subDirections: retObj.subDirections,
@@ -250,7 +250,7 @@ Page({
 
   bindDirectionChange: function(e) {
     this.inputChange('directionIndex', e.detail.value);
-    if (e.detail.value == 0)
+    if (e.detail.value == 13)
     {
       this.inputChange('subDirectionIndex', 0);
     }

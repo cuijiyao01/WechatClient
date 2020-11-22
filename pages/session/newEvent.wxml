@@ -111,12 +111,19 @@
 					</view>
 				</view>
 				<view class="weui-cell__bd">
-					<input name="location" class="weui-input" bindinput="bindKeyInput" placeholder="Location (Required)" value="{{inputLocation}}" data-statu="open" />
+					<input name="location" class="weui-input" bindinput="bindKeyInput" placeholder="Location (Optional)" value="{{inputLocation}}" data-statu="open" />
 				</view>
 			</view>
 		</view>
 
-		<view class="weui-cells__title">
+			<view class="input_screen" bindtap="bindKeyInput" data-statu="close" wx:if="{{showInputStatus}}"></view>
+		<scroll-view class="scroll" scroll-y="true" style="height: {{scrollhight}}rpx;" wx:if="{{showInputStatus}}">
+			<view class="scroll-y" wx:for="{{bindSource}}">
+				<view id="{{item}}" class="itemview" bindtap="itemtap" data-statu="close" wx:if="{{showInputStatus}}">{{item}}</view>
+			</view>
+		</scroll-view>
+
+	<view class="weui-cells__title">
 			<!-- Meeting Link -->
 		</view>
 		<view class="weui-cells weui-cells_after-title">
@@ -131,13 +138,6 @@
 				</view>
 			</view>
 		</view>
-
-		<view class="input_screen" bindtap="bindKeyInput" data-statu="close" wx:if="{{showInputStatus}}"></view>
-		<scroll-view class="scroll" scroll-y="true" style="height: {{scrollhight}}rpx;" wx:if="{{showInputStatus}}">
-			<view class="scroll-y" wx:for="{{bindSource}}">
-				<view id="{{item}}" class="itemview" bindtap="itemtap" data-statu="close" wx:if="{{showInputStatus}}">{{item}}</view>
-			</view>
-		</scroll-view>
 
 		<view class="weui-cells__title">
 			<!-- Direction -->
