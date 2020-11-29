@@ -15,7 +15,7 @@ Page({
     // endDateTimeVal: '',
     startYear: 2018,
     endYear: 2118,
-    durations: ['30 Minutes', '45 Minutes', '1 Hour', '2 Hours'],
+    durations: ['30 Minutes', '45 Minutes', '1 Hour', '2 Hours', '3 Hours'],
     durationIndex: 0,
     difficulties: ['Beginner', 'Intermediate', 'Advanced'],
     difficultyIndex: 0,
