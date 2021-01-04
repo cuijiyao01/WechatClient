@@ -74,17 +74,19 @@
 					</view>
 				</view>
 				<view class="weui-cell__bd">
-					<picker mode="multiSelector" name="startDateTime" value="{{startDateTime}}" bindchange="changeSartDateTimeVal" bindcolumnchange="changeStartDateTimeColumn" range="{{dateTimeArray}}">
-						<view class="weui-input">{{dateTimeArray[0][startDateTime[0]]}}-{{dateTimeArray[1][startDateTime[1]]}}-{{dateTimeArray[2][startDateTime[2]]}} {{dateTimeArray[3][startDateTime[3]]}}:{{dateTimeArray[4][startDateTime[4]]}}
-						</view>
-					</picker>
+					<view class="weui-input" bindtap="pickerShow">{{dateTimeArray[0][startDateTime[0]]}}-{{dateTimeArray[1][startDateTime[1]]}}-{{dateTimeArray[2][startDateTime[2]]}} {{dateTimeArray[3][startDateTime[3]]}}:{{dateTimeArray[4][startDateTime[4]]}} ~ {{dateTimeArray[0][endDateTime[0]]}}-{{dateTimeArray[1][endDateTime[1]]}}-{{dateTimeArray[2][endDateTime[2]]}} {{dateTimeArray[3][endDateTime[3]]}}:{{dateTimeArray[4][endDateTime[4]]}}</view>
+					<!-- <picker mode="multiSelector" name="startDateTime" value="{{startDateTime}}" bindchange="changeSartDateTimeVal" bindcolumnchange="changeStartDateTimeColumn" range="{{dateTimeArray}}">
+						<view class="weui-input">{{dateTimeArray[0][startDateTime[0]]}}-{{dateTimeArray[1][startDateTime[1]]}}-{{dateTimeArray[2][startDateTime[2]]}} {{dateTimeArray[3][startDateTime[3]]}}:{{dateTimeArray[4][startDateTime[4]]}}</view>
+					</picker> -->
 				</view>
 			</view>
 		</view>
+		<time-picker id="picker" pickerShow="{{isPickerShow}}" config="{{pickerConfig}}" bind:setPickerTime="setPickerTime" wx:if="{{isPickerRender}}" bind:hidePicker="pickerHide">
+		</time-picker>
 
-		<view class="weui-cells__title">
+		<!-- <view class="weui-cells__title"> -->
 			<!-- Duration -->
-		</view>
+	<!--	</view>
 		<view class="weui-cells weui-cells_after-title">
 			<view class="weui-cell weui-cell_select">
 				<view class="weui-cell__hd weui-cell__hd_in-select-after">
@@ -98,7 +100,7 @@
 					</picker>
 				</view>
 			</view>
-		</view>
+		</view> -->
 
 		<view class="weui-cells__title">
 			<!-- Location -->

@@ -10,9 +10,9 @@ Page({
   data: {
     dateTimeArray: null,
     startDateTime: null,
-    // endDateTime: null,
+    endDateTime: null,
     startDateTimeVal: '',
-    // endDateTimeVal: '',
+    endDateTimeVal: '',
     startYear: 2018,
     endYear: 2118,
     durations: ['30 Minutes', '45 Minutes', '1 Hour', '2 Hours', '3 Hours'],
@@ -50,7 +50,15 @@ Page({
     presenterInput: '',
     // presenterId: '',
     userMatched: [],
-    t_length: 0
+    t_length: 0,
+
+    // Add for time picker component
+    isPickerRender: false,
+    isPickerShow: false,
+    pickerConfig: {
+      endDate: true,
+      column: "minute"
+    }
   },
   /**
    * Lifecycle function--Called when page load
@@ -61,6 +69,43 @@ Page({
     const initDataPromise = this._initData();
     this._initAllUserInfo();
     this._initEditData(options, initDataPromise);
+  },
+
+  pickerShow: function() {
+    this.setData({
+      isPickerShow: true,
+      isPickerRender: true,
+      chartHide: true
+    });
+  },
+
+  pickerHide: function() {
+    this.setData({
+      isPickerShow: false,
+      chartHide: false
+    });
+  },
+
+  bindPickerChange: function(e) {
+    console.log("picker发送选择改变，携带值为", e.detail.value);
+    console.log(this.data.sensorList);
+
+    this.getData(this.data.sensorList[e.detail.value].id);
+    this.setData({
+      index: e.detail.value,
+      sensorId: this.data.sensorList[e.detail.value].id
+    });
+  },
+
+  setPickerTime: function(val) {
+    let data = val.detail;
+    console.log(this._calDateTimeStr2Arr(data.startTime));
+    this.setData({
+      startDateTime: this._calDateTimeStr2Arr(data.startTime),
+      startDateTimeVal: data.startTime,
+      endDateTime: this._calDateTimeStr2Arr(data.endTime),
+      endDateTimeVal: data.endTime
+    });
   },
 
   _initData: function() {
@@ -147,6 +192,8 @@ Page({
             formData: retObj.session,
             startDateTime: this._calDateTimeStr2Arr(retObj.session.startDate),
             startDateTimeVal: retObj.session.startDate,
+            endDateTime: this._calDateTimeStr2Arr(retObj.session.endDate),
+            endDateTimeVal: retObj.session.startDate,
             durationIndex: this._calDuartionIndex(retObj.session.startDate, retObj.session.endDate),
             inputLocation: retObj.session.location.name,
             directionIndex: this.data.directions.map(val => val.name).indexOf(retObj.session.direction.name),
@@ -176,16 +223,16 @@ Page({
     this.setData({
       dateTimeArray: dateTimeArray,
       startDateTime: dateTime,
-      startDateTimeVal: startDateTimeVal
-      // endDateTime: dateTimeObj.dateTime
+      startDateTimeVal: startDateTimeVal, 
+      endDateTime: dateTimeObj.dateTime
     });
   },
 
-  changeSartDateTimeVal(e) {
-    let dateTime = e.detail.value;
-    let startDateTimeVal = this._calDateTimeVal(dateTime);
-    this.inputChange('startDateTimeVal', startDateTimeVal);
-  },
+  // changeSartDateTimeVal(e) {
+  //   let dateTime = e.detail.value;
+  //   let startDateTimeVal = this._calDateTimeVal(dateTime);
+  //   this.inputChange('startDateTimeVal', startDateTimeVal);
+  // },
 
   _calDateTimeVal: function(dateTime, oriDateTimeArray) {
     let dateTimeArray = this.data.dateTimeArray || oriDateTimeArray;
@@ -231,18 +278,18 @@ Page({
     return durationHour + " Hours"
   },
 
-  changeStartDateTimeColumn(e) {
-    let arr = this.data.startDateTime,
-      dateArr = this.data.dateTimeArray;
+  // changeStartDateTimeColumn(e) {
+  //   let arr = this.data.startDateTime,
+  //     dateArr = this.data.dateTimeArray;
 
-    arr[e.detail.column] = e.detail.value;
-    dateArr[2] = Util.getMonthDay(dateArr[0][arr[0]], dateArr[1][arr[1]]);
+  //   arr[e.detail.column] = e.detail.value;
+  //   dateArr[2] = Util.getMonthDay(dateArr[0][arr[0]], dateArr[1][arr[1]]);
 
-    this.setData({
-      dateTimeArray: dateArr,
-      startDateTime: arr
-    });
-  },
+  //   this.setData({
+  //     dateTimeArray: dateArr,
+  //     startDateTime: arr
+  //   });
+  // },
 
   bindDurationChange: function(e) {
     this.inputChange('durationIndex', e.detail.value);
@@ -307,7 +354,8 @@ Page({
   _buildEventDetail: function(value) {
     let startDateTimeVal = this.data.startDateTimeVal;
     let duration = this.data.durations[value.duration];
-    let endDateTimeVal = this._calEndDateTimeVal(startDateTimeVal, duration);
+   // let endDateTimeVal = this._calEndDateTimeVal(startDateTimeVal, duration);
+    let endDateTimeVal = this.data.endDateTimeVal;
     var subDirection = null;
     if (this.data.subDirections[this.data.subDirectionIndex])
       subDirection=this.data.subDirections[this.data.subDirectionIndex].id;

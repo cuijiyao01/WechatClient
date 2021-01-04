@@ -1,6 +1,7 @@
 {
   "navigationBarTitleText": "",
   "usingComponents": {
-    "i-icon": "../components/icon/index"
+    "i-icon": "../components/icon/index",
+    "time-picker": "../components/timePicker/timePicker"
   }
 }
