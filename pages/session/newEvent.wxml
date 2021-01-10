@@ -74,17 +74,19 @@
 					</view>
 				</view>
 				<view class="weui-cell__bd">
-					<picker mode="multiSelector" name="startDateTime" value="{{startDateTime}}" bindchange="changeSartDateTimeVal" bindcolumnchange="changeStartDateTimeColumn" range="{{dateTimeArray}}">
-						<view class="weui-input">{{dateTimeArray[0][startDateTime[0]]}}-{{dateTimeArray[1][startDateTime[1]]}}-{{dateTimeArray[2][startDateTime[2]]}} {{dateTimeArray[3][startDateTime[3]]}}:{{dateTimeArray[4][startDateTime[4]]}}
-						</view>
-					</picker>
+					<view class="weui-input" bindtap="pickerShow">{{dateTimeArray[0][startDateTime[0]]}}-{{dateTimeArray[1][startDateTime[1]]}}-{{dateTimeArray[2][startDateTime[2]]}} {{dateTimeArray[3][startDateTime[3]]}}:{{dateTimeArray[4][startDateTime[4]]}} ~ {{dateTimeArray[0][endDateTime[0]]}}-{{dateTimeArray[1][endDateTime[1]]}}-{{dateTimeArray[2][endDateTime[2]]}} {{dateTimeArray[3][endDateTime[3]]}}:{{dateTimeArray[4][endDateTime[4]]}}</view>
+					<!-- <picker mode="multiSelector" name="startDateTime" value="{{startDateTime}}" bindchange="changeSartDateTimeVal" bindcolumnchange="changeStartDateTimeColumn" range="{{dateTimeArray}}">
+						<view class="weui-input">{{dateTimeArray[0][startDateTime[0]]}}-{{dateTimeArray[1][startDateTime[1]]}}-{{dateTimeArray[2][startDateTime[2]]}} {{dateTimeArray[3][startDateTime[3]]}}:{{dateTimeArray[4][startDateTime[4]]}}</view>
+					</picker> -->
 				</view>
 			</view>
 		</view>
+		<time-picker id="picker" pickerShow="{{isPickerShow}}" config="{{pickerConfig}}" bind:setPickerTime="setPickerTime" wx:if="{{isPickerRender}}" bind:hidePicker="pickerHide">
+		</time-picker>
 
-		<view class="weui-cells__title">
+		<!-- <view class="weui-cells__title"> -->
 			<!-- Duration -->
-		</view>
+	<!--	</view>
 		<view class="weui-cells weui-cells_after-title">
 			<view class="weui-cell weui-cell_select">
 				<view class="weui-cell__hd weui-cell__hd_in-select-after">
@@ -98,7 +100,7 @@
 					</picker>
 				</view>
 			</view>
-		</view>
+		</view> -->
 
 		<view class="weui-cells__title">
 			<!-- Location -->
@@ -111,12 +113,19 @@
 					</view>
 				</view>
 				<view class="weui-cell__bd">
-					<input name="location" class="weui-input" bindinput="bindKeyInput" placeholder="Location (Required)" value="{{inputLocation}}" data-statu="open" />
+					<input name="location" class="weui-input" bindinput="bindKeyInput" placeholder="Location (Optional)" value="{{inputLocation}}" data-statu="open" />
 				</view>
 			</view>
 		</view>
 
-		<view class="weui-cells__title">
+			<view class="input_screen" bindtap="bindKeyInput" data-statu="close" wx:if="{{showInputStatus}}"></view>
+		<scroll-view class="scroll" scroll-y="true" style="height: {{scrollhight}}rpx;" wx:if="{{showInputStatus}}">
+			<view class="scroll-y" wx:for="{{bindSource}}">
+				<view id="{{item}}" class="itemview" bindtap="itemtap" data-statu="close" wx:if="{{showInputStatus}}">{{item}}</view>
+			</view>
+		</scroll-view>
+
+	<view class="weui-cells__title">
 			<!-- Meeting Link -->
 		</view>
 		<view class="weui-cells weui-cells_after-title">
@@ -131,13 +140,6 @@
 				</view>
 			</view>
 		</view>
-
-		<view class="input_screen" bindtap="bindKeyInput" data-statu="close" wx:if="{{showInputStatus}}"></view>
-		<scroll-view class="scroll" scroll-y="true" style="height: {{scrollhight}}rpx;" wx:if="{{showInputStatus}}">
-			<view class="scroll-y" wx:for="{{bindSource}}">
-				<view id="{{item}}" class="itemview" bindtap="itemtap" data-statu="close" wx:if="{{showInputStatus}}">{{item}}</view>
-			</view>
-		</scroll-view>
 
 		<view class="weui-cells__title">
 			<!-- Direction -->

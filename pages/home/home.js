@@ -374,6 +374,12 @@ Page({
       this.getTotalPoints(userInfo.id);
       this.getGroups(userInfo.id);
     }
+    var verifyEmail = wx.getStorageSync('verifyEmail');
+    if (!verifyEmail) {
+      wx.navigateTo({
+        url: '../welcome/welcome',
+      });
+    }
   },
 
   /**
