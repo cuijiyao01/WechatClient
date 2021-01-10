@@ -127,8 +127,21 @@
 }
 
 .title {
-  display: -webkit-box;
+  display: -webkit-inline-flex;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
   overflow: hidden;
+  width: 100%;
 }
+.topic {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  width: 85%;
+  overflow: hidden;
+}
+
+.completed {
+  width: 10%;
+}
+
