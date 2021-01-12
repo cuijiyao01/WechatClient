@@ -57,7 +57,7 @@ Page({
       this.setData({
         userInfo: userInfo,
         hasUserInfo: true
-      })
+      });
     }
     var verifyEmail = wx.getStorageSync('verifyEmail');
     if (!verifyEmail) {
