@@ -52,9 +52,23 @@ Page({
 
   onShow: function(e){
     //this.doLoadDetail();
+    var userInfo = wx.getStorageSync('userInfo');
+    if (userInfo) {
+      this.setData({
+        userInfo: userInfo,
+        hasUserInfo: true
+      })
+    }
+    var verifyEmail = wx.getStorageSync('verifyEmail');
+    if (!verifyEmail) {
+      wx.navigateTo({
+        url: '../welcome/welcome',
+      });
+    }
+
     this.setData({
       share: app.globalData.share
-    })
+    });
     const {id} = this.data.pageQueries;
     
     let userId = Util.getUserId();
@@ -67,7 +81,7 @@ Page({
     wx.showLoading({
       title: 'Loading',
       mask: true
-    })
+    });
 
     WXRequest.post('/session/detail', {
       sessionId: id,

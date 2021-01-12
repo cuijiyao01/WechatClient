@@ -99,7 +99,7 @@ Page({
 
   setPickerTime: function(val) {
     let data = val.detail;
-    console.log(this._calDateTimeStr2Arr(data.startTime));
+    console.log(data.startTime, data.endTime);
     this.setData({
       startDateTime: this._calDateTimeStr2Arr(data.startTime),
       startDateTimeVal: data.startTime,
@@ -193,7 +193,7 @@ Page({
             startDateTime: this._calDateTimeStr2Arr(retObj.session.startDate),
             startDateTimeVal: retObj.session.startDate,
             endDateTime: this._calDateTimeStr2Arr(retObj.session.endDate),
-            endDateTimeVal: retObj.session.startDate,
+            endDateTimeVal: retObj.session.endDate,
             durationIndex: this._calDuartionIndex(retObj.session.startDate, retObj.session.endDate),
             inputLocation: retObj.session.location.name,
             directionIndex: this.data.directions.map(val => val.name).indexOf(retObj.session.direction.name),
@@ -219,12 +219,14 @@ Page({
     let dateTime = dateTimeObj.dateTime;
 
     let startDateTimeVal = this._calDateTimeVal(dateTime, dateTimeArray)
-
+    let endDateTimeVal = this._calEndDateTimeVal(startDateTimeVal, this.data.durations[2]);
+    let endDate = this._calDateTimeStr2Arr(endDateTimeVal);
     this.setData({
       dateTimeArray: dateTimeArray,
       startDateTime: dateTime,
       startDateTimeVal: startDateTimeVal, 
-      endDateTime: dateTimeObj.dateTime
+      endDateTime: endDate,
+      endDateTimeVal: endDateTimeVal
     });
   },
 
@@ -250,10 +252,10 @@ Page({
     const dateStrArr = dateStr.match(/(\d+)-(\d+)-(\d+) (\d+):(\d+)/);
     dateStrArr.splice(0, 1)
 
-    const arrMap = dateTimeObj.dateTimeArray
+    const arrMap = dateTimeObj.dateTimeArray;
     return dateStrArr.map((val, index) => {
       return arrMap[index].indexOf(val)
-    })
+    });
   },
   _calDuartionIndex: function(startDateStr, endDateStr) {
     const val = this._calDuartionVal(startDateStr, endDateStr);
@@ -329,26 +331,62 @@ Page({
   onSubmit: function(event) {
     let value = event.detail.value;
     let eventDetail = this._buildEventDetail(value);
-
+    
     if (this.data.mode == "edit" && this.data.editSessionDetail != null) {
-      eventDetail.id = this.data.editSessionDetail.id
+      eventDetail.id = this.data.editSessionDetail.id;
       eventDetail.lastModifiedBy = Util.getUserId();
     } else {
       eventDetail.createdBy = Util.getUserId();
     }
 
-    WXRequest.post('/session/edit', eventDetail).then(res => {
-      if (res.data.msg === 'ok') {
-        Util.showToast('Success', 'success', 1000);
-        setTimeout(function() {
-          wx.navigateBack({
-            delta: 1
-          });
-        }, 1000);
-      }
+    let endTime = eventDetail.endDate;
+    console.log(eventDetail);
+    if(this._checkEndTime(endTime))
+    {
+      WXRequest.post('/session/edit', eventDetail).then(res => {
+        if (res.data.msg === 'ok') {
+          Util.showToast('Success', 'success', 1000);
+          setTimeout(function() {
+            wx.navigateBack({
+              delta: 1
+            });
+          }, 1000);
+        }
     }).catch(e => {
       console.log(e);
     });
+  }
+  else{
+    wx.showModal({
+      title: 'Error',
+      content: 'Please check the time you select.',
+      success: function (res) {
+        if (res.confirm) {
+          console.log('用户点击确定')
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    });
+  }
+  },
+
+_checkEndTime: function(endTime){
+    let currentTime = Util.dateTimePicker(this.data.startYear, this.data.endYear);
+    let currentTimeVal = this._calDateTimeVal(currentTime.dateTime);
+   
+    let isActive = this._compareTime(currentTimeVal, endTime);
+    console.log(endTime, this._calDateTimeVal(currentTime.dateTime));
+    console.log(isActive);
+    return isActive;
+  },
+
+  _compareTime: function(startTime,endTime){
+    //结束时间大于开始时间就是true  ， 反之则为 false
+    if(startTime.localeCompare(endTime) == -1){
+      return true;
+    }
+    return false;
   },
 
   _buildEventDetail: function(value) {
@@ -359,7 +397,7 @@ Page({
     var subDirection = null;
     if (this.data.subDirections[this.data.subDirectionIndex])
       subDirection=this.data.subDirections[this.data.subDirectionIndex].id;
-    console.log(this.data.directionIndex);
+   // console.log(this.data);
     let eventDetail = {
       owner: {
         id: this.data.presenterId
