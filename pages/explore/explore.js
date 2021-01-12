@@ -75,10 +75,16 @@ Page({
         let swiperHeight = this.getCoumptedSwiperHeight(res.data.retObj.upComingSessions.length);
         let directions = res.data.retObj.directions;
         console.log(directions);
+        let firstItem;
+        // 筛选出 Labs China Digital School direction
+        for(var i=0;i<directions.length;i++){
+          if(directions[i].id==15){
+            firstItem=directions[i];
+            directions.splice(i,1);
+          }
+        }
         directions.splice(0, 0, { id: 1, name: "Up Coming", imageSrc: null });
-        directions.splice(0, 0, directions.pop());
-        directions.splice(3, 3);
-        directions.splice(4, 4);
+        directions.splice(0, 0, firstItem);
         this.setData({
           directions: res.data.retObj.directions,
           subDirections: res.data.retObj.subDirections,

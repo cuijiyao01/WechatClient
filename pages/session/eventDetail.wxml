@@ -24,7 +24,7 @@
     </view>
 
     <view class="flex-item">
-      {{eventDetail.description}}
+      <text style="white-space:pre-wrap">{{eventDetail.description}}</text>
     </view>
     <view class="flex-item">
       <view>Presenter</view>
