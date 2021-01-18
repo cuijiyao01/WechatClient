@@ -65,13 +65,13 @@ App({
 
   onShow: function (options) {
       console.log("options", options);
-      var url = options.path; //当前页面url
+   /*   var url = options.path; //当前页面url
       // 第一次打开小程序，发现没有验证过邮箱；如果不是welcome界面，就跳到welcome界面
       if ((!this.globalData.verifyEmail) && (url !== "pages/welcome/welcome") && (url !== "pages/welcome/verifyEmail")) {
         wx.navigateTo({
           url: 'pages/welcome/welcome',
         });
-      }
+      } */
     // 判断是否由分享进入小程序
     if (options.scene == 1007 || options.scene == 1008) {
       this.globalData.share = true

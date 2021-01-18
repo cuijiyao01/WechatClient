@@ -282,7 +282,6 @@ Page({
         url: '../welcome/welcome',
       });
     }
-   
     this.onPullDownRefresh();
   },
 
@@ -315,6 +314,8 @@ Page({
       })
     }
     else {
+      if(this.data.directions.length>0){
+        console.log(this.data.directions);
       let directionId = this.data.directions[selectedIndex].id;
       let options = {
         "pageNum": 1,
@@ -323,6 +324,7 @@ Page({
       };
       this._setLoadingText('isLoading', true);
       this._fetchSessionList(options);
+    }
     }
     wx.stopPullDownRefresh();
   },
