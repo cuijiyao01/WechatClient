@@ -125,10 +125,16 @@ Page({
           url: './verifyEmail',
         });
       } else {
-        wx.switchTab({
-          url: '../explore/explore',
-        })
-      }
+        if (app.globalData.share){
+          wx.navigateTo({
+            url: '../session/eventDetail?id=' + app.globalData.sessionDatail,
+          });
+        }else{
+          wx.switchTab({
+            rl: '../explore/explore',
+          })
+        }
+    }
 
     } else {
       console.log(e.detail.errMsg)

@@ -14,7 +14,8 @@ App({
     template_id: 'WFa-LEeLhk9H-ICIDuaH1VaLIOhpWoT_9eYdJpvMcB4',
     systemInfo: {},
     share: false,
-    verifyEmail: false
+    verifyEmail: false,
+    sessionDatail: ""
   },
   data: {},
   onLaunch: function (options) {
@@ -74,9 +75,11 @@ App({
       } */
     // 判断是否由分享进入小程序
     if (options.scene == 1007 || options.scene == 1008) {
-      this.globalData.share = true
+      this.globalData.share = true;
+      this.globalData.sessionDatail = options.query.id;
+      console.log(options);
     } else {
-      this.globalData.share = false
+      this.globalData.share = false;
     };
   }
 })

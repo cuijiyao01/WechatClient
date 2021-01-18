@@ -2,6 +2,8 @@
 import WXRequest from '../../utils/wxRequest';
 import Util from '../../utils/util';
 
+const app = getApp();
+
 Page({
 
   /**
@@ -127,6 +129,8 @@ Page({
 
   logIn: function() {
     var openid = wx.getStorageSync('openid');
+    var share = wx.getStorageSync('share');
+    var sessionDatail = wx.getStorageSync('sessionDatail');
     // append check for email logic later
     var email = this.data.email;
     var that = this;
@@ -137,9 +141,15 @@ Page({
     }).then(res => {
       if (res.data.msg === 'ok') {
         console.log('/user/email/verify', res.data);
-        wx.switchTab({
-          url: '../explore/explore',
-        });
+        if (app.globalData.share){
+          wx.navigateTo({
+            url: '../session/eventDetail?id=' + app.globalData.sessionDatail,
+          });
+        }else{
+          wx.switchTab({
+            rl: '../explore/explore',
+          })
+        }
         that.setData({
           bSuccess: true
         });
