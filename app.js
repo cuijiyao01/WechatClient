@@ -15,7 +15,7 @@ App({
     systemInfo: {},
     share: false,
     verifyEmail: false,
-    sessionDatail: ""
+    sessionDatail: null
   },
   data: {},
   onLaunch: function (options) {
@@ -74,10 +74,12 @@ App({
         });
       } */
     // 判断是否由分享进入小程序
-    if (options.scene == 1007 || options.scene == 1008) {
+    if (options.scene == 1007 || options.scene == 1008 || options.scene == 1011 || options.scene == 1012 || options.scene == 1013 || options.scene == 1047) {
       this.globalData.share = true;
-      this.globalData.sessionDatail = options.query.id;
-      console.log(options);
+      if (options.query.id){
+        this.globalData.sessionDatail = options.query.id;
+      }
+      // console.log(options);
     } else {
       this.globalData.share = false;
     };

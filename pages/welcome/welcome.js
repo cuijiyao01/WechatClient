@@ -125,13 +125,15 @@ Page({
           url: './verifyEmail',
         });
       } else {
-        if (app.globalData.share){
+      //  console.log("sessionDetail", app.globalData.sessionDatail);
+        if (app.globalData.share && (app.globalData.sessionDatail != null)){
           wx.navigateTo({
             url: '../session/eventDetail?id=' + app.globalData.sessionDatail,
           });
         }else{
+       //   console.log("test");
           wx.switchTab({
-            rl: '../explore/explore',
+            url: '../explore/explore',
           })
         }
     }
