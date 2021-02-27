@@ -341,7 +341,7 @@ Page({
     let endTime = eventDetail.endDate;
     let sessionStatus = this.data.sessionStatus;
     console.log("test", this.data, this._checkEndTime(endTime));
-    if ((sessionStatus == 2) || this._checkEndTime(endTime)) {
+    if ((sessionStatus == 1) || (sessionStatus == 2) || this._checkEndTime(endTime)) {
       WXRequest.post('/session/edit', eventDetail).then(res => {
         if (res.data.msg === 'ok') {
           Util.showToast('Success', 'success', 1000);
