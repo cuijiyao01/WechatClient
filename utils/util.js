@@ -133,7 +133,19 @@ function dateTimePicker(startYear, endYear, date) {
   }
 }
 
+function formatTime(date) {
+  let strDate = getDate(date);
+  let hour = date.getHours();
+  let minute = date.getMinutes();
+//  let second = date.getSeconds();
+
+  return strDate + " " +[hour, minute].map(formatNumber).join(':') +":00";
+};
+
+
+
+
 export default {
-  getCurrentDate, getDateTime, showToast, getUserId, getUserNickname, dateTimePicker, getMonthDay
+  getCurrentDate, getDateTime, showToast, getUserId, getUserNickname, dateTimePicker, getMonthDay, formatTime
 };
 

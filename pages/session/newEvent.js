@@ -29,8 +29,8 @@ Page({
       }
     ],
     locationIndex: 0,
-    
-    directions: [], 
+
+    directions: [],
     directionIndex: 0,
     subDirectionIndex: -1,
     groupIndex: 0,
@@ -63,7 +63,7 @@ Page({
   /**
    * Lifecycle function--Called when page load
    */
-  onLoad: function(options) {
+  onLoad: function (options) {
     this._initDateTimePicker();
     this._initPresenter();
     const initDataPromise = this._initData();
@@ -71,7 +71,7 @@ Page({
     this._initEditData(options, initDataPromise);
   },
 
-  pickerShow: function() {
+  pickerShow: function () {
     this.setData({
       isPickerShow: true,
       isPickerRender: true,
@@ -79,14 +79,14 @@ Page({
     });
   },
 
-  pickerHide: function() {
+  pickerHide: function () {
     this.setData({
       isPickerShow: false,
       chartHide: false
     });
   },
 
-  bindPickerChange: function(e) {
+  bindPickerChange: function (e) {
     console.log("picker发送选择改变，携带值为", e.detail.value);
     console.log(this.data.sensorList);
 
@@ -97,7 +97,7 @@ Page({
     });
   },
 
-  setPickerTime: function(val) {
+  setPickerTime: function (val) {
     let data = val.detail;
     console.log(data.startTime, data.endTime);
     this.setData({
@@ -108,13 +108,13 @@ Page({
     });
   },
 
-  _initData: function() {
+  _initData: function () {
     return WXRequest.get('/session/init/' + Util.getUserId()).then(res => {
       if (res.data.msg === 'ok') {
         console.log('/session/init', res.data);
         let retObj = res.data.retObj;
         let directions = retObj.directions;
-     //   directions.splice(0, 0, directions.pop());
+        //   directions.splice(0, 0, directions.pop());
         this.setData({
           directions: directions,
           subDirections: retObj.subDirections,
@@ -137,8 +137,8 @@ Page({
 
   _initAllUserInfo: function () {
     WXRequest.post('/user/all', {
-      pageNum: 1, 
-      pageSize: 1000 
+      pageNum: 1,
+      pageSize: 1000
     }).then(res => {
       if (res.data.msg === 'ok') {
         console.log('/session/init', res.data);
@@ -150,12 +150,12 @@ Page({
     }).catch(e => {
       console.log(e);
     });
-    
+
   },
 
 
 
-  _initEditData: function(options, initDataPromise) {
+  _initEditData: function (options, initDataPromise) {
     // if there is no 'id' params in page options, means it's not an edit action
     if (options == null || options.id == null) {
       wx.setNavigationBarTitle({
@@ -172,7 +172,7 @@ Page({
       title: "Edit Session Detail"
     })
     let userId = Util.getUserId();
- 
+
     wx.showLoading({
       title: 'Loading',
       mask: true
@@ -202,17 +202,18 @@ Page({
             tea2: retObj.session.tea2,
             presenterInput: retObj.session.owner.nickName,
             presenterId: retObj.session.owner.id,
-            t_length: retObj.session.description.length
+            t_length: retObj.session.description.length,
+            sessionStatus: retObj.session.status
           });
         })
       }
-   //   console.log(retObj.session);
+      //   console.log(retObj.session);
     }).catch(e => {
       console.log(e);
     });
   },
 
-  _initDateTimePicker: function() {
+  _initDateTimePicker: function () {
     // 获取完整的年月日 时分秒，以及默认显示的数组
     let dateTimeObj = Util.dateTimePicker(this.data.startYear, this.data.endYear);
     let dateTimeArray = dateTimeObj.dateTimeArray;
@@ -224,7 +225,7 @@ Page({
     this.setData({
       dateTimeArray: dateTimeArray,
       startDateTime: dateTime,
-      startDateTimeVal: startDateTimeVal, 
+      startDateTimeVal: startDateTimeVal,
       endDateTime: endDate,
       endDateTimeVal: endDateTimeVal
     });
@@ -236,7 +237,7 @@ Page({
   //   this.inputChange('startDateTimeVal', startDateTimeVal);
   // },
 
-  _calDateTimeVal: function(dateTime, oriDateTimeArray) {
+  _calDateTimeVal: function (dateTime, oriDateTimeArray) {
     let dateTimeArray = this.data.dateTimeArray || oriDateTimeArray;
     let temp = dateTime.map((val, i) => {
       return dateTimeArray[i][val];
@@ -246,7 +247,7 @@ Page({
     return dateTimeVal;
   },
 
-  _calDateTimeStr2Arr: function(dateStr) {
+  _calDateTimeStr2Arr: function (dateStr) {
     let dateTimeObj = Util.dateTimePicker(this.data.startYear, this.data.endYear);
 
     const dateStrArr = dateStr.match(/(\d+)-(\d+)-(\d+) (\d+):(\d+)/);
@@ -257,12 +258,12 @@ Page({
       return arrMap[index].indexOf(val)
     });
   },
-  _calDuartionIndex: function(startDateStr, endDateStr) {
+  _calDuartionIndex: function (startDateStr, endDateStr) {
     const val = this._calDuartionVal(startDateStr, endDateStr);
     return this.data.durations.indexOf(val);
   },
 
-  _calDuartionVal: function(startDateStr, endDateStr) {
+  _calDuartionVal: function (startDateStr, endDateStr) {
     const startDateTimestamp = new Date(startDateStr.replace(" ", "T")).getTime();
     const endDateTimestamp = new Date(endDateStr.replace(" ", "T")).getTime();
     const durationMin = (endDateTimestamp - startDateTimestamp) / 60000;
@@ -293,45 +294,43 @@ Page({
   //   });
   // },
 
-  bindDurationChange: function(e) {
+  bindDurationChange: function (e) {
     this.inputChange('durationIndex', e.detail.value);
   },
 
-  bindDirectionChange: function(e) {
+  bindDirectionChange: function (e) {
     this.inputChange('directionIndex', e.detail.value);
-    if (e.detail.value == 13)
-    {
+    if (e.detail.value == 13) {
       this.inputChange('subDirectionIndex', 0);
-    }
-    else{
+    } else {
       this.inputChange('subDirectionIndex', -1);
     }
     console.log(e.detail.value);
   },
 
-  bindSubDirectionChange: function(e) {
+  bindSubDirectionChange: function (e) {
     this.inputChange('subDirectionIndex', e.detail.value);
     console.log(e.detail.value);
   },
 
-  bindGroupChange: function(e) {
+  bindGroupChange: function (e) {
     this.inputChange('groupIndex', e.detail.value);
   },
 
-  bindDifficultyChange: function(e) {
+  bindDifficultyChange: function (e) {
     this.inputChange('difficultyIndex', e.detail.value);
   },
 
-  inputChange: function(name, value) {
+  inputChange: function (name, value) {
     this.setData({
       [name]: value
     });
   },
 
-  onSubmit: function(event) {
+  onSubmit: function (event) {
     let value = event.detail.value;
     let eventDetail = this._buildEventDetail(value);
-    
+
     if (this.data.mode == "edit" && this.data.editSessionDetail != null) {
       eventDetail.id = this.data.editSessionDetail.id;
       eventDetail.lastModifiedBy = Util.getUserId();
@@ -340,64 +339,62 @@ Page({
     }
 
     let endTime = eventDetail.endDate;
-    console.log(eventDetail);
-    if(this._checkEndTime(endTime))
-    {
+    let sessionStatus = this.data.sessionStatus;
+    console.log("test", this.data, this._checkEndTime(endTime));
+    if ((sessionStatus == 2) || this._checkEndTime(endTime)) {
       WXRequest.post('/session/edit', eventDetail).then(res => {
         if (res.data.msg === 'ok') {
           Util.showToast('Success', 'success', 1000);
-          setTimeout(function() {
+          setTimeout(function () {
             wx.navigateBack({
               delta: 1
             });
           }, 1000);
         }
-    }).catch(e => {
-      console.log(e);
-    });
-  }
-  else{
-    wx.showModal({
-      title: 'Error',
-      content: 'Please check the time you select.',
-      success: function (res) {
-        if (res.confirm) {
-          console.log('用户点击确定')
-        } else if (res.cancel) {
-          console.log('用户点击取消')
+      }).catch(e => {
+        console.log(e);
+      });
+    } else {
+      wx.showModal({
+        title: 'Error',
+        content: 'Please check the time you select.',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
         }
-      }
-    });
-  }
+      });
+    }
   },
 
-_checkEndTime: function(endTime){
-    let currentTime = Util.dateTimePicker(this.data.startYear, this.data.endYear);
-    let currentTimeVal = this._calDateTimeVal(currentTime.dateTime);
-   
+  _checkEndTime: function (endTime) {
+    // let currentTime = Util.dateTimePicker(this.data.startYear, this.data.endYear);
+    // let currentTimeVal = this._calDateTimeVal(currentTime.dateTime);
+    let currentTimeVal = Util.formatTime(new Date());
     let isActive = this._compareTime(currentTimeVal, endTime);
-    console.log(endTime, this._calDateTimeVal(currentTime.dateTime));
-    console.log(isActive);
+    console.log(endTime, currentTimeVal, isActive);
     return isActive;
   },
 
-  _compareTime: function(startTime,endTime){
+  _compareTime: function (startTime, endTime) {
     //结束时间大于开始时间就是true  ， 反之则为 false
-    if(startTime.localeCompare(endTime) == -1){
+    if (startTime.localeCompare(endTime) == -1) {
       return true;
     }
     return false;
   },
 
-  _buildEventDetail: function(value) {
+  _buildEventDetail: function (value) {
     let startDateTimeVal = this.data.startDateTimeVal;
     let duration = this.data.durations[value.duration];
-   // let endDateTimeVal = this._calEndDateTimeVal(startDateTimeVal, duration);
+    // let endDateTimeVal = this._calEndDateTimeVal(startDateTimeVal, duration);
     let endDateTimeVal = this.data.endDateTimeVal;
     var subDirection = null;
     if (this.data.subDirections[this.data.subDirectionIndex])
-      subDirection=this.data.subDirections[this.data.subDirectionIndex].id;
-   // console.log(this.data);
+      subDirection = this.data.subDirections[this.data.subDirectionIndex].id;
+    // console.log(this.data);
     let eventDetail = {
       owner: {
         id: this.data.presenterId
@@ -409,11 +406,11 @@ _checkEndTime: function(endTime){
       startDate: startDateTimeVal,
       endDate: endDateTimeVal,
       direction: {
-       id: this.data.directions[this.data.directionIndex].id
+        id: this.data.directions[this.data.directionIndex].id
       },
       subDirection: {
         id: subDirection
-       }, 
+      },
       difficulty: value.difficulty,
       location: {
         id: this.data.locations.map(val => val.name).indexOf(value.location) + 1,
@@ -437,7 +434,7 @@ _checkEndTime: function(endTime){
     return Util.getDateTime(endDateTime);
   },
 
-  checkboxChange: function(e) {
+  checkboxChange: function (e) {
     var tea2 = this.data.tea2 ^ 1;
     console.log("isTea2: " + tea2);
     this.setData({
@@ -448,14 +445,14 @@ _checkEndTime: function(endTime){
   /**
    * Lifecycle function--Called when page is initially rendered
    */
-  onReady: function() {
+  onReady: function () {
 
   },
 
   /**
    * Lifecycle function--Called when page unload
    */
-  onUnload: function() {
+  onUnload: function () {
 
   },
 
@@ -464,11 +461,11 @@ _checkEndTime: function(endTime){
     // console.log(t_text)
     this.setData({
       t_length: t_text
-    }) 
+    })
   },
 
   // Add for meeting rooms
-  bindKeyInput: function(e) {
+  bindKeyInput: function (e) {
     var currentInputStatu = e.currentTarget.dataset.statu;
     var prefix = e.detail.value.toUpperCase()
     var newSource = []
@@ -477,7 +474,7 @@ _checkEndTime: function(endTime){
         showBtnStatus1: false,
         showBtnStatus2: true
       });
-      this.data.locationsName.forEach(function(e) {
+      this.data.locationsName.forEach(function (e) {
         if (e.indexOf(prefix) != -1) {
           newSource.push(e)
         }
@@ -527,7 +524,7 @@ _checkEndTime: function(endTime){
   },
 
   //Add for meeting rooms
-  itemtap: function(e) {
+  itemtap: function (e) {
     var currentInputStatu = e.currentTarget.dataset.statu;
     this.setData({
       inputLocation: e.target.id,
