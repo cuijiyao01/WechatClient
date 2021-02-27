@@ -3,12 +3,12 @@ import Util from 'utils/util';
 
 App({
   globalData: {
-    // host: 'http://localhost:8090',
-    // host: 'https://carapi.techtuesday.club',
-        host: 'https://skr.sapdigitallunch.com',
+  //   host: 'http://localhost:8090',
+  //   host: 'https://carapi.techtuesday.club',
+      host: 'https://skr.sapdigitallunch.com',
     // wshost: 'ws://localhost:8090',
     // wshost: 'wss://carapi.techtuesday.club',
-        wshost: 'wss://skr.sapdigitallunch.com',
+     wshost: 'wss://skr.sapdigitallunch.com',
     openId: '',
     jwtToken: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJvcGVuSWQiOiIxMjM0NSJ9.jRKQjv2JJNx2LixkHC3cYs7E1JJnbtNB9RYOxxqzLUQ',
     template_id: 'WFa-LEeLhk9H-ICIDuaH1VaLIOhpWoT_9eYdJpvMcB4',
@@ -74,7 +74,7 @@ App({
         });
       } */
     // 判断是否由分享进入小程序
-    if (options.scene == 1007 || options.scene == 1008 || options.scene == 1011 || options.scene == 1012 || options.scene == 1013 || options.scene == 1047) {
+    if (options.scene == 1007 || options.scene == 1008 || options.scene == 1011 || options.scene == 1012 || options.scene == 1013 || options.scene == 1047 || options.scene == 1049) {
       this.globalData.share = true;
       if (options.query.id){
         this.globalData.sessionDatail = options.query.id;
