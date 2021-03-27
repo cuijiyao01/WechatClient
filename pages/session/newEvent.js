@@ -185,7 +185,8 @@ Page({
       if (res.data.msg === 'ok') {
         const retObj = res.data.retObj;
         console.log(retObj.session)
-
+        let subDirection = retObj.session.subDirection;
+        let subDirectionIndex = subDirection.id? subDirection.id-1:-1;
         initDataPromise.then(() => {
           this.setData({
             editSessionDetail: retObj.session,
@@ -197,6 +198,7 @@ Page({
             durationIndex: this._calDuartionIndex(retObj.session.startDate, retObj.session.endDate),
             inputLocation: retObj.session.location.name,
             directionIndex: this.data.directions.map(val => val.name).indexOf(retObj.session.direction.name),
+            subDirectionIndex: subDirectionIndex,
             groupIndex: this.data.groups.map(val => val.name).indexOf(retObj.session.group.name),
             difficultyIndex: retObj.session.difficulty,
             tea2: retObj.session.tea2,
@@ -300,7 +302,7 @@ Page({
 
   bindDirectionChange: function (e) {
     this.inputChange('directionIndex', e.detail.value);
-    if (e.detail.value == 13) {
+    if (e.detail.value == 7) {
       this.inputChange('subDirectionIndex', 0);
     } else {
       this.inputChange('subDirectionIndex', -1);
@@ -340,8 +342,14 @@ Page({
 
     let endTime = eventDetail.endDate;
     let sessionStatus = this.data.sessionStatus;
-    console.log("test", this.data, this._checkEndTime(endTime));
+
     if ((sessionStatus == 1) || (sessionStatus == 2) || this._checkEndTime(endTime)) {
+      let subDirection = eventDetail.subDirection;
+      let direction = eventDetail.direction;
+      if(subDirection.id&&(direction.id!=15))
+      {
+        eventDetail.subDirection = {id:null};
+      }
       WXRequest.post('/session/edit', eventDetail).then(res => {
         if (res.data.msg === 'ok') {
           Util.showToast('Success', 'success', 1000);
@@ -393,8 +401,9 @@ Page({
     let endDateTimeVal = this.data.endDateTimeVal;
     var subDirection = null;
     if (this.data.subDirections[this.data.subDirectionIndex])
+    {
       subDirection = this.data.subDirections[this.data.subDirectionIndex].id;
-    // console.log(this.data);
+    }
     let eventDetail = {
       owner: {
         id: this.data.presenterId
