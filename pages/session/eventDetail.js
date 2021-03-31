@@ -36,6 +36,7 @@ Page({
     startQuizBtnDisabled: false,
     isRegistered: false,
     canEdit: false,
+    canDelete: false,
     isLiked: 0,
     totalLikeCount: 0,
     share: app.globalData.share,
@@ -110,6 +111,7 @@ Page({
           status: retObj.session.status,
         //  canEdit: ((isOwner || isCreator || isGroupOwner) && (retObj.session.status == 0)), // when status is not finished, owner, creator, groupowner can edit
           canEdit: ((isOwner || isCreator || isGroupOwner)), // this time we open the edit authority to owner, creator and group owner even if the session is finished
+          canDelete: ((isOwner || isCreator || isGroupOwner)), // this time we open the edit authority to owner, creator and group owner even if the session is finished
           canManage: (isOwner || isCreator || (isGroupOwner && externalSpeaker)), // 
           totalLikeCount: likeCount,
           recording: recording,
@@ -122,6 +124,7 @@ Page({
         this._doLoadQR();
         console.log("isGroupOwner", this.data.isGroupOwner);
         console.log("canEdit",this.data.canEdit);
+        console.log("canDelete",this.data.canDelete);
         console.log("canManage",isOwner, isCreator, isGroupOwner, externalSpeaker);
         console.log("status", this.data.status);
         console.log("register", this.data.isRegistered);
@@ -444,6 +447,32 @@ Page({
     wx.navigateTo({
       url: '../session/newEvent?id=' + this.data.sessionId
     });
+  },
+
+  onDeleteSession() {
+    wx.showModal({
+      title: '提示',
+      content: '确定要删除吗？',
+      success (res) {
+        if (res.confirm) {
+          // console.log('用户点击确定')
+          WXRequest.delete('/session/delete/' + this.data.eventDetail.id).then(res => {
+            if (res.data.msg === 'ok') {
+              wx.navigateTo({
+                url: '../explore/explore'
+              });
+            } else {
+              this.showError('delete session failed. Please try again');
+            }
+          }).catch(e => {
+            this.showError('Please try again');
+            console.log(e);
+          });
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
   },
 
   _markStarted(checkInCode) {
