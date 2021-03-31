@@ -20,7 +20,7 @@
           <image src="../../images/share2.png" mode="aspectFit" class="iconshare" />
         </button>
         <image src="../../images/edit.png" class="iconshare" mode="aspectFit" bindtap="onEditSession" wx:if="{{canEdit}}"></image>
-        <image src="../../images/shanchudefuben.png" class="iconshare" mode="aspectFit" bindtap="onDeleteSession" wx:if="{{canDelete}}"></image>
+        <image src="../../images/delete.png" class="iconshare" mode="aspectFit" bindtap="onDeleteSession" wx:if="{{canDelete}}"></image>
       </view>
     </view>
 

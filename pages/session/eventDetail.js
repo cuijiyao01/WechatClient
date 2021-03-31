@@ -455,17 +455,21 @@ Page({
   },
 
   onDeleteSession() {
+    let that = this;
     wx.showModal({
       title: '提示',
       content: '确定要删除吗？',
       success (res) {
         if (res.confirm) {
           // console.log('用户点击确定')
-          WXRequest.delete('/session/delete/' + this.data.eventDetail.id).then(res => {
+          WXRequest.delete('/session/delete/' + that.data.eventDetail.id).then(res => {
             if (res.data.msg === 'ok') {
-              wx.navigateTo({
-                url: '../explore/explore'
-              });
+              Util.showToast('Delete Success','success',1000);
+              setTimeout(function () {
+                wx.navigateBack({
+                  delta: 1
+                });
+              }, 1000);
             } else {
               this.showError('delete session failed. Please try again');
             }
