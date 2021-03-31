@@ -296,9 +296,11 @@ Page({
         sessionId: this.data.eventDetail.id
       }).then(res => {
         if (res.data.msg === 'ok') {
-          console.log(res.data);
+          let eventDetail = this.data.eventDetail;
+          eventDetail.enrollments += 1;
           this.setData({
-            isRegistered: true
+            isRegistered: true,
+            eventDetail: eventDetail
           })
           Util.showToast('Success', 'success', 1000);
         } else {
@@ -318,10 +320,13 @@ Page({
       userId: userId,
       sessionId: this.data.eventDetail.id
     }).then(res => {
+      let eventDetail = this.data.eventDetail;
+      eventDetail.enrollments -= 1;
       if (res.data.msg === 'ok') {
         console.log(res.data);
         this.setData({
-          isRegistered: false
+          isRegistered: false,
+          eventDetail: eventDetail
         })
         Util.showToast('Success', 'success', 1000);
       } else {
@@ -529,7 +534,6 @@ Page({
   },
 
   onPullDownRefresh: function () {
-    console.log('eventdetail.js onPullDownRefresh...');
     this.doLoadDetail();
     wx.stopPullDownRefresh();
   },
