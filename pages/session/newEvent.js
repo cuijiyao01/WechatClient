@@ -333,6 +333,15 @@ Page({
     let value = event.detail.value;
     let eventDetail = this._buildEventDetail(value);
 
+    if(eventDetail.topic==''){  
+      wx.showToast({  
+        title: 'Topic is empty',  
+        icon: 'none',  
+        duration: 1000  
+      })  
+      return false;  
+    }
+
     if (this.data.mode == "edit" && this.data.editSessionDetail != null) {
       eventDetail.id = this.data.editSessionDetail.id;
       eventDetail.lastModifiedBy = Util.getUserId();
