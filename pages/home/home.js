@@ -269,13 +269,17 @@ Page({
     });
   },
 
-  getUserInfo: function (e) {
-    console.log(e)
-    if (e.detail.userInfo) {
-      this.addUser(e.detail.userInfo);
-    } else {
-      console.log(e.detail.errMsg)
-    }
+  getUserProfile: function (e) {
+    wx.getUserProfile({
+      desc: '用于完善会员资料', 
+      success: (res) => {
+        this.addUser(res.userInfo);
+        console.log('获取成功: ',res)
+      },
+      error: (err) =>{
+        console.log(err.errMsg)
+      }
+    })
   },
 
   addUser: function (user) {

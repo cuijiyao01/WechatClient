@@ -116,31 +116,31 @@ Page({
 
   },
 
-  getUserInfo: function (e) {
-    console.log(e)
-    if (e.detail.userInfo) {
-      this.addUser(e.detail.userInfo);
-      if (!app.globalData.verifyEmail) {
-        wx.navigateTo({
-          url: './verifyEmail',
-        });
-      } else {
-      //  console.log("sessionDetail", app.globalData.sessionDatail);
+  getUserProfile: function (e) {
+    wx.getUserProfile({
+      desc: '用于完善会员资料', 
+      success: (res) => {
+        this.addUser(res.userInfo);
+        if (!app.globalData.verifyEmail) {
+          wx.navigateTo({
+            url: './verifyEmail',
+          });
+        } else {
         if (app.globalData.share && (app.globalData.sessionDatail != null)){
           wx.navigateTo({
             url: '../session/eventDetail?id=' + app.globalData.sessionDatail,
           });
         }else{
-       //   console.log("test");
           wx.switchTab({
             url: '../explore/explore',
           })
+          }
         }
-    }
-
-    } else {
-      console.log(e.detail.errMsg)
-    }
+      },
+      error: (err) => {
+        console.log(err.errMsg)
+      }
+    })
   },
 
   addUser: function (user) {

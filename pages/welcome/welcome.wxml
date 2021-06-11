@@ -7,7 +7,7 @@
   <view class="subtitle">Your journey to SKR!</view>
   <view class="subtitle">Share Knowledge and Ranking</view>
   <view class="description">Knowledge Sharing and Session Management Platform of SAP Labs China (for internal employees only)</view>
-  <button class="uniformBtn" type="primary" plain="true" open-type="getUserInfo" bindgetuserinfo="getUserInfo">Sign Up</button>
+  <button class="uniformBtn" type="primary" plain="true" bindtap="getUserProfile">Sign Up</button>
   <view class="paragragh">Innovate in China, for China, and around the world. Created by a group of SAP Labs China engineers for fun, from Demo Jam to you now. </view>
   
   </view>
