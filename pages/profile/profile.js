@@ -122,6 +122,7 @@ Page({
     let userDetail = {
       id:this.data.userInfo.id,
       // gender: value.gender,
+      nickName: value.nickName,
       department: value.department,
       blog: value.blog,
       signature:value.signature? value.signature: "",
