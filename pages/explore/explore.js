@@ -288,10 +288,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    this.homepopup = this.selectComponent("#homepopup");
-    if (wx.getStorageSync('reminded')!=1){
-      this.showNicknamePopup();
-    }
+    
     
   },
 
@@ -312,6 +309,10 @@ Page({
       wx.navigateTo({
         url: '../welcome/welcome',
       });
+    }
+    this.homepopup = this.selectComponent("#homepopup");
+    if (verifyEmail && (wx.getStorageSync('reminded')!=1)){
+      this.showNicknamePopup();
     }
     this.onPullDownRefresh();
   },
