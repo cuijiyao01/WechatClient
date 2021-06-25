@@ -41,6 +41,10 @@ Page({
     hasUserInfo: false,
   },
 
+  showNicknamePopup:function(){
+    this.homepopup.showPopup();
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -283,7 +287,13 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {},
+  onReady: function () {
+    this.homepopup = this.selectComponent("#homepopup");
+    if (wx.getStorageSync('reminded')!=1){
+      this.showNicknamePopup();
+    }
+    
+  },
 
   /**
    * 生命周期函数--监听页面显示

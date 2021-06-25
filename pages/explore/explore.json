@@ -3,6 +3,7 @@
   "enablePullDownRefresh": true,
   "usingComponents": {
     "i-drawer": "../components/popup",
-    "i-icon": "../components/icon/index"
+    "i-icon": "../components/icon/index",
+    "homepopup": "../components/homepopup/homepopup"
   }
 }

@@ -2,6 +2,15 @@
 <import src="../components/templates/loadingText.wxml"/>
 <wxs src="../../utils/formatter.wxs" module="formatter">
 </wxs>
+<view>
+    <homepopup id='homepopup' 
+      title='New feature' 
+      content='If your nickname appears to be "微信用户", you can change it in profile page now. ' 
+      btn_no='Ignore' 
+      btn_ok='Change now'
+      bind:error="_error"  
+      bind:success="_success"></homepopup>
+</view>  
 <view class="page">
   <view class="exploreHeader">
     <view class="searchInput">
