@@ -19,7 +19,7 @@
       <swiper class="swiper" indicator-dots="true" autoplay="true" interval="5000" duration="1000">  
         <block wx:for="{{bannerImgs}}" wx:key="index">  
           <swiper-item>
-           <image id="{{item.linkUrl}}" bindtap='goLink' src="{{formatter.getImageUrl(item.imageSrc)}}" class="slide-image" mode="aspectFill"/>
+           <image lazy-load="true" id="{{item.linkUrl}}" bindtap='goLink' src="{{formatter.getImageUrl(item.imageSrc)}}" class="slide-image" mode="aspectFill"/>
           </swiper-item>  
         </block>  
       </swiper>
@@ -53,7 +53,7 @@
             <view class="location">
             {{formatter.getDate(item.startDate)}} | {{formatter.getDifficulty(item.difficulty)}}
             <view class="count">
-              <image src="../../images/mini_people.png"></image>
+              <image lazy-load="true" src="../../images/mini_people.png"></image>
               <text>{{item.enrollments}}</text>
             </view>
             </view>

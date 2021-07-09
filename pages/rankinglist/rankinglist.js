@@ -111,7 +111,7 @@ Page({
         'Authorization': app.globalData.jwtToken
       },
       success: function (res) {
-        console.log(res.data);
+        // console.log(res.data);
         that.setData({
           userRankingList: res.data
         });

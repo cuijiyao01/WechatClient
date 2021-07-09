@@ -29,8 +29,8 @@
     <view class="searchResultCount">There are {{searchResultCount}} session(s) related</view>
     <view id="{{item.id}}" bindtap='goDetail' class="eventItem" wx:for="{{searchResult}}" wx:key="id">
         <view class='leftContent'>
-          <image wx:if="{{item.tileImageSrc}}" src="{{formatter.getImageUrl(item.tileImageSrc)}}"></image>
-          <image wx:else src="https://img1.sycdn.imooc.com/szimg/5a9ca4e80001786305400300-360-202.jpg"></image>
+          <image lazy-load="true" wx:if="{{item.tileImageSrc}}" src="{{formatter.getImageUrl(item.tileImageSrc)}}"></image>
+          <image lazy-load="true" wx:else src="https://img1.sycdn.imooc.com/szimg/5a9ca4e80001786305400300-360-202.jpg"></image>
         </view>
         <view class="rightContent">
           <view class="title">
