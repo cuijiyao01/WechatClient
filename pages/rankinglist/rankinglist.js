@@ -36,7 +36,7 @@ Page({
     this._loadUserRanking();
   },
 
-  onShow: function(){
+  onShow: function () {
     var verifyEmail = wx.getStorageSync('verifyEmail');
     if (!verifyEmail) {
       wx.navigateTo({
@@ -45,9 +45,9 @@ Page({
     }
   },
 
-  getGroupList: function(){
+  getGroupList: function () {
     let userId = Util.getUserId();
-    WXRequest.get('/group/list/'+ userId).then(res => {
+    WXRequest.get('/group/list/' + userId).then(res => {
       if (res.data.length > 0) {
         console.log('/group/list', res.data);
         this.setData({
@@ -101,7 +101,7 @@ Page({
     })
   },
 
-// User
+  // User
   _loadUserRanking: function () {
     let that = this;
     wx.request({
@@ -124,17 +124,17 @@ Page({
   },
 
   _findMyRanking: function (userRankingList) {
-      let myId = Util.getUserId();
-      let myRanking = userRankingList.filter(item => item.userId === myId)[0];
-      if(myRanking == undefined){
-        myRanking = null;
-      }
-      this.setData({
-        myRanking: myRanking
-      });
+    let myId = Util.getUserId();
+    let myRanking = userRankingList.filter(item => item.userId === myId)[0];
+    if (myRanking == undefined) {
+      myRanking = null;
+    }
+    this.setData({
+      myRanking: myRanking
+    });
   },
 
-// Session
+  // Session
   _loadSessionRanking: function () {
     let that = this;
     wx.request({
@@ -175,25 +175,25 @@ Page({
     }
   },
 
-  onJoinClick: function(e){
+  onJoinClick: function (e) {
     console.log('id:' + e.currentTarget.id);
     let groupId = Number(e.currentTarget.id);
     let groupName = e.currentTarget.dataset.name;
     console.log('groupName:' + groupName);
     var that = this;
     wx.showModal({
-      content: 'Are your sure to join ' + groupName +' ?',
+      content: 'Are your sure to join ' + groupName + ' ?',
       cancelText: 'Cancel',
       confirmText: 'Confirm',
       success: function (res) {
         if (res.confirm) {
-           that.joinGroup(groupId);
+          that.joinGroup(groupId);
         }
       }
     })
   },
 
-  joinGroup: function(groupId){
+  joinGroup: function (groupId) {
     var that = this;
     let userInfo = wx.getStorageSync('userInfo');
     if (userInfo) {

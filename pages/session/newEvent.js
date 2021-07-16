@@ -138,7 +138,7 @@ Page({
   _initAllUserInfo: function () {
     WXRequest.post('/user/all', {
       pageNum: 1,
-      pageSize: 1000
+      pageSize: 5000
     }).then(res => {
       if (res.data.msg === 'ok') {
         console.log('/session/init', res.data);
