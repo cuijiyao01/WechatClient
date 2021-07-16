@@ -20,13 +20,13 @@ Page({
     difficulties: ['Beginner', 'Intermediate', 'Advanced'],
     difficultyIndex: 0,
     locations: [{
-        id: 1,
-        name: "MR PVG03 B2.1 (06) (RT)"
-      },
-      {
-        id: 2,
-        name: "MR PVG03 B3.1 (06) (RT)"
-      }
+      id: 1,
+      name: "MR PVG03 B2.1 (06) (RT)"
+    },
+    {
+      id: 2,
+      name: "MR PVG03 B3.1 (06) (RT)"
+    }
     ],
     locationIndex: 0,
 
@@ -186,7 +186,7 @@ Page({
         const retObj = res.data.retObj;
         console.log(retObj.session)
         let subDirection = retObj.session.subDirection;
-        let subDirectionIndex = subDirection.id? subDirection.id-1:-1;
+        let subDirectionIndex = subDirection.id ? subDirection.id - 1 : -1;
         initDataPromise.then(() => {
           this.setData({
             editSessionDetail: retObj.session,
@@ -244,7 +244,7 @@ Page({
     let temp = dateTime.map((val, i) => {
       return dateTimeArray[i][val];
     });
-    let dateTimeVal = `${temp[0]}-${temp[1]}-${temp[2]} ${temp[3]}:${ temp[4]}`;
+    let dateTimeVal = `${temp[0]}-${temp[1]}-${temp[2]} ${temp[3]}:${temp[4]}`;
     console.log(dateTimeVal);
     return dateTimeVal;
   },
@@ -333,13 +333,13 @@ Page({
     let value = event.detail.value;
     let eventDetail = this._buildEventDetail(value);
 
-    if(eventDetail.topic==''){  
-      wx.showToast({  
-        title: 'Topic is empty',  
-        icon: 'none',  
-        duration: 1000  
-      })  
-      return false;  
+    if (eventDetail.topic == '') {
+      wx.showToast({
+        title: 'Topic is empty',
+        icon: 'none',
+        duration: 1000
+      })
+      return false;
     }
 
     if (this.data.mode == "edit" && this.data.editSessionDetail != null) {
@@ -355,9 +355,8 @@ Page({
     if ((sessionStatus == 1) || (sessionStatus == 2) || this._checkEndTime(endTime)) {
       let subDirection = eventDetail.subDirection;
       let direction = eventDetail.direction;
-      if(subDirection.id&&(direction.id!=15))
-      {
-        eventDetail.subDirection = {id:null};
+      if (subDirection.id && (direction.id != 15)) {
+        eventDetail.subDirection = { id: null };
       }
       WXRequest.post('/session/edit', eventDetail).then(res => {
         if (res.data.msg === 'ok') {
@@ -409,8 +408,7 @@ Page({
     // let endDateTimeVal = this._calEndDateTimeVal(startDateTimeVal, duration);
     let endDateTimeVal = this.data.endDateTimeVal;
     var subDirection = null;
-    if (this.data.subDirections[this.data.subDirectionIndex])
-    {
+    if (this.data.subDirections[this.data.subDirectionIndex]) {
       subDirection = this.data.subDirections[this.data.subDirectionIndex].id;
     }
     let eventDetail = {
@@ -564,6 +562,14 @@ Page({
 
   //Add for presenter select
   bindUserInput: function (e) {
+    if (this.timeout)
+      clearTimeout(this.timeout);
+    this.timeout = setTimeout(() => {
+      this.executeUserInput(e)
+    }, 500);
+  },
+
+  executeUserInput: function (e) {
     var currentInputStatu = e.currentTarget.dataset.statu;
     var prefix = e.detail.value.toUpperCase();
     var newMatched = []
@@ -616,7 +622,6 @@ Page({
       });
     }
   },
-
   //Add for select presenter
   useritemtap: function (e) {
     var currentInputStatu = e.currentTarget.dataset.statu;
