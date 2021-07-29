@@ -39,7 +39,7 @@
   justify-content: space-around;
   margin-bottom: 20rpx;
 }
-.wx-popup-btn text {
+.wx-popup-btn>.text {
   display: flex;
   align-items: center;
   justify-content: center;

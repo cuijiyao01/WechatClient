@@ -27,7 +27,8 @@
     "pages/welcome/welcome",
     "pages/welcome/verifyEmail",
     "pages/jamPage/jamPage",
-    "pages/welcome/dataPrivacy" 
+    "pages/welcome/dataPrivacy",
+    "pages/redeem/redeem"
   ],
   "window": {
     "backgroundTextStyle": "light",

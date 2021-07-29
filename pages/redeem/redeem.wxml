@@ -1,0 +1,30 @@
+<!--pages/redeem/redeem.wxml-->
+<view class="redeem_list">
+  <view class="address_picker">
+    City
+    <picker bindchange="bindPickerChange" mode="selector" range="{{addressList}}" range-key="city"
+      value="{{addressIndex}}" aria-haspopup="true">
+      <view wx:if="{{addressIndex==null}}" class="weui-select weui-select_in-select-after redeem-prefix placeholder">
+        Select your City</view>
+      <view wx:if="{{addressIndex!=null}}" class="weui-select weui-select_in-select-after redeem-prefix">
+        {{addressList[addressIndex].city}}
+      </view>
+    </picker>
+  </view>
+
+  <view class="phone">
+    Mobile Phone
+    <input class="phone_input" bindinput="bindHideKeyboard" placeholder="Please enter your mobile phone number"
+      disabled="{{wxss_prefix==='able'}}"></input>
+
+    <!-- <picker bindchange="bindPickerChange" mode="selector" range="{{addressList}}" range-key="city"
+    value="{{addressIndex}}" aria-haspopup="true">
+    <view wx:if="{{addressIndex==null}}" class="weui-select weui-select_in-select-after redeem-prefix placeholder">Select your City</view>
+    <view wx:if="{{addressIndex!=null}}" class="weui-select weui-select_in-select-after redeem-prefix">
+      {{addressList[addressIndex].city}}
+    </view>
+  </picker> -->
+  </view>
+  <button class="uniformBtn submit_button {{wxss_prefix}}" role="button" aria-disabled="false"
+    bindtap="onClickSubmit">Submit</button>
+</view>

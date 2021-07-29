@@ -3,8 +3,8 @@ import Util from 'utils/util';
 
 App({
   globalData: {
-    // host: 'http://localhost:8090',
-      host: 'https://skr.sapdigitallunch.com',
+    host: 'http://localhost:8090',
+      // host: 'https://skr.sapdigitallunch.com',
     // wshost: 'ws://localhost:8090',
      wshost: 'wss://skr.sapdigitallunch.com',
     openId: '',

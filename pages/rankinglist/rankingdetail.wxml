@@ -36,23 +36,23 @@
         <view class="weui-tab__content capabilitySubTab introduction" hidden="{{activeIndex != 1}}">
           <view>
             <i-icon type="brush" size="28" color="#80848f" />
-            <text>{{userInfo.signature == '' ? 'No data' : userInfo.signature}}</text>
+            <text>{{userInfo.signature == '' || userInfo.signature == null ? 'No data'  : userInfo.signature}}</text>
           </view>
           <view>
             <i-icon type="group" size="28" color="#80848f" />
-            <text>{{userInfo.department == '' ? 'No data' : userInfo.department}}</text>
+            <text>{{userInfo.department == '' || userInfo.signature == null ? 'No data' : userInfo.department}}</text>
           </view>
           <view>
             <i-icon type="coordinates" size="28" color="#80848f" />
-            <text>{{userInfo.seat == '' ? 'No data' : userInfo.seat}}</text>
+            <text>{{userInfo.seat == '' || userInfo.signature == null ? 'No data' : userInfo.seat}}</text>
           </view>
           <view>
             <i-icon type="eit" size="28" color="#80848f" />
-            <text>{{userInfo.blog == '' ? 'No data' : userInfo.blog}}</text>
+            <text>{{userInfo.blog == '' || userInfo.signature == null ? 'No data' : userInfo.blog}}</text>
           </view>
           <view class="githubInfo">
             <image src="../../images/github.png"></image>
-            <text>{{userInfo.github == '' ? 'No data' : userInfo.github}}</text>
+            <text>{{userInfo.github == '' || userInfo.signature == null ? 'No data' : userInfo.github}}</text>
           </view>
 
         </view>

@@ -12,7 +12,10 @@ Page({
     activeIndex: 0,
     sliderOffset: 0,
     sliderLeft: 0,
-    tabArr: ["User", "Session"],
+    tabArr: ["User", "My Prize"],
+    prizeList: [],
+    prizeListOpen: [],
+    addressList: [],
     sessionRankingList: [],
     sessions: [],
     groupArr: [],
@@ -89,17 +92,23 @@ Page({
       this._loadUserRanking();
     } else if (currentIndex == 1) {
       this._setLoading(name, true);
-      this._loadSessionRanking();
+      // this._loadSessionRanking();
+      this._getPrizeList()
+
     }
   },
-
-  goSessionDetail: function (e) {
-    let id = e.currentTarget.id;
-    console.log('id: ' + id);
+  onClickGetMyPrize: function (e) {
     wx.navigateTo({
-      url: '../session/eventDetail?id=' + id,
+      url: '../redeem/redeem?group=' + this.data.selectedGroupId,
     })
   },
+  // goSessionDetail: function (e) {
+  //   let id = e.currentTarget.id;
+  //   console.log('id: ' + id);
+  //   wx.navigateTo({
+  //     url: '../session/eventDetail?id=' + id,
+  //   })
+  // },
 
   // User
   _loadUserRanking: function () {
@@ -112,10 +121,13 @@ Page({
       },
       success: function (res) {
         // console.log(res.data);
-        that.setData({
-          userRankingList: res.data
-        });
         that._findMyRanking(res.data);
+        // let tempRankList = res.data.filter(item => { return item.points >= 1; })
+        let tempRankList = res.data
+        console.log(tempRankList);
+        that.setData({
+          userRankingList: tempRankList
+        });
       },
       fail: function (e) {
         Util.showToast('数据获取失败', 'none', 2000);
@@ -135,24 +147,78 @@ Page({
   },
 
   // Session
-  _loadSessionRanking: function () {
+  //  Deprecated in 2021.07.20
+  // _loadSessionRanking: function () {
+  //   let that = this;
+  //   wx.request({
+  //     url: app.globalData.host + '/ranking/listSession/' + this.data.selectedGroupId,
+  //     method: 'GET',
+  //     header: {
+  //       'Authorization': app.globalData.jwtToken
+  //     },
+  //     success: function (res) {
+  //       console.log(res.data);
+  //       that.setData({
+  //         sessions: res.data
+  //       });
+  //     },
+  //     fail: function (e) {
+  //       Util.showToast('Failed to get data', 'none', 2000);
+  //     }
+  //   })
+  // },
+  _getPrizeList: function name(params) {
     let that = this;
+    let myId = Util.getUserId();
+    let prizeListOpen = [
+      {
+        "id": 1,
+        "name": "iPhone12",
+        "group": {
+          "id": 41,
+          "name": "Digital School",
+          "canJoin": false,
+          "canQuit": false,
+          "userNum": null,
+          "owner": null,
+          "ownerId": null
+        },
+        "activity": "Annual Celebration",
+        "startDate": "2021-08-13T04:30:00.000+0000",
+        "endDate": "2021-08-20T04:30:00.000+0000",
+        "detail": "第一次兑奖",
+        "status": "OPEN"
+      },
+    ]
+    prizeListOpen.map(item => { item.redeem = item.startDate.substr(0, 10) + ' ' + item.startDate.substr(11, 5) + ' to ' + item.endDate.substr(0, 10) + ' ' + item.endDate.substr(11, 5) })
+    // that.setData({
+    //   prizeList: prizeList,
+    //   prizeListOpen: prizeListOpen
+    // });
     wx.request({
-      url: app.globalData.host + '/ranking/listSession/' + this.data.selectedGroupId,
+      url: app.globalData.host + '/redeem/prizes/' + myId,
       method: 'GET',
       header: {
         'Authorization': app.globalData.jwtToken
       },
       success: function (res) {
         console.log(res.data);
+        let prizeList = res.data
+        if (prizeList.length >= 1) {
+          prizeList.map(item => { item.redeem = item.startDate.substr(0, 10) + ' ' + item.startDate.substr(11, 5) + ' to ' + item.endDate.substr(0, 10) + ' ' + item.endDate.substr(11, 5) })
+          that.setData({
+            prizeList: prizeList,
+          });
+        }
         that.setData({
-          sessions: res.data
-        });
+          prizeListOpen: prizeListOpen
+        })
       },
       fail: function (e) {
         Util.showToast('Failed to get data', 'none', 2000);
       }
     })
+
   },
 
   _setLoading: function (name, showLoading) {
@@ -171,7 +237,9 @@ Page({
       this._loadUserRanking();
     } else if (activeIndex == 1) {
       this._setLoading(name, true);
-      this._loadSessionRanking();
+      // this._loadSessionRanking();
+      this._getPrizeList()
+
     }
   },
 

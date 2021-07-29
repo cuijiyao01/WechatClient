@@ -46,8 +46,8 @@ class Request {
 }
 
 const request = new Request({
-  baseURL: 'https://skr.sapdigitallunch.com',
-  // baseURL: 'http://localhost:8090',
+  // baseURL: 'https://skr.sapdigitallunch.com',
+  baseURL: 'http://localhost:8090',
   withBaseURL: true
 })
 

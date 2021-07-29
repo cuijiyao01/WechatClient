@@ -88,7 +88,7 @@ Page({
         }
         directions.splice(0, 0, firstItem);
         directions.splice(0, 0, {
-          id: 1,
+          id: 0,
           name: "Up Coming",
           imageSrc: null
         });

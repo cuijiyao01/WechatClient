@@ -1,0 +1,33 @@
+/* pages/redeem/redeem.wxss */
+.redeem_list {
+  margin: 20rpx 20rpx 20rpx 20rpx;
+}
+.phone {
+  margin-top: 30rpx;
+}
+.phone_input {
+  margin-top: 10rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #ccc;
+}
+/* .address_picker {
+  margin: 20rpx 20rpx 20rpx 20rpx;
+} */
+.placeholder {
+  color: gray;
+}
+.redeem-prefix {
+  border-right: 0rpx solid #d9d9d9;
+  border-bottom: 1rpx solid #ccc;
+}
+.submit_button {
+  position: fixed;
+  bottom: 100rpx;
+  height: 2.5rem;
+  width: 21.5rem;
+  text-align: center;
+  font-size: 1rem;
+}
+.unable {
+  background-color: gray;
+}
