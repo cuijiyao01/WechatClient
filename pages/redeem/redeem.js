@@ -11,28 +11,55 @@ Page({
     addressList: [],
     addressIndex: null,
     phoneValue: '',
+    inumberValue: '',
+    nameValue: '',
     wxss_prefix: 'unable'
+  },
+
+  checkInput: function () {
+    if (this.data.addressIndex !== null &&
+      this.data.phoneValue.length >= 11 &&
+      this.data.inumberValue.length >= 6) {
+      this.setData({
+        wxss_prefix: "able"
+      })
+    }
   },
 
   bindPickerChange: function (e) {
     this.setData({
       addressIndex: e.detail.value
-    })
+    });
   },
 
-  bindHideKeyboard: function (e) {
-    if (e.detail.value.length === 11 && this.data.addressIndex !== null) {
-      this.setData({
-        phoneValue: e.detail.value,
-        wxss_prefix: "able"
-      })
-      // 收起键盘
-      wx.hideKeyboard()
+  bindInumberInput: function (e) {
+    this.setData({
+      inumberValue: e.detail.value
+    })
+    if (e.detail.value.length >= 5) {
+      this.checkInput();
     }
-    else {
-      this.setData({
-        phoneValue: e.detail.value
-      })
+    if (e.detail.value.length >= 8) {
+      wx.hideKeyboard();
+    }
+  },
+
+  bindNameInput: function (e) {
+    this.setData({
+      nameValue: e.detail.value
+    })
+    if (e.detail.value.length >= 1) {
+      this.checkInput();
+    }
+  },
+
+  bindPhoneInput: function (e) {
+    this.setData({
+      phoneValue: e.detail.value
+    })
+    if (e.detail.value.length === 11) {
+      this.checkInput();
+      wx.hideKeyboard();
     }
   },
 
@@ -61,8 +88,8 @@ Page({
       userId: app.globalData.openId,
       phone: this.data.phoneValue,
       groupId: this.data.groupID,
-      userName: "zhiyuan"
-      //inumber
+      userName: this.data.nameValue,
+      inumber: this.data.inumberValue,
       //prizeId
     }
     console.log(dataTemp)
@@ -75,10 +102,13 @@ Page({
         'Authorization': app.globalData.jwtToken
       },
       success: function (res) {
+        Util.showToast('兑奖成功', 'none', 2000);
         console.log("submit success")
-        // that.setData({
-        //   addressList: res.data
-        // });
+        setTimeout(() => {
+          wx.navigateBack({
+            delta: 0,
+          })
+        }, 2000);
       },
       fail: function (e) {
         Util.showToast('兑奖失败', 'none', 2000);

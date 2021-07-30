@@ -46,6 +46,7 @@ Page({
         url: '../welcome/welcome',
       });
     }
+    this._refreshRanking();
   },
 
   getGroupList: function () {

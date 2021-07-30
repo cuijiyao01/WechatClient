@@ -2,17 +2,13 @@
 .redeem_list {
   margin: 20rpx 20rpx 20rpx 20rpx;
 }
-.phone {
-  margin-top: 30rpx;
-}
+
 .phone_input {
   margin-top: 10rpx;
   padding-bottom: 20rpx;
   border-bottom: 1rpx solid #ccc;
 }
-/* .address_picker {
-  margin: 20rpx 20rpx 20rpx 20rpx;
-} */
+
 .placeholder {
   color: gray;
 }
@@ -30,4 +26,13 @@
 }
 .unable {
   background-color: gray;
+}
+.address_detial {
+  margin-top: 10rpx;
+  margin-bottom: 10rpx;
+  color: gray;
+}
+
+.input_prefix {
+  margin-top: 20rpx;
 }
