@@ -57,6 +57,10 @@
         <!-- Session ranking new -->
         <view hidden="{{activeIndex != 1}}">
           <!-- <view wx:if="{{sessions.length > 0}}" class="session_content"> -->
+          <view class="no_prize" wx:if="{{prizeList.length===0 && prizeListOpen.length===0}}">
+            <image class="prize_img" src="../../images/upstage.png" mode="center"></image>
+            <text>\nNo Data</text>
+          </view>
           <view class="prize_list_content">
             <view class="prize_block" wx:for="{{prizeListOpen}}" wx:key="id">
               <text class="prize_name">{{item.name}}</text>
@@ -67,7 +71,8 @@
                 Prize: {{item.detail}}
                 Redeem Time: {{item.redeem}}
               </text>
-              <button class="uniformBtn get_my_prize_button" role="button" aria-disabled="false" bindtap="onClickGetMyPrize">Get My Prize</button>
+              <button class="uniformBtn get_my_prize_button" role="button" aria-disabled="false"
+                bindtap="onClickGetMyPrize">Get My Prize</button>
             </view>
             <view class="prize_history_text" wx:if="{{prizeList.length>=1}}"> History</view>
           </view>

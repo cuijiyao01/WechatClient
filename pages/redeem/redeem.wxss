@@ -20,7 +20,7 @@
   position: fixed;
   bottom: 100rpx;
   height: 2.5rem;
-  width: 21.5rem;
+  width: 95%;
   text-align: center;
   font-size: 1rem;
 }

@@ -13,6 +13,7 @@ Page({
     sliderOffset: 0,
     sliderLeft: 0,
     tabArr: ["User", "My Prize"],
+    prizeId: 0,
     prizeList: [],
     prizeListOpen: [],
     addressList: [],
@@ -100,7 +101,7 @@ Page({
   },
   onClickGetMyPrize: function (e) {
     wx.navigateTo({
-      url: '../redeem/redeem?group=' + this.data.selectedGroupId,
+      url: '../redeem/redeem?group=' + this.data.selectedGroupId + '&prizeid=' + this.data.prizeId,
     })
   },
   // goSessionDetail: function (e) {
@@ -171,31 +172,33 @@ Page({
   _getPrizeList: function name(params) {
     let that = this;
     let myId = Util.getUserId();
-    let prizeListOpen = [
-      {
-        "id": 1,
-        "name": "iPhone12",
-        "group": {
-          "id": 41,
-          "name": "Digital School",
-          "canJoin": false,
-          "canQuit": false,
-          "userNum": null,
-          "owner": null,
-          "ownerId": null
-        },
-        "activity": "Annual Celebration",
-        "startDate": "2021-08-13T04:30:00.000+0000",
-        "endDate": "2021-08-20T04:30:00.000+0000",
-        "detail": "第一次兑奖",
-        "status": "OPEN"
+
+    wx.request({
+      url: app.globalData.host + '/redeem/release/' + this.data.selectedGroupId + '/' + myId,
+      method: 'GET',
+      header: {
+        'Authorization': app.globalData.jwtToken
       },
-    ]
-    prizeListOpen.map(item => { item.redeem = item.startDate.substr(0, 10) + ' ' + item.startDate.substr(11, 5) + ' to ' + item.endDate.substr(0, 10) + ' ' + item.endDate.substr(11, 5) })
-    // that.setData({
-    //   prizeList: prizeList,
-    //   prizeListOpen: prizeListOpen
-    // });
+      success: function (res) {
+        console.log(res.data);
+        let prizeListOpen = [res.data]
+        if (prizeListOpen[0].id !== null) {
+          prizeListOpen.map(item => { item.redeem = item.startDate.substr(0, 10) + ' ' + item.startDate.substr(11, 5) + ' to ' + item.endDate.substr(0, 10) + ' ' + item.endDate.substr(11, 5) })
+          that.setData({
+            prizeListOpen: prizeListOpen,
+            prizeId: prizeListOpen[0].id
+          });
+        } else {
+          that.setData({
+            prizeListOpen: [],
+            prizeId: 0
+          });
+        }
+      },
+      fail: function (e) {
+        Util.showToast('Failed to get data', 'none', 2000);
+      }
+    })
     wx.request({
       url: app.globalData.host + '/redeem/prizes/' + myId,
       method: 'GET',
@@ -210,10 +213,11 @@ Page({
           that.setData({
             prizeList: prizeList,
           });
+        } else {
+          that.setData({
+            prizeList: []
+          });
         }
-        that.setData({
-          prizeListOpen: prizeListOpen
-        })
       },
       fail: function (e) {
         Util.showToast('Failed to get data', 'none', 2000);

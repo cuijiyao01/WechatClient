@@ -152,7 +152,7 @@
 .get_my_prize_button {
   margin: 10rpx 0rpx 10rpx 0rpx;
   height: 2rem;
-  width: 20.5rem;
+  width: 99%;
   text-align: center;
   font-size: 0.8rem;
 }
@@ -164,4 +164,16 @@
 }
 .OPEN {
   color: green;
+}
+.no_prize {
+  opacity: 0.4;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.prize_img {
+  width: 100%;
+  margin-top: 200rpx;
+  height: 100rpx;
 }

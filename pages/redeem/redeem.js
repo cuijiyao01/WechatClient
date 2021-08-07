@@ -8,6 +8,7 @@ Page({
    */
   data: {
     groupID: undefined,
+    prizeId: undefined,
     addressList: [],
     addressIndex: null,
     phoneValue: '',
@@ -39,7 +40,7 @@ Page({
     if (e.detail.value.length >= 5) {
       this.checkInput();
     }
-    if (e.detail.value.length >= 8) {
+    if (e.detail.value.length >= 7) {
       wx.hideKeyboard();
     }
   },
@@ -90,10 +91,8 @@ Page({
       groupId: this.data.groupID,
       userName: this.data.nameValue,
       inumber: this.data.inumberValue,
-      //prizeId
+      prizeId: this.data.prizeId
     }
-    console.log(dataTemp)
-    let that = this;
     wx.request({
       url: app.globalData.host + '/redeem/submit',
       data: dataTemp,
@@ -102,13 +101,18 @@ Page({
         'Authorization': app.globalData.jwtToken
       },
       success: function (res) {
-        Util.showToast('兑奖成功', 'none', 2000);
-        console.log("submit success")
-        setTimeout(() => {
-          wx.navigateBack({
-            delta: 0,
-          })
-        }, 2000);
+        if (res.data.msg == "ok") {
+          Util.showToast('兑奖成功', 'none', 2000);
+          console.log("submit success")
+          setTimeout(() => {
+            wx.navigateBack({
+              delta: 0,
+            })
+          }, 2000);
+        }
+        else {
+          Util.showToast('兑奖失败', 'none', 2000);
+        }
       },
       fail: function (e) {
         Util.showToast('兑奖失败', 'none', 2000);
@@ -121,7 +125,8 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      groupID: options.group
+      groupID: options.group,
+      prizeId: options.prizeid
     });
   },
 
