@@ -71,8 +71,8 @@
                 Prize: {{item.detail}}
                 Redeem Time: {{item.redeem}}
               </text>
-              <button disabled="{{prizeListOpen[0].status!=='OPEN'}}" class="uniformBtn get_my_prize_button"
-                role="button" aria-disabled="false" bindtap="onClickGetMyPrize">Get My Prize</button>
+              <button disabled="{{item.status!=='OPEN'}}" class="uniformBtn get_my_prize_button" role="button"
+                aria-disabled="false" bindtap="onClickGetMyPrize">Get My Prize</button>
             </view>
             <view class="prize_history_text" wx:if="{{prizeList.length>=1}}"> History</view>
           </view>
