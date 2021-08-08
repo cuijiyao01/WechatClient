@@ -94,7 +94,6 @@ Page({
       this._loadUserRanking();
     } else if (currentIndex == 1) {
       this._setLoading(name, true);
-      // this._loadSessionRanking();
       this._getPrizeList()
 
     }
@@ -104,13 +103,6 @@ Page({
       url: '../redeem/redeem?group=' + this.data.selectedGroupId + '&prizeid=' + this.data.prizeId,
     })
   },
-  // goSessionDetail: function (e) {
-  //   let id = e.currentTarget.id;
-  //   console.log('id: ' + id);
-  //   wx.navigateTo({
-  //     url: '../session/eventDetail?id=' + id,
-  //   })
-  // },
 
   // User
   _loadUserRanking: function () {
@@ -148,27 +140,6 @@ Page({
     });
   },
 
-  // Session
-  //  Deprecated in 2021.07.20
-  // _loadSessionRanking: function () {
-  //   let that = this;
-  //   wx.request({
-  //     url: app.globalData.host + '/ranking/listSession/' + this.data.selectedGroupId,
-  //     method: 'GET',
-  //     header: {
-  //       'Authorization': app.globalData.jwtToken
-  //     },
-  //     success: function (res) {
-  //       console.log(res.data);
-  //       that.setData({
-  //         sessions: res.data
-  //       });
-  //     },
-  //     fail: function (e) {
-  //       Util.showToast('Failed to get data', 'none', 2000);
-  //     }
-  //   })
-  // },
   _getPrizeList: function name(params) {
     let that = this;
     let myId = Util.getUserId();
@@ -181,9 +152,10 @@ Page({
       },
       success: function (res) {
         console.log(res.data);
-        let prizeListOpen = [res.data]
-        if (prizeListOpen[0].id !== null) {
-          prizeListOpen.map(item => { item.redeem = item.startDate.substr(0, 10) + ' ' + item.startDate.substr(11, 5) + ' to ' + item.endDate.substr(0, 10) + ' ' + item.endDate.substr(11, 5) })
+        let prizeListOpen = [res.data.retObj]
+        if (prizeListOpen && prizeListOpen[0].id !== null) {
+          prizeListOpen.map(item => { item.redeem = item.startDate.substr(0, 10) + ' ' + item.startDate.substr(11, 5) + ' to ' + item.endDate.substr(0, 10) + ' ' + item.endDate.substr(11, 5);
+         })
           that.setData({
             prizeListOpen: prizeListOpen,
             prizeId: prizeListOpen[0].id
