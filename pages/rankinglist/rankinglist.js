@@ -51,10 +51,26 @@ Page({
   },
 
   getGroupList: function () {
+    let currentDate = {
+      isDuringDate: function (beginDateStr, endDateStr) {
+        let curDate = new Date(),
+          beginDate = new Date(beginDateStr),
+          endDate = new Date(endDateStr);
+        if (curDate >= beginDate && curDate <= endDate) {
+          return true;
+        }
+        return false;
+      }
+    }
     let userId = Util.getUserId();
     WXRequest.get('/group/list/' + userId).then(res => {
       if (res.data.length > 0) {
         console.log('/group/list', res.data);
+        if (this.data.prizeListOpen) {
+          if (currentDate.isDuringDate(this.data.prizeListOpen[0].startDate, this.data.prizeListOpen[0].endDate)) {
+            res.data.map((item) => { if (item.name == "Digital School") { item.canJoin = false; item.canQuit = false } })
+          }
+        }
         this.setData({
           groupArr: res.data
         });
@@ -95,12 +111,13 @@ Page({
     } else if (currentIndex == 1) {
       this._setLoading(name, true);
       this._getPrizeList()
-
     }
   },
+
   onClickGetMyPrize: function (e) {
     wx.navigateTo({
-      url: '../redeem/redeem?group=' + this.data.selectedGroupId + '&prizeid=' + this.data.prizeId,
+      // url: '../redeem/redeem?group=' + this.data.selectedGroupId + '&prizeid=' + this.data.prizeId,
+      url: '../redeem/redeem?group=41&prizeid=' + this.data.prizeId,
     })
   },
 
@@ -145,7 +162,8 @@ Page({
     let myId = Util.getUserId();
 
     wx.request({
-      url: app.globalData.host + '/redeem/release/' + this.data.selectedGroupId + '/' + myId,
+      // url: app.globalData.host + '/redeem/release/' + this.data.selectedGroupId + '/' + myId,
+      url: app.globalData.host + '/redeem/release/41/' + myId,
       method: 'GET',
       header: {
         'Authorization': app.globalData.jwtToken
@@ -153,9 +171,10 @@ Page({
       success: function (res) {
         console.log(res.data);
         let prizeListOpen = [res.data.retObj]
-        if (prizeListOpen && prizeListOpen[0].id !== null) {
-          prizeListOpen.map(item => { item.redeem = item.startDate.substr(0, 10) + ' ' + item.startDate.substr(11, 5) + ' to ' + item.endDate.substr(0, 10) + ' ' + item.endDate.substr(11, 5);
-         })
+        if (prizeListOpen && prizeListOpen[0] && prizeListOpen[0].id !== null) {
+          prizeListOpen.map(item => {
+            item.redeem = item.startDate.substr(0, 10) + ' ' + item.startDate.substr(11, 5) + ' to ' + item.endDate.substr(0, 10) + ' ' + item.endDate.substr(11, 5);
+          })
           that.setData({
             prizeListOpen: prizeListOpen,
             prizeId: prizeListOpen[0].id
@@ -205,6 +224,7 @@ Page({
   },
 
   _refreshRanking: function () {
+    this._getPrizeList()
     console.log('userRankingList::onPullDownRefresh');
     this.getGroupList();
     const activeIndex = this.data.activeIndex;
@@ -214,9 +234,6 @@ Page({
       this._loadUserRanking();
     } else if (activeIndex == 1) {
       this._setLoading(name, true);
-      // this._loadSessionRanking();
-      this._getPrizeList()
-
     }
   },
 
