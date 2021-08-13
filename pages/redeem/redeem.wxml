@@ -16,15 +16,16 @@
   </view>
   <view class="name input_prefix">
     Name(Option)
-    <input class="phone_input" bindinput="bindNameInput" placeholder="Please enter your Name"></input>
+    <input class="redeem_input" bindinput="bindNameInput" placeholder="Please enter your Name"></input>
   </view>
   <view class="phone input_prefix">
     Mobile Phone*
-    <input class="phone_input" bindinput="bindPhoneInput" placeholder="Please enter your mobile phone number"></input>
+    <input class="redeem_input" type="number" bindinput="bindPhoneInput"
+      placeholder="Please enter your mobile phone number"></input>
   </view>
   <view class="inumber input_prefix">
     SAP ID*
-    <input class="phone_input" bindinput="bindInumberInput" placeholder="Please enter your I/C Number"></input>
+    <input class="redeem_input" bindinput="bindInumberInput" placeholder="Please enter your I/C Number"></input>
   </view>
   <button class="uniformBtn submit_button {{wxss_prefix}}" role="button" aria-disabled="false"
     bindtap="onClickSubmit">Submit</button>

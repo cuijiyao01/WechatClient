@@ -3,7 +3,7 @@
   margin: 20rpx 20rpx 20rpx 20rpx;
 }
 
-.phone_input {
+.redeem_input {
   margin-top: 10rpx;
   padding-bottom: 20rpx;
   border-bottom: 1rpx solid #ccc;

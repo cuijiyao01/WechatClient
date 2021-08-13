@@ -18,16 +18,23 @@ Page({
   },
 
   checkInput: function () {
+    let regtest = /^[1][0-9]{10}$/
     if (this.data.addressIndex !== null &&
       this.data.phoneValue.length >= 11 &&
+      regtest.test(this.data.phoneValue) &&
       this.data.inumberValue.length >= 6) {
       this.setData({
         wxss_prefix: "able"
+      })
+    } else {
+      this.setData({
+        wxss_prefix: "unable"
       })
     }
   },
 
   bindPickerChange: function (e) {
+    this.checkInput();
     this.setData({
       addressIndex: e.detail.value
     });
@@ -37,7 +44,7 @@ Page({
     this.setData({
       inumberValue: e.detail.value
     })
-    if (e.detail.value.length >= 5) {
+    if (e.detail.value.length >= 1) {
       this.checkInput();
     }
     if (e.detail.value.length >= 7) {
@@ -58,6 +65,7 @@ Page({
     this.setData({
       phoneValue: e.detail.value
     })
+    this.checkInput();
     if (e.detail.value.length === 11) {
       this.checkInput();
       wx.hideKeyboard();
