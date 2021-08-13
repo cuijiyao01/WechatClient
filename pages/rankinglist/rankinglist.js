@@ -56,6 +56,7 @@ Page({
         let curDate = new Date(),
           beginDate = new Date(beginDateStr),
           endDate = new Date(endDateStr);
+        console.log(curDate, beginDate, endDate)
         if (curDate >= beginDate && curDate <= endDate) {
           return true;
         }
@@ -65,15 +66,18 @@ Page({
     let userId = Util.getUserId();
     WXRequest.get('/group/list/' + userId).then(res => {
       if (res.data.length > 0) {
-        console.log('/group/list', res.data);
-        if (this.data.prizeListOpen) {
-          if (currentDate.isDuringDate(this.data.prizeListOpen[0].startDate, this.data.prizeListOpen[0].endDate)) {
-            res.data.map((item) => { if (item.name == "Digital School") { item.canJoin = false; item.canQuit = false } })
-          }
+        console.log(12345)
+        if (currentDate.isDuringDate("2021/08/13 13:00:00", "2021/08/15 13:00:00")) {
+          console.log("123?")
+          res.data.map((item) => { if (item.id == 34) { item.canJoin = false; item.canQuit = false } })
+          this.setData({
+            groupArr: res.data
+          });
+        } else {
+          this.setData({
+            groupArr: res.data
+          });
         }
-        this.setData({
-          groupArr: res.data
-        });
       }
     }).catch(e => {
       console.log(e);
@@ -117,7 +121,7 @@ Page({
   onClickGetMyPrize: function (e) {
     wx.navigateTo({
       // url: '../redeem/redeem?group=' + this.data.selectedGroupId + '&prizeid=' + this.data.prizeId,
-      url: '../redeem/redeem?group=41&prizeid=' + this.data.prizeId,
+      url: '../redeem/redeem?group=34&prizeid=' + this.data.prizeId,
     })
   },
 
@@ -135,7 +139,7 @@ Page({
         that._findMyRanking(res.data);
         // let tempRankList = res.data.filter(item => { return item.points >= 1; })
         let tempRankList = res.data
-        console.log(tempRankList);
+        // console.log(tempRankList);
         that.setData({
           userRankingList: tempRankList
         });
@@ -163,13 +167,13 @@ Page({
 
     wx.request({
       // url: app.globalData.host + '/redeem/release/' + this.data.selectedGroupId + '/' + myId,
-      url: app.globalData.host + '/redeem/release/41/' + myId,
+      url: app.globalData.host + '/redeem/release/34/' + myId,
       method: 'GET',
       header: {
         'Authorization': app.globalData.jwtToken
       },
       success: function (res) {
-        console.log(res.data);
+        // console.log(res.data);
         let prizeListOpen = [res.data.retObj]
         if (prizeListOpen && prizeListOpen[0] && prizeListOpen[0].id !== null) {
           prizeListOpen.map(item => {
@@ -197,7 +201,7 @@ Page({
         'Authorization': app.globalData.jwtToken
       },
       success: function (res) {
-        console.log(res.data);
+        // console.log(res.data);
         let prizeList = res.data
         if (prizeList.length >= 1) {
           prizeList.map(item => { item.redeem = item.startDate.substr(0, 10) + ' ' + item.startDate.substr(11, 5) + ' to ' + item.endDate.substr(0, 10) + ' ' + item.endDate.substr(11, 5) })
