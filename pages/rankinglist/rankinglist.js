@@ -23,7 +23,9 @@ Page({
     selectedGroupId: 1,
     selectedGroupName: 'Public',
     canJoin: false,
-    canQuit: false
+    canQuit: false,
+    startDate: "",
+    endDate: "",
   },
   onLoad: function () {
     console.log('userRankingList::onLoad');
@@ -51,12 +53,17 @@ Page({
   },
 
   getGroupList: function () {
+    let that = this
     let currentDate = {
       isDuringDate: function (beginDateStr, endDateStr) {
+        beginDateStr = beginDateStr.replace(/-/g, '/')
+        endDateStr = endDateStr.replace(/-/g, '/')
         let curDate = new Date(),
           beginDate = new Date(beginDateStr),
           endDate = new Date(endDateStr);
-        console.log(curDate, beginDate, endDate)
+
+        console.log(beginDateStr, endDateStr)
+        // console.log(curDate, beginDate, endDate)
         if (curDate >= beginDate && curDate <= endDate) {
           return true;
         }
@@ -66,17 +73,20 @@ Page({
     let userId = Util.getUserId();
     WXRequest.get('/group/list/' + userId).then(res => {
       if (res.data.length > 0) {
-        console.log(12345)
-        if (currentDate.isDuringDate("2021/08/13 13:00:00", "2021/08/15 13:00:00")) {
-          console.log("123?")
-          res.data.map((item) => { if (item.id == 34) { item.canJoin = false; item.canQuit = false } })
-          this.setData({
-            groupArr: res.data
-          });
+        if (this.data.startDate) {
+          if (currentDate.isDuringDate(this.data.startDate, this.data.endDate)) {
+            res.data.map((item) => { if (item.id == 34) { item.canJoin = false; item.canQuit = false } })
+            this.setData({
+              groupArr: res.data
+            });
+          } else {
+            this.setData({
+              groupArr: res.data
+            });
+          }
         } else {
-          this.setData({
-            groupArr: res.data
-          });
+          this.refreshDate();
+          setTimeout(function () { that.getGroupList() }, 1000)
         }
       }
     }).catch(e => {
@@ -177,7 +187,7 @@ Page({
         let prizeListOpen = [res.data.retObj]
         if (prizeListOpen && prizeListOpen[0] && prizeListOpen[0].id !== null) {
           prizeListOpen.map(item => {
-            item.redeem = item.startDate.substr(0, 10) + ' ' + item.startDate.substr(11, 5) + ' to ' + item.endDate.substr(0, 10) + ' ' + item.endDate.substr(11, 5);
+            item.redeem = item.startDate.substr(0, 10) + ' to ' + item.endDate.substr(0, 10);
           })
           that.setData({
             prizeListOpen: prizeListOpen,
@@ -204,7 +214,7 @@ Page({
         // console.log(res.data);
         let prizeList = res.data
         if (prizeList.length >= 1) {
-          prizeList.map(item => { item.redeem = item.startDate.substr(0, 10) + ' ' + item.startDate.substr(11, 5) + ' to ' + item.endDate.substr(0, 10) + ' ' + item.endDate.substr(11, 5) })
+          prizeList.map(item => { item.redeem = item.startDate.substr(0, 10) + ' to ' + item.endDate.substr(0, 10) })
           that.setData({
             prizeList: prizeList,
           });
@@ -226,8 +236,34 @@ Page({
       [name + ' Ranking Is Loading']: showLoading
     });
   },
-
+  refreshDate: function () {
+    let that = this;
+    wx.request({
+      url: app.globalData.host + '/redeem/date/',
+      method: 'GET',
+      header: {
+        'Authorization': app.globalData.jwtToken
+      },
+      success: function (res) {
+        console.log(res.data);
+        if (res.data.startDate && res.data.endDate) {
+          that.setData({
+            startDate: res.data.startDate,
+            endDate: res.data.endDate,
+          });
+        } else {
+          that.setData({
+            startDate: "",
+            endDate: "",
+          });
+        }
+      },
+      fail: function (e) {
+      }
+    })
+  },
   _refreshRanking: function () {
+    this.refreshDate()
     this._getPrizeList()
     console.log('userRankingList::onPullDownRefresh');
     this.getGroupList();
