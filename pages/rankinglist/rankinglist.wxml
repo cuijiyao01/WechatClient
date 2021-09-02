@@ -44,7 +44,7 @@
 
           <view class="weui-cells weui-cells_after-title">
             <navigator url="rankingdetail?userId={{item.userId}}" class="weui-cell" wx:for="{{userRankingList}}"
-              wx:key="userId">
+              wx:key="rank">
               <view class="firstCol">{{item.rank}}</view>
               <image lazy-load="true" src="{{item.avatarUrl ? item.avatarUrl : '../../images/avatar.png'}}"
                 class="userinfo-avatar"></image>
