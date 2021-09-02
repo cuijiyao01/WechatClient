@@ -187,7 +187,7 @@ Page({
         let prizeListOpen = [res.data.retObj]
         if (prizeListOpen && prizeListOpen[0] && prizeListOpen[0].id !== null) {
           prizeListOpen.map(item => {
-            item.redeem = item.startDate.substr(0, 10) + ' to ' + item.endDate.substr(0, 10);
+            item.redeem = item.startDate + ' to ' + item.endDate;
           })
           that.setData({
             prizeListOpen: prizeListOpen,
@@ -214,7 +214,7 @@ Page({
         // console.log(res.data);
         let prizeList = res.data
         if (prizeList.length >= 1) {
-          prizeList.map(item => { item.redeem = item.startDate.substr(0, 10) + ' to ' + item.endDate.substr(0, 10) })
+          prizeList.map(item => { item.redeem = item.startDate + ' to ' + item.endDate })
           that.setData({
             prizeList: prizeList,
           });
