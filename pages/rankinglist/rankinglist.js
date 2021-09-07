@@ -137,9 +137,10 @@ Page({
 
   // User
   _loadUserRanking: function () {
+    let myId = Util.getUserId();
     let that = this;
     wx.request({
-      url: app.globalData.host + '/ranking/list/' + this.data.selectedGroupId,
+      url: app.globalData.host + '/ranking/list/' + this.data.selectedGroupId + '/' + myId,
       method: 'GET',
       header: {
         'Authorization': app.globalData.jwtToken
@@ -147,7 +148,6 @@ Page({
       success: function (res) {
         // console.log(res.data);
         that._findMyRanking(res.data);
-        // let tempRankList = res.data.filter(item => { return item.points >= 1; })
         let tempRankList = res.data
         // console.log(tempRankList);
         that.setData({
@@ -187,7 +187,7 @@ Page({
         let prizeListOpen = [res.data.retObj]
         if (prizeListOpen && prizeListOpen[0] && prizeListOpen[0].id !== null) {
           prizeListOpen.map(item => {
-            item.redeem = item.startDate + ' to ' + item.endDate;
+            item.redeem = item.startDate.substr(0, 10) + ' ' + item.startDate.substr(11, 5) + ' to ' + item.endDate.substr(0, 10) + ' ' + item.endDate.substr(11, 5);
           })
           that.setData({
             prizeListOpen: prizeListOpen,
@@ -214,7 +214,7 @@ Page({
         // console.log(res.data);
         let prizeList = res.data
         if (prizeList.length >= 1) {
-          prizeList.map(item => { item.redeem = item.startDate + ' to ' + item.endDate })
+          prizeList.map(item => { item.redeem = item.startDate.substr(0, 10) + ' ' + item.startDate.substr(11, 5) + ' to ' + item.endDate.substr(0, 10) + ' ' + item.endDate.substr(11, 5); })
           that.setData({
             prizeList: prizeList,
           });
