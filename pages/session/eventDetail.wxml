@@ -29,7 +29,7 @@
     </view>
     <view class="flex-item">
       <view>Presenter</view>
-      <text>{{eventDetail.owner.nickName}}</text>
+      <text>{{eventDetail.owner.nickName}}\n</text>
       <text hidden="{{eventDetail.owner.title == null}}">, {{eventDetail.owner.title}}\n</text>
       <text hidden="{{eventDetail.owner.title != null}}">\n</text>
       <text hidden="{{eventDetail.owner.signature == null}}">{{eventDetail.owner.signature}}</text>
@@ -123,8 +123,8 @@
       </block>
       <block wx:else>
         <view class='weui-footer__link'>
-          <image class="likeBtn" wx:if="{{!checkInDisabled}}" src="../../images/unChecked.png" bindtap="onCheckIn" />
-          <image class="likeBtn" wx:else src="../../images/checkedIn.png" /> {{checkInBtnVal}}
+          <image class="likeBtn" wx:if="{{!checkInDisabled}}" src="../../images/checkedIn.png" bindtap="onCheckIn" />
+          <image class="likeBtn" wx:else src="../../images/unChecked.png" /> {{checkInBtnVal}}
         </view>
         <view class='weui-footer__link' bindtap='onStartQuiz'>
           <image class="likeBtn" wx:if="{{!startQuizBtnDisabled}}" src="../../images/exam.png" /> {{startQuizBtnVal}}
