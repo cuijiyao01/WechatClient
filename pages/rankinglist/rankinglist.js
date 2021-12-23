@@ -21,7 +21,7 @@ Page({
     sessions: [],
     groupArr: [],
     selectedGroupId: 1,
-    selectedGroupName: 'Public',
+    selectedGroupName: 'All',
     canJoin: false,
     canQuit: false,
     startDate: "",
