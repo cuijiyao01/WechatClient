@@ -67,7 +67,7 @@
 
 .flex-item text {
   font-size: 13px;
-  word-break: break-all;
+  word-break: keep-all;
 }
 
 /* .linkstyle view {
