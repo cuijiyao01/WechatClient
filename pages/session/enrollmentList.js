@@ -16,7 +16,6 @@ Page({
     this.setData({
       sessionId: options.sessionId
     });
-    console.log(options)
     this.doLoadEnrollmentList();
   },
 
