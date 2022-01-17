@@ -67,7 +67,6 @@
 
 .flex-item text {
   font-size: 13px;
-  word-break: keep-all;
 }
 
 /* .linkstyle view {
@@ -209,10 +208,12 @@ button[plain] {
 {
   color: blue;
   text-decoration: underline;
+  word-break: break-all
 }
 
 .recordingLink
 {
   color: blue;
   text-decoration: underline;
+  word-break: break-all
 }
