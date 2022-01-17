@@ -272,7 +272,7 @@ Page({
     let userInfo = wx.getStorageSync('userInfo');
     let isCheckedIn = WCache.get(this.data.sessionId + '_checkedIn');
     if (!userInfo) {
-      Util.showToast('Please login fisrt', 'none', 2000);
+      Util.showToast('Please login first', 'none', 2000);
     } else if (!isCheckedIn) {
       Util.showToast('Please check in first', 'none', 2000);
     } else {

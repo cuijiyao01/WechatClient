@@ -29,11 +29,11 @@
     </view>
     <view class="flex-item">
       <view>Presenter</view>
-      <text>{{eventDetail.owner.nickName}}\n</text>
+      <text>{{eventDetail.owner.nickName}}</text>
       <text hidden="{{eventDetail.owner.title == null}}">, {{eventDetail.owner.title}}\n</text>
       <text hidden="{{eventDetail.owner.title != null}}">\n</text>
       <text hidden="{{eventDetail.owner.signature == null}}">{{eventDetail.owner.signature}}</text>
-      <text hidden="{{eventDetail.owner.introduction == null}}">{{eventDetail.owner.introduction}}</text>
+      <text hidden="{{eventDetail.owner.introduction == null}}">\n{{eventDetail.owner.introduction}}</text>
     </view>
     <view class="flex-item">
       <view>Recording</view>
@@ -73,7 +73,7 @@
     </view>
     <view class="flex-item">
       <view>QR Code</view>
-      <image style="width: 200px; height: 200px" src="data:image/png;base64,{{sessionQRCode}}"/>
+      <image  show-menu-by-longpress="true" style="width: 200px; height: 200px" src="data:image/png;base64,{{sessionQRCode}}"/>
     </view>
 
     <view class="session-detail-action" wx:if="{{status == 1}}">

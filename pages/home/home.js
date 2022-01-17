@@ -195,13 +195,13 @@ Page({
         let sessionPerPage = res.data.retObj;
         if (pageNum === 1) {
           let length = sessionPerPage.length;
-          if (length >= 0 && length < 5) {
+          if (length >= 0 && length < PAGE_SIZE) {
             this.setData({
               [name]: res.data.retObj,
               [name + 'IsNoData']: true,
               [name + 'IsPullDownLoading']: false
             });
-          } else if (length === 5) {
+          } else if (length === PAGE_SIZE) {
             this.setData({
               [name]: res.data.retObj,
               [name + 'IsPullDownLoading']: false
@@ -209,7 +209,7 @@ Page({
           } else {
             this.setData({
               [name + 'IsNoData']: true,
-              [name + 'IsPullDownLoading']: false
+              [name + 'IsPullDownLoading']: true
             });
           }
           
