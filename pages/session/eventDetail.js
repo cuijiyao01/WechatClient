@@ -89,6 +89,14 @@ Page({
       userId: userId
     }).then(res => {
       wx.hideLoading();
+      if (res.data.msg === 'no_data') {
+        Util.showToast('Sorry, your session is already removed', 'none', 3000);
+        setTimeout(function () {
+          wx.switchTab({
+            url: '../explore/explore',
+          });
+        }, 3000);
+    }
       if (res.data.msg === 'ok') {
         console.log(res.data.retObj.session);
         let retObj = res.data.retObj;
