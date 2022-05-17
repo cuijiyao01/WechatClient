@@ -108,6 +108,9 @@
     </view>
   </view>
   <!-- started session -->
+  <view class="flex-item" wx:if="{{!isRegistered && !canManage && status == 1}}">
+        <button bindtap='onRegister' class="uniformBtn">Register</button>
+      </view>
   <view class="weui-footer weui-footer_fixed-bottom footerBar" wx:if="{{(isRegistered || canManage) && status == 1}}">
     <view class="weui-footer__links">
      <!-- <block wx:if="{{isOwner}}">  -->
