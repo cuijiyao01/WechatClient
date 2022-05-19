@@ -23,6 +23,9 @@ Page({
     wx.request({
       url: app.globalData.host + '/user/orderList',
       method: 'GET',
+      header: {
+        'Authorization': app.globalData.jwtToken
+      },
       success: function (res) {
         console.log(res.data);
         that.setData({

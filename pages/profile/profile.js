@@ -12,7 +12,8 @@ Page({
   data: {
     userInfo:{},
     isLoading:false,
-    isModified: false
+    isModified: false,
+    t_length: 0
   },
 
   /**
@@ -27,7 +28,8 @@ Page({
         if (res.data.msg === 'ok') {
           console.log('/user/', res.data);
           this.setData({
-            userInfo: res.data.retObj
+            userInfo: res.data.retObj,
+            t_length: res.data.retObj.signature? res.data.retObj.signature.length: 0
           });
         }
       }).catch(e => {
@@ -40,7 +42,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    
+    console.log('user infois ' + this.data.userInfo.toString());
   },
 
   /**
@@ -120,14 +122,29 @@ Page({
     let userDetail = {
       id:this.data.userInfo.id,
       // gender: value.gender,
+      nickName: value.nickName,
       department: value.department,
       blog: value.blog,
-      signature:value.signature,
+      signature:value.signature? value.signature: "",
       github:value.github,
       seat:value.seat,
-      email:value.email
+      email:value.email,
+      title: value.title,
+      t_length: value.signature?value.signature.length: 0
     };
     return userDetail;
+  },
+
+  bindText: function (e) {
+    var t_text = e.detail.value.length;
+    this.setData({
+      t_length: t_text
+    }) 
+    if (!this.data.isModified) {
+      this.setData({
+        isModified: true
+      })
+    }
   },
 
   onProfileDataChange: function(e) {

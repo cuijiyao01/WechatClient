@@ -1,173 +1,226 @@
 <!--pages/session/newEvent.wxml-->
 <view class="page">
-  <form bindsubmit="onSubmit" bindreset="onReset">
-    <view class="weui-cells__title">
-      <!-- Topic -->
-    </view>
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__hd">
-          <view class="weui-label">
-            <i-icon type="task" size="28" color="#80848f" />
-          </view>
-        </view>
-        <view class="weui-cell__bd">
-          <input name="topic" class="weui-input" placeholder="Topic (Required)" value="{{formData.topic}}" />
-        </view>
-      </view>
-    </view>
+	<form bindsubmit="onSubmit" bindreset="onReset">
+		<view class="weui-cells__title">
+			<!-- Topic -->
+		</view>
+		<view class="weui-cells weui-cells_after-title">
+			<view class="weui-cell weui-cell_input">
+				<view class="weui-cell__hd">
+					<view class="weui-label">
+						<i-icon type="task" size="28" color="#80848f" />
+					</view>
+				</view>
+				<view class="weui-cell__bd">
+					<input name="topic" class="weui-input" placeholder="Topic (Required)" value="{{formData.topic}}" />
+				</view>
+			</view>
+		</view>
 
-    <view class="weui-cells__title">
-      <!-- Owner -->
-    </view>
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__hd">
-          <view class="weui-label">
-            <i-icon type="emoji" size="28" color="#80848f" />
-          </view>
-        </view>
-        <view class="weui-cell__bd">
-          <input name="location" class="weui-input" bindinput="bindUserInput" value="{{presenterInput}}" data-statu="open" />
-        </view>
-      </view>
-    </view>
-        <view class="input_screen" bindtap="bindUserInput" data-statu="close" wx:if="{{showPresenterInputStatus}}"></view>
-    <scroll-view class="scroll" scroll-y="true" style="height: {{scrollhight}}rpx;" wx:if="{{showPresenterInputStatus}}">
-      <view class="scroll-y" wx:for="{{userMatched}}">
-        <view id="{{item.id}}" data-name="{{item.nickName}}" class="itemview" bindtap="useritemtap" data-statu="close" wx:if="{{showPresenterInputStatus}}">{{item.nickName}}</view>
-      </view>
-    </scroll-view>
+		<view class="weui-cells__title">
+			<!-- Owner -->
+		</view>
+		<view class="weui-cells weui-cells_after-title">
+			<view class="weui-cell weui-cell_input">
+				<view class="weui-cell__hd">
+					<view class="weui-label">
+						<i-icon type="emoji" size="28" color="#80848f" />
+					</view>
+				</view>
+				<view class="weui-cell__bd">
+					<input name="location" class="weui-input" bindinput="bindUserInput" value="{{presenterInput}}" data-statu="open" />
+				</view>
+			</view>
+		</view>
+		<view class="input_screen" bindtap="bindUserInput" data-statu="close" wx:if="{{showPresenterInputStatus}}"></view>
+		<scroll-view class="scroll" scroll-y="true" style="height: {{scrollhight}}rpx;" wx:if="{{showPresenterInputStatus}}">
+			<view class="scroll-y" wx:for="{{userMatched}}">
+				<view id="{{item.id}}" data-name="{{item.nickName}}" class="itemview" bindtap="useritemtap" data-statu="close" wx:if="{{showPresenterInputStatus}}">{{item.nickName}}</view>
+			</view>
+		</scroll-view>
 
 
-    <view class="weui-cells__title">
-      <!-- Group -->
-    </view>
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell weui-cell_select">
-        <view class="weui-cell__hd weui-cell__hd_in-select-after">
-          <view class="weui-label">
-            <i-icon type="group" size="28" color="#80848f" />
-          </view>
-        </view>
-        <view class="weui-cell__bd">
-          <picker name="group" bindchange="bindGroupChange" value="{{groupIndex}}" range="{{groups}}" range-key="name">
-            <view class="weui-select weui-select_in-select-after">{{groups[groupIndex].name}}</view>
-          </picker>
-        </view>
-        <checkbox-group bindchange="checkboxChange">
-          <label class="checkbox" wx:if="{{groupIndex == 1}}">
-            <checkbox checked="{{tea2}}" /> Tea2
-          </label>
-        </checkbox-group>
-      </view>
-    </view>
+		<view class="weui-cells__title">
+			<!-- Group -->
+		</view>
+		<view class="weui-cells weui-cells_after-title">
+			<view class="weui-cell weui-cell_select">
+				<view class="weui-cell__hd weui-cell__hd_in-select-after">
+					<view class="weui-label">
+						<i-icon type="group" size="28" color="#80848f" />
+					</view>
+				</view>
+				<view class="weui-cell__bd">
+					<picker name="group" bindchange="bindGroupChange" value="{{groupIndex}}" range="{{groups}}" range-key="name">
+						<view class="weui-select weui-select_in-select-after">{{groups[groupIndex].name}}</view>
+					</picker>
+				</view>
+				<checkbox-group bindchange="checkboxChange">
+					<label class="checkbox" wx:if="{{groupIndex == 1}}">
+						<checkbox checked="{{tea2}}" /> Tea2
+					</label>
+				</checkbox-group>
+			</view>
+		</view>
 
-    <view class="weui-cells__title">
-      <!-- Start Date -->
-    </view>
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell weui-cell_select">
-        <view class="weui-cell__hd weui-cell__hd_in-select-after">
-          <view class="weui-label">
-            <i-icon type="clock" size="28" color="#80848f" />
-          </view>
-        </view>
-        <view class="weui-cell__bd">
-          <picker mode="multiSelector" name="startDateTime" value="{{startDateTime}}" bindchange="changeSartDateTimeVal" bindcolumnchange="changeStartDateTimeColumn" range="{{dateTimeArray}}">
-            <view class="weui-input">{{dateTimeArray[0][startDateTime[0]]}}-{{dateTimeArray[1][startDateTime[1]]}}-{{dateTimeArray[2][startDateTime[2]]}} {{dateTimeArray[3][startDateTime[3]]}}:{{dateTimeArray[4][startDateTime[4]]}}
-            </view>
-          </picker>
-        </view>
-      </view>
-    </view>
+		<view class="weui-cells__title">
+			<!-- Start Date -->
+		</view>
+		<view class="weui-cells weui-cells_after-title">
+			<view class="weui-cell weui-cell_select">
+				<view class="weui-cell__hd weui-cell__hd_in-select-after">
+					<view class="weui-label">
+						<i-icon type="clock" size="28" color="#80848f" />
+					</view>
+				</view>
+				<view class="weui-cell__bd">
+					<view class="weui-input" bindtap="pickerShow">{{dateTimeArray[0][startDateTime[0]]}}-{{dateTimeArray[1][startDateTime[1]]}}-{{dateTimeArray[2][startDateTime[2]]}} {{dateTimeArray[3][startDateTime[3]]}}:{{dateTimeArray[4][startDateTime[4]]}} ~ {{dateTimeArray[0][endDateTime[0]]}}-{{dateTimeArray[1][endDateTime[1]]}}-{{dateTimeArray[2][endDateTime[2]]}} {{dateTimeArray[3][endDateTime[3]]}}:{{dateTimeArray[4][endDateTime[4]]}}</view>
+					<!-- <picker mode="multiSelector" name="startDateTime" value="{{startDateTime}}" bindchange="changeSartDateTimeVal" bindcolumnchange="changeStartDateTimeColumn" range="{{dateTimeArray}}">
+						<view class="weui-input">{{dateTimeArray[0][startDateTime[0]]}}-{{dateTimeArray[1][startDateTime[1]]}}-{{dateTimeArray[2][startDateTime[2]]}} {{dateTimeArray[3][startDateTime[3]]}}:{{dateTimeArray[4][startDateTime[4]]}}</view>
+					</picker> -->
+				</view>
+			</view>
+		</view>
+		<time-picker id="picker" pickerShow="{{isPickerShow}}" config="{{pickerConfig}}" bind:setPickerTime="setPickerTime" wx:if="{{isPickerRender}}" bind:hidePicker="pickerHide">
+		</time-picker>
 
-    <view class="weui-cells__title">
-      <!-- Duration -->
-    </view>
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell weui-cell_select">
-        <view class="weui-cell__hd weui-cell__hd_in-select-after">
-          <view class="weui-label">
-            <i-icon type="time" size="28" color="#80848f" />
-          </view>
-        </view>
-        <view class="weui-cell__bd">
-          <picker name="duration" bindchange="bindDurationChange" value="{{durationIndex}}" range="{{durations}}">
-            <view class="weui-select weui-select_in-select-after">{{durations[durationIndex]}}</view>
-          </picker>
-        </view>
-      </view>
-    </view>
+		<!-- <view class="weui-cells__title"> -->
+			<!-- Duration -->
+	<!--	</view>
+		<view class="weui-cells weui-cells_after-title">
+			<view class="weui-cell weui-cell_select">
+				<view class="weui-cell__hd weui-cell__hd_in-select-after">
+					<view class="weui-label">
+						<i-icon type="time" size="28" color="#80848f" />
+					</view>
+				</view>
+				<view class="weui-cell__bd">
+					<picker name="duration" bindchange="bindDurationChange" value="{{durationIndex}}" range="{{durations}}">
+						<view class="weui-select weui-select_in-select-after">{{durations[durationIndex]}}</view>
+					</picker>
+				</view>
+			</view>
+		</view> -->
 
-    <view class="weui-cells__title">
-      <!-- Location -->
-    </view>
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__hd">
-          <view class="weui-label">
-            <i-icon type="coordinates" size="28" color="#80848f" />
-          </view>
-        </view>
-        <view class="weui-cell__bd">
-          <input name="location" class="weui-input" bindinput="bindKeyInput" placeholder="Location (Required)" value="{{inputLocation}}" data-statu="open" />
-        </view>
-      </view>
-    </view>
+		<view class="weui-cells__title">
+			<!-- Location -->
+		</view>
+		<view class="weui-cells weui-cells_after-title">
+			<view class="weui-cell weui-cell_input">
+				<view class="weui-cell__hd">
+					<view class="weui-label">
+						<i-icon type="coordinates" size="28" color="#80848f" />
+					</view>
+				</view>
+				<view class="weui-cell__bd">
+					<input name="location" class="weui-input" bindinput="bindKeyInput" placeholder="Location (Optional)" value="{{inputLocation}}" data-statu="open" />
+				</view>
+			</view>
+		</view>
 
-    <view class="input_screen" bindtap="bindKeyInput" data-statu="close" wx:if="{{showInputStatus}}"></view>
-    <scroll-view class="scroll" scroll-y="true" style="height: {{scrollhight}}rpx;" wx:if="{{showInputStatus}}">
-      <view class="scroll-y" wx:for="{{bindSource}}">
-        <view id="{{item}}" class="itemview" bindtap="itemtap" data-statu="close" wx:if="{{showInputStatus}}">{{item}}</view>
-      </view>
-    </scroll-view>
+			<view class="input_screen" bindtap="bindKeyInput" data-statu="close" wx:if="{{showInputStatus}}"></view>
+		<scroll-view class="scroll" scroll-y="true" style="height: {{scrollhight}}rpx;" wx:if="{{showInputStatus}}">
+			<view class="scroll-y" wx:for="{{bindSource}}">
+				<view id="{{item}}" class="itemview" bindtap="itemtap" data-statu="close" wx:if="{{showInputStatus}}">{{item}}</view>
+			</view>
+		</scroll-view>
 
-    <view class="weui-cells__title">
-      <!-- Direction -->
-    </view>
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell weui-cell_select">
-        <view class="weui-cell__hd weui-cell__hd_in-select-after">
-          <view class="weui-label">
-            <i-icon type="flag" size="28" color="#80848f" />
-          </view>
-        </view>
-        <view class="weui-cell__bd">
-          <picker name="direction" bindchange="bindDirectionChange" value="{{directionIndex}}" range="{{directions}}" range-key="name">
-            <view class="weui-select weui-select_in-select-after">{{directions[directionIndex].name}}</view>
-          </picker>
-        </view>
-      </view>
-    </view>
+	<view class="weui-cells__title">
+			<!-- Meeting Link -->
+		</view>
+		<view class="weui-cells weui-cells_after-title">
+			<view class="weui-cell weui-cell_input">
+				<view class="weui-cell__hd">
+					<view class="weui-label">
+						<i-icon type="video" size="28" color="#80848f" />
+					</view>
+				</view>
+				<view class="weui-cell__bd">
+					<input name="meetingLink" class="weui-input" maxlength="4000" value="{{formData.meetingLink}}" placeholder="Meeting Link (Optional)"/>
+				</view>
+			</view>
+		</view>
 
-    <view class="weui-cells__title">
-      <!-- Difficulty -->
-    </view>
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell weui-cell_select">
-        <view class="weui-cell__hd weui-cell__hd_in-select-after">
-          <view class="weui-label">
-            <i-icon type="integral" size="28" color="#80848f" />
-          </view>
-        </view>
-        <view class="weui-cell__bd">
-          <picker name="difficulty" bindchange="bindDifficultyChange" value="{{difficultyIndex}}" range="{{difficulties}}">
-            <view class="weui-select weui-select_in-select-after">{{difficulties[difficultyIndex]}}</view>
-          </picker>
-        </view>
-      </view>
-    </view>
+		<view class="weui-cells__title">
+			<!-- Direction -->
+		</view>
+		<view class="weui-cells weui-cells_after-title">
+			<view class="weui-cell weui-cell_select">
+				<view class="weui-cell__hd weui-cell__hd_in-select-after">
+					<view class="weui-label">
+						<i-icon type="flag" size="28" color="#80848f" />
+					</view>
+				</view>
+				<view class="weui-cell__bd">
+					<picker name="direction" bindchange="bindDirectionChange" value="{{directionIndex}}" range="{{directions}}" range-key="name">
+						<view class="weui-select weui-select_in-select-after">{{directions[directionIndex].name}}</view>
+					</picker>
+				</view>
+			</view>
+		</view>
 
-    <view class="weui-cells__title">
-      <!-- Description -->
-      <i-icon type="document" size="28" color="#80848f" />
-    </view>
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell">
-        <view class="weui-cell__bd">
-          <textarea name="description" class="weui-textarea" placeholder="Description" style="height: 3.3em" value="{{formData.description}}" />
-          <view class="weui-textarea-counter">0/200</view>
+		<view class="weui-cells__title">
+
+		</view>
+		<view class="weui-cells weui-cells_after-title" hidden="{{subDirectionIndex == -1}}">
+			<view class="weui-cell weui-cell_select">
+				<view class="weui-cell__hd weui-cell__hd_in-select-after">
+					<view class="weui-label">
+						<i-icon type="flag" size="28" color="#80848f" />
+					</view>
+				</view>
+				<view class="weui-cell__bd">
+					<picker name="subDirection" bindchange="bindSubDirectionChange" value="{{subDirectionIndex}}" range="{{subDirections}}" range-key="name">
+						<view class="weui-select weui-select_in-select-after">{{subDirections[subDirectionIndex].name}}</view>
+					</picker>
+				</view>
+			</view>
+		</view>
+
+		<view class="weui-cells__title">
+			<!-- Difficulty -->
+		</view>
+		<view class="weui-cells weui-cells_after-title">
+			<view class="weui-cell weui-cell_select">
+				<view class="weui-cell__hd weui-cell__hd_in-select-after">
+					<view class="weui-label">
+						<i-icon type="integral" size="28" color="#80848f" />
+					</view>
+				</view>
+				<view class="weui-cell__bd">
+					<picker name="difficulty" bindchange="bindDifficultyChange" value="{{difficultyIndex}}" range="{{difficulties}}">
+						<view class="weui-select weui-select_in-select-after">{{difficulties[difficultyIndex]}}</view>
+					</picker>
+				</view>
+			</view>
+		</view>
+
+		<view class="weui-cells__title">
+			<!-- Recording -->
+		</view>
+		<view class="weui-cells weui-cells_after-title">
+			<view class="weui-cell weui-cell_input">
+				<view class="weui-cell__hd">
+					<view class="weui-label">
+						<i-icon type="video" size="28" color="#80848f" />
+					</view>
+				</view>
+				<view class="weui-cell__bd">
+					<input name="recording" class="weui-input" maxlength="4000" value="{{formData.recording}}" placeholder="Recording Link (Optional)"/>
+				</view>
+			</view>
+		</view>
+
+		<view class="weui-cells__title">
+			<!-- Description -->
+			<i-icon type="document" size="28" color="#80848f" />
+		</view>
+		<view class="weui-cells weui-cells_after-title">
+			<view class="weui-cell">
+				<view class="weui-cell__bd">
+					<textarea name="description" class="weui-textarea" maxlength="1000" placeholder="Description" style="height: 4.3em" value="{{formData.description}}" bindinput="bindText"/>
+					 <text class="weui-textarea-counter">{{t_length}}/1000</text> 
+					<!-- <view class="weui-textarea-counter">0/200</view> -->
         </view>
       </view>
     </view>

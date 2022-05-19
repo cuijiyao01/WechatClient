@@ -121,7 +121,7 @@ function dateTimePicker(startYear, endYear, date) {
   dateTimeArray[1] = getLoopArray(1, 12);
   dateTimeArray[2] = getMonthDay(defaultDate[0], defaultDate[1]);
   dateTimeArray[3] = getLoopArray(0, 23);
-  dateTimeArray[4] = getLoopArray(0, 59, 5);
+  dateTimeArray[4] = getLoopArray(0, 59, 1);
 
   dateTimeArray.forEach((current, index) => {
     dateTime.push(current.indexOf(defaultDate[index]));
@@ -133,7 +133,19 @@ function dateTimePicker(startYear, endYear, date) {
   }
 }
 
+function formatTime(date) {
+  let strDate = getDate(date);
+  let hour = date.getHours();
+  let minute = date.getMinutes();
+//  let second = date.getSeconds();
+
+  return strDate + " " +[hour, minute].map(formatNumber).join(':') +":00";
+};
+
+
+
+
 export default {
-  getCurrentDate, getDateTime, showToast, getUserId, getUserNickname, dateTimePicker, getMonthDay
+  getCurrentDate, getDateTime, showToast, getUserId, getUserNickname, dateTimePicker, getMonthDay, formatTime
 };
 

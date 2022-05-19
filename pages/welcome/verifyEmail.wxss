@@ -1,0 +1,120 @@
+/* pages/welcome/verifyEmail.wxss */
+
+.page.verifyEmail {
+  /* height: 100%; */
+  margin: 30rpx;
+  margin-bottom: 500rpx;
+  padding: 8rpx 30rpx 710rpx ;
+  background: #fff;
+  box-shadow: 0 0 20rpx 2rpx rgba(0, 0, 0, 0.02);
+  border-radius: 5rpx;
+  height: calc(100vh - 780rpx);
+}
+
+.title {
+  font-family: Calibri;
+  font-size: 50rpx;
+  font-weight: bold;
+  color: #555555;
+  margin: 20rpx 0 5rpx 0rpx;
+  text-align: center;
+}
+
+.verifyEmail image {
+  height: 151rpx;
+  width: 375rpx;
+  margin-left: 135rpx;
+  margin-top: 50rpx;
+}
+
+.verifyEmail button {
+  font-size: 0.75rem;
+}
+
+.subtitle {
+  font-size: 32rpx;
+  font-weight: bold;
+  font-family: Calibri;
+  letter-spacing: 1rpx;
+  text-align: center;
+}
+
+.paragragh {
+  /* line-height: 1.4;
+  font-family: Calibri;
+  letter-spacing: 1rpx;
+  margin-top: 10rpx; */
+  font-family: Calibri;
+  font-size: 30rpx;
+  font-weight: bold;
+  margin: 20rpx 0 5rpx 20rpx;
+}
+
+.uniformBtn {
+  /* bottom: 1rem;
+  position: absolute; */
+  width: 85%;
+  margin-top: 40rpx;
+}
+
+
+
+.input {
+  height: 1.5rem;
+  width: 55%;
+  border: 1px solid lightgray;
+  border-radius: 5%;
+  padding: 0.1rem;
+
+}
+
+.codeBtn {
+  height: 1.7rem;
+  font-size: 26rpx;
+  background-color: #589ee9;
+  color: #fff
+}
+.itemView{
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  height: 50px;
+  justify-content: flex-start;
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+  width: 100%;
+}
+
+.itemTitle {
+  width: 20%;
+  padding-right: 2%;
+  text-align: right;
+}
+
+.itemContent {
+  width: 80%;
+  display: flex;
+  align-items: center;
+}
+
+.agreement{
+  font-size: 0.75rem;
+  font-style: italic;
+}
+
+.emailText{
+margin-top: 0.3rem;
+margin-left: 1rem;
+color: gray;
+}
+
+.link {
+  margin-bottom: 8rpx;
+  word-wrap: break-word;
+  color: #096dd9;
+}
+
+.privacyCheckBox {
+  color: #589ee9;
+}

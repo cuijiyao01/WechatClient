@@ -36,11 +36,14 @@ Page({
     startQuizBtnDisabled: false,
     isRegistered: false,
     canEdit: false,
+    canDelete: false,
     isLiked: 0,
     totalLikeCount: 0,
     share: app.globalData.share,
     accessToken: '',
-    sessionQRCode: null
+    sessionQRCode: null,
+    externalSpeaker: false,
+    canManage: false
   },
 
   onLoad: function (e) {
@@ -50,9 +53,94 @@ Page({
 
   onShow: function(e){
     //this.doLoadDetail();
+    var userInfo = wx.getStorageSync('userInfo');
+    if (userInfo) {
+      this.setData({
+        userInfo: userInfo,
+        hasUserInfo: true
+      });
+    }
+    var verifyEmail = wx.getStorageSync('verifyEmail');
+    if (!verifyEmail) {
+      wx.navigateTo({
+        url: '../welcome/welcome',
+      });
+    }
+
     this.setData({
       share: app.globalData.share
-    })
+    });
+    const {id} = this.data.pageQueries;
+    
+    let userId = Util.getUserId();
+    this.setData({
+      sessionId: id
+    });
+  
+    this._checkGuest(userId);
+    this._isCheckedIn();
+    wx.showLoading({
+      title: 'Loading',
+      mask: true
+    });
+
+    WXRequest.post('/session/detail', {
+      sessionId: id,
+      userId: userId
+    }).then(res => {
+      wx.hideLoading();
+      if (res.data.msg === 'no_data') {
+        Util.showToast('Sorry, your session is already removed', 'none', 3000);
+        setTimeout(function () {
+          wx.switchTab({
+            url: '../explore/explore',
+          });
+        }, 3000);
+    }
+      if (res.data.msg === 'ok') {
+        console.log(res.data.retObj.session);
+        let retObj = res.data.retObj;
+        let eventDetail = retObj.session;
+        let likeCount = retObj.session.likeCount;
+        let isOwner = this._isOwner(eventDetail.owner.id);
+        let isGroupOwner = this._isOwner(eventDetail.group.ownerId);
+        let isCreator = eventDetail.createdBy === Util.getUserId();
+        let checkInCode = eventDetail.checkInCode;
+        let recording = eventDetail.recording;
+        let meetingLink = eventDetail.meetingLink;
+        let externalSpeaker = eventDetail.owner.externalSpeaker;
+        if (checkInCode) {
+          this._markStarted(checkInCode);
+        }
+        this.setData({
+          isOwner: isOwner,
+          isGroupOwner: isGroupOwner,
+          eventDetail: eventDetail,
+          status: retObj.session.status,
+        //  canEdit: ((isOwner || isCreator || isGroupOwner) && (retObj.session.status == 0)), // when status is not finished, owner, creator, groupowner can edit
+          canEdit: ((isOwner || isCreator || isGroupOwner)), // this time we open the edit authority to owner, creator and group owner even if the session is finished
+          canDelete: ((isOwner || isCreator || isGroupOwner)), // this time we open the edit authority to owner, creator and group owner even if the session is finished
+          canManage: (isOwner || isCreator || (isGroupOwner && externalSpeaker)), // 
+          totalLikeCount: likeCount,
+          recording: recording,
+          meetingLink: meetingLink,
+          externalSpeaker: externalSpeaker
+        });
+        if (userId && retObj.userRegistered) {
+          this._markRegistered();
+        }
+        this._doLoadQR();
+        console.log("isGroupOwner", this.data.isGroupOwner);
+        console.log("canEdit",this.data.canEdit);
+        console.log("canDelete",this.data.canDelete);
+        console.log("canManage",isOwner, isCreator, isGroupOwner, externalSpeaker);
+        console.log("status", this.data.status);
+        console.log("register", this.data.isRegistered);
+      }
+    }).catch(e => {
+      console.log(e);
+    });
+    this._getLike(userId);
   },
 
   _getAccessToken: function () {
@@ -71,6 +159,9 @@ Page({
       wx.request({
         url: app.globalData.host + '/web/getwxacode',
         method: 'POST',
+        header: {
+          'Authorization': app.globalData.jwtToken
+        },
         data: { 
           path: '/pages/session/eventDetail?id=' + this.data.sessionId,
           width: 430
@@ -89,57 +180,50 @@ Page({
   },
 
   doLoadDetail: function () {
-    const {id} = this.data.pageQueries;
-
-    let userId = Util.getUserId();
-    this.setData({
-      sessionId: id
-    });
-    this._checkGuest(userId);
-    this._isCheckedIn();
-    wx.showLoading({
-      title: 'Loading',
-      mask: true
-    })
-    WXRequest.post('/session/detail', {
-      sessionId: id,
-      userId: userId
-    }).then(res => {
-      wx.hideLoading();
-      if (res.data.msg === 'ok') {
-        console.log(res.data);
-        let retObj = res.data.retObj;
-        let eventDetail = retObj.session;
-        let likeCount = retObj.session.likeCount;
-        let isOwner = this._isOwner(eventDetail.owner.id);
-        let isGroupOwner = this._isOwner(eventDetail.group.ownerId);
-        let isCreator = eventDetail.createdBy === Util.getUserId();
-        let checkInCode = eventDetail.checkInCode;
-        if (checkInCode) {
-          this._markStarted(checkInCode);
-        }
-        this.setData({
-          isOwner: isOwner,
-          eventDetail: eventDetail,
-          status: retObj.session.status,
-          canEdit: ((isOwner || isCreator ) && (retObj.session.status == 0)) || isGroupOwner,
-          totalLikeCount: likeCount
-        });
-        if (userId && retObj.userRegistered) {
-          this._markRegistered();
-        }
-        this._doLoadQR();
-      }
-    }).catch(e => {
-      console.log(e);
-    });
-    this._getLike(userId);
+   
   },
 
   goRankDetail(e) {
     let userId = e.currentTarget.id;
     wx.navigateTo({
       url: '../rankinglist/rankingdetail?userId=' + userId,
+    })
+  },
+
+  // goRecording() {
+  //   let recording = this.data.recording;
+  //   console.log(recording);
+  // },
+
+  copyText: function (e) {
+    console.log(e.currentTarget)
+    wx.setClipboardData({
+      data: this.data.recording,
+      success: function (res) {
+        wx.getClipboardData({
+          success: function (res) {
+            wx.showToast({
+              title: 'Copy Success'
+            })
+          }
+        })
+      }
+    })
+  },
+
+  copyTextMeeting: function (e) {
+    console.log(e.currentTarget)
+    wx.setClipboardData({
+      data: this.data.meetingLink,
+      success: function (res) {
+        wx.getClipboardData({
+          success: function (res) {
+            wx.showToast({
+              title: 'Copy Success'
+            })
+          }
+        })
+      }
     })
   },
 
@@ -196,12 +280,13 @@ Page({
     let userInfo = wx.getStorageSync('userInfo');
     let isCheckedIn = WCache.get(this.data.sessionId + '_checkedIn');
     if (!userInfo) {
-      Util.showToast('Please login fisrt', 'none', 2000);
+      Util.showToast('Please login first', 'none', 2000);
     } else if (!isCheckedIn) {
       Util.showToast('Please check in first', 'none', 2000);
     } else {
       wx.navigateTo({
-        url: '../lottery/lottery?sessionId=' + this.data.sessionId + '&isOwner=' + this.data.isOwner,
+      //  url: '../lottery/lottery?sessionId=' + this.data.sessionId + '&isOwner=' + this.data.isOwner,
+        url: '../lottery/lottery?sessionId=' + this.data.sessionId + '&isOwner=' + this.data.canManage,
       })
     }
   },
@@ -219,9 +304,11 @@ Page({
         sessionId: this.data.eventDetail.id
       }).then(res => {
         if (res.data.msg === 'ok') {
-          console.log(res.data);
+          let eventDetail = this.data.eventDetail;
+          eventDetail.enrollments += 1;
           this.setData({
-            isRegistered: true
+            isRegistered: true,
+            eventDetail: eventDetail
           })
           Util.showToast('Success', 'success', 1000);
         } else {
@@ -241,10 +328,13 @@ Page({
       userId: userId,
       sessionId: this.data.eventDetail.id
     }).then(res => {
+      let eventDetail = this.data.eventDetail;
+      eventDetail.enrollments -= 1;
       if (res.data.msg === 'ok') {
         console.log(res.data);
         this.setData({
-          isRegistered: false
+          isRegistered: false,
+          eventDetail: eventDetail
         })
         Util.showToast('Success', 'success', 1000);
       } else {
@@ -340,13 +430,14 @@ Page({
     });
   },
   onStartSession(event) {
-    let userId = Util.getUserId();
+  //  let userId = Util.getUserId();
     let canStart = this._canStart(this.data.eventDetail.enrollments);
     var that = this;
     if (canStart) {
       WXRequest.post('/session/start', {
         sessionId: this.data.eventDetail.id,
-        userId: userId
+      //  userId: userId
+        userId: this.data.eventDetail.owner.id
       }).then(res => {
         if (res.data.msg === 'ok') {
           console.log(res.data);
@@ -369,6 +460,36 @@ Page({
     wx.navigateTo({
       url: '../session/newEvent?id=' + this.data.sessionId
     });
+  },
+
+  onDeleteSession() {
+    let that = this;
+    wx.showModal({
+      title: '提示',
+      content: '确定要删除吗？',
+      success (res) {
+        if (res.confirm) {
+          // console.log('用户点击确定')
+          WXRequest.delete('/session/delete/' + that.data.eventDetail.id).then(res => {
+            if (res.data.msg === 'ok') {
+              Util.showToast('Delete Success','success',1000);
+              setTimeout(function () {
+                wx.navigateBack({
+                  delta: 1
+                });
+              }, 1000);
+            } else {
+              this.showError('delete session failed. Please try again');
+            }
+          }).catch(e => {
+            this.showError('Please try again');
+            console.log(e);
+          });
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
   },
 
   _markStarted(checkInCode) {
@@ -425,7 +546,6 @@ Page({
   },
 
   onPullDownRefresh: function () {
-    console.log('eventdetail.js onPullDownRefresh...');
     this.doLoadDetail();
     wx.stopPullDownRefresh();
   },

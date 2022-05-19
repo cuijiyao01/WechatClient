@@ -22,6 +22,9 @@ Page({
     wx.request({
       url: app.globalData.host + '/announcement/list',
       method: 'GET',
+      header: {
+        'Authorization': app.globalData.jwtToken
+      },
       success: function (res) {
         if (res.data.msg === 'ok') {
           let notice = res.data.retObj[0];

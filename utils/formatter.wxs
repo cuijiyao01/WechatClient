@@ -5,8 +5,8 @@ var getDate = function (time) {
 
 var getImageUrl = function (src){
   if (src) {
-    //return 'http://localhost:8090' + src;
-    return 'https://tc-api.techtuesday.club' + src;
+    // return 'http://localhost:8090' + src;
+    return 'https://skr.sapdigitallunch.com' + src;
   }
 }
 var getDifficulty = function (difficulty) {

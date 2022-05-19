@@ -6,32 +6,32 @@
   <view class='title'>About Us</view>
 
   <view class="paragragh">
-    Digital School Skr (Share Knowledge and Ranking) is a knowledge transfer anywhere, anytime and carbon-zero digital mobile solution managed by SAP Labs China Digital School to provide upskilling opportunities; cultivate innovation & integration culture; improve learning experience; which drive Employee Success for all Labs China employees. 
+    Digital School Skr (Share Knowledge and Ranking) is a knowledge transfer anywhere, anytime and carbon-zero digital mobile solution managed by SAP Labs China Digital School to provide upskilling opportunities; cultivate innovation & integration culture; improve learning experience; which drive Employee Success for all Labs China employees.  
   </view>
 
-<view class = "list-title">Features</view>
+  <view class = "list-title">Key features include</view>
     <view class="list">
-      <view class="list-item">	Publish upcoming learning sessions with recording; </view>
-      <view class="list-item">Game ranking, a fun incentive for learning & sharing; </view>
-      <view class="list-item">	Session quiz, an efficient interaction to increase learners’ experience; </view>
+      <view class="list-item">Publish upcoming learning sessions with recording;  </view>
+      <view class="list-item">Game ranking, a fun incentive for learning & sharing;  </view>
+      <view class="list-item">Session quiz, an efficient interaction to increase learners’ experience; </view>
   </view>
 
-  <view class = "list-title">Team</view>
+ <view class = "list-title">Team</view>
   <view class="list">
-    <view class="list-item">Operation lead: Zhenjia Hu</view>
-    <view class="list-item">Backend: Min Huang, Qin Tang</view>
-    <view class="list-item">Frontend: Rita Liu</view>
-    <view class="list-item">UX: Zhenjia Hu </view>
+    <view class="list-item">Operation Lead: Zhenjia Hu</view>
+    <view class="list-item">Backend: Qin Tang, Jason Cui </view>
+    <view class="list-item">Frontend: Rita Liu </view>
     <view class="list-item">PM: Tao Zhang </view>
   </view>
 
   <view class='title'>Contact Us</view>
   <view class="paragragh">
-    For questions/feedbacks, please contact zhenjia.hu@sap.com
+    zhenjia.hu@sap.com
   </view>
 
   <view class="copyright">
-    Copyright © 2018-2019 <text class='link'>T2 Virtual Team</text> All rights reserved.
+  Special thanks to Min Huang, Shawn Shao and all contributtors to this project.
+    Copyright © 2020 Labs China Digital School Skr Team All rights reserved.
   </view>
 
 </view>

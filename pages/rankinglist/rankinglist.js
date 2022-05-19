@@ -12,14 +12,20 @@ Page({
     activeIndex: 0,
     sliderOffset: 0,
     sliderLeft: 0,
-    tabArr: ["User", "Session"],
+    tabArr: ["User", "My Prize"],
+    prizeId: 0,
+    prizeList: [],
+    prizeListOpen: [],
+    addressList: [],
     sessionRankingList: [],
     sessions: [],
     groupArr: [],
     selectedGroupId: 1,
-    selectedGroupName: 'Public',
+    selectedGroupName: 'All',
     canJoin: false,
-    canQuit: false
+    canQuit: false,
+    startDate: "",
+    endDate: "",
   },
   onLoad: function () {
     console.log('userRankingList::onLoad');
@@ -36,17 +42,52 @@ Page({
     this._loadUserRanking();
   },
 
-  onShow: function(){
+  onShow: function () {
+    var verifyEmail = wx.getStorageSync('verifyEmail');
+    if (!verifyEmail) {
+      wx.navigateTo({
+        url: '../welcome/welcome',
+      });
+    }
+    this._refreshRanking();
   },
 
-  getGroupList: function(){
+  getGroupList: function () {
+    let that = this
+    let currentDate = {
+      isDuringDate: function (beginDateStr, endDateStr) {
+        beginDateStr = beginDateStr.replace(/-/g, '/')
+        endDateStr = endDateStr.replace(/-/g, '/')
+        let curDate = new Date(),
+          beginDate = new Date(beginDateStr),
+          endDate = new Date(endDateStr);
+
+        console.log(beginDateStr, endDateStr)
+        // console.log(curDate, beginDate, endDate)
+        if (curDate >= beginDate && curDate <= endDate) {
+          return true;
+        }
+        return false;
+      }
+    }
     let userId = Util.getUserId();
-    WXRequest.get('/group/list/'+ userId).then(res => {
+    WXRequest.get('/group/list/' + userId).then(res => {
       if (res.data.length > 0) {
-        console.log('/group/list', res.data);
-        this.setData({
-          groupArr: res.data
-        });
+        if (this.data.startDate) {
+          if (currentDate.isDuringDate(this.data.startDate, this.data.endDate)) {
+            res.data.map((item) => { if (item.id == 34) { item.canJoin = false; item.canQuit = false } })
+            this.setData({
+              groupArr: res.data
+            });
+          } else {
+            this.setData({
+              groupArr: res.data
+            });
+          }
+        } else {
+          this.refreshDate();
+          setTimeout(function () { that.getGroupList() }, 1000)
+        }
       }
     }).catch(e => {
       console.log(e);
@@ -83,30 +124,35 @@ Page({
       this._loadUserRanking();
     } else if (currentIndex == 1) {
       this._setLoading(name, true);
-      this._loadSessionRanking();
+      this._getPrizeList()
     }
   },
 
-  goSessionDetail: function (e) {
-    let id = e.currentTarget.id;
-    console.log('id: ' + id);
+  onClickGetMyPrize: function (e) {
     wx.navigateTo({
-      url: '../session/eventDetail?id=' + id,
+      // url: '../redeem/redeem?group=' + this.data.selectedGroupId + '&prizeid=' + this.data.prizeId,
+      url: '../redeem/redeem?group=34&prizeid=' + this.data.prizeId,
     })
   },
 
-// User
+  // User
   _loadUserRanking: function () {
+    let myId = Util.getUserId();
     let that = this;
     wx.request({
-      url: app.globalData.host + '/ranking/list/' + this.data.selectedGroupId,
+      url: app.globalData.host + '/ranking/list/' + this.data.selectedGroupId + '/' + myId,
       method: 'GET',
+      header: {
+        'Authorization': app.globalData.jwtToken
+      },
       success: function (res) {
-        console.log(res.data);
-        that.setData({
-          userRankingList: res.data
-        });
+        // console.log(res.data);
         that._findMyRanking(res.data);
+        let tempRankList = res.data
+        // console.log(tempRankList);
+        that.setData({
+          userRankingList: tempRankList
+        });
       },
       fail: function (e) {
         Util.showToast('数据获取失败', 'none', 2000);
@@ -115,32 +161,74 @@ Page({
   },
 
   _findMyRanking: function (userRankingList) {
-      let myId = Util.getUserId();
-      let myRanking = userRankingList.filter(item => item.userId === myId)[0];
-      if(myRanking == undefined){
-        myRanking = null;
-      }
-      this.setData({
-        myRanking: myRanking
-      });
+    let myId = Util.getUserId();
+    let myRanking = userRankingList.filter(item => item.userId === myId)[0];
+    if (myRanking == undefined) {
+      myRanking = null;
+    }
+    this.setData({
+      myRanking: myRanking
+    });
   },
 
-// Session
-  _loadSessionRanking: function () {
+  _getPrizeList: function name(params) {
     let that = this;
+    let myId = Util.getUserId();
+
     wx.request({
-      url: app.globalData.host + '/ranking/listSession/' + this.data.selectedGroupId,
+      // url: app.globalData.host + '/redeem/release/' + this.data.selectedGroupId + '/' + myId,
+      url: app.globalData.host + '/redeem/release/34/' + myId,
       method: 'GET',
+      header: {
+        'Authorization': app.globalData.jwtToken
+      },
       success: function (res) {
-        console.log(res.data);
-        that.setData({
-          sessions: res.data
-        });
+        // console.log(res.data);
+        let prizeListOpen = [res.data.retObj]
+        if (prizeListOpen && prizeListOpen[0] && prizeListOpen[0].id !== null) {
+          prizeListOpen.map(item => {
+            item.redeem = item.startDate.substr(0, 10) + ' ' + item.startDate.substr(11, 5) + ' to ' + item.endDate.substr(0, 10) + ' ' + item.endDate.substr(11, 5);
+          })
+          that.setData({
+            prizeListOpen: prizeListOpen,
+            prizeId: prizeListOpen[0].id
+          });
+        } else {
+          that.setData({
+            prizeListOpen: [],
+            prizeId: 0
+          });
+        }
       },
       fail: function (e) {
         Util.showToast('Failed to get data', 'none', 2000);
       }
     })
+    wx.request({
+      url: app.globalData.host + '/redeem/prizes/' + myId,
+      method: 'GET',
+      header: {
+        'Authorization': app.globalData.jwtToken
+      },
+      success: function (res) {
+        // console.log(res.data);
+        let prizeList = res.data
+        if (prizeList.length >= 1) {
+          prizeList.map(item => { item.redeem = item.startDate.substr(0, 10) + ' ' + item.startDate.substr(11, 5) + ' to ' + item.endDate.substr(0, 10) + ' ' + item.endDate.substr(11, 5); })
+          that.setData({
+            prizeList: prizeList,
+          });
+        } else {
+          that.setData({
+            prizeList: []
+          });
+        }
+      },
+      fail: function (e) {
+        Util.showToast('Failed to get data', 'none', 2000);
+      }
+    })
+
   },
 
   _setLoading: function (name, showLoading) {
@@ -148,8 +236,35 @@ Page({
       [name + ' Ranking Is Loading']: showLoading
     });
   },
-
+  refreshDate: function () {
+    let that = this;
+    wx.request({
+      url: app.globalData.host + '/redeem/date/',
+      method: 'GET',
+      header: {
+        'Authorization': app.globalData.jwtToken
+      },
+      success: function (res) {
+        console.log(res.data);
+        if (res.data.startDate && res.data.endDate) {
+          that.setData({
+            startDate: res.data.startDate,
+            endDate: res.data.endDate,
+          });
+        } else {
+          that.setData({
+            startDate: "",
+            endDate: "",
+          });
+        }
+      },
+      fail: function (e) {
+      }
+    })
+  },
   _refreshRanking: function () {
+    this.refreshDate()
+    this._getPrizeList()
     console.log('userRankingList::onPullDownRefresh');
     this.getGroupList();
     const activeIndex = this.data.activeIndex;
@@ -159,29 +274,28 @@ Page({
       this._loadUserRanking();
     } else if (activeIndex == 1) {
       this._setLoading(name, true);
-      this._loadSessionRanking();
     }
   },
 
-  onJoinClick: function(e){
+  onJoinClick: function (e) {
     console.log('id:' + e.currentTarget.id);
     let groupId = Number(e.currentTarget.id);
     let groupName = e.currentTarget.dataset.name;
     console.log('groupName:' + groupName);
     var that = this;
     wx.showModal({
-      content: 'Are your sure to join ' + groupName +' ?',
+      content: 'Are your sure to join ' + groupName + ' ?',
       cancelText: 'Cancel',
       confirmText: 'Confirm',
       success: function (res) {
         if (res.confirm) {
-           that.joinGroup(groupId);
+          that.joinGroup(groupId);
         }
       }
     })
   },
 
-  joinGroup: function(groupId){
+  joinGroup: function (groupId) {
     var that = this;
     let userInfo = wx.getStorageSync('userInfo');
     if (userInfo) {

@@ -1,0 +1,32 @@
+/* pages/jamPage/jamPage.wxss */
+
+/* pages/aboutMe/aboutMe.wxss */
+
+.page.jam {
+  margin: 30rpx;
+  padding: 0 30rpx;
+  padding-top: 30rpx;
+  padding-bottom: 780rpx;
+  background: #fff;
+  box-shadow: 0 0 20rpx 2rpx rgba(0, 0, 0, 0.02);
+  border-radius: 5rpx;
+}
+
+.title {
+ font-size: 26rpx;
+ /* font-weight: bold; */
+ color: #000;
+ margin: 20rpx 0 5rpx 0;
+}
+
+.link {
+  margin-bottom: 8rpx;
+  word-wrap: break-word;
+  color: #096dd9;
+  font-size: 30rpx;
+}
+
+.copyButton {
+  background:#0076cb;
+  color:#FFF;
+}

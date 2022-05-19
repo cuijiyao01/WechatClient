@@ -23,7 +23,8 @@
                   class="weui-input" 
                   placeholder="No Data" 
                   value="{{value}}"
-                  bindinput="{{onInput}}" />
+                  bindinput="{{onInput}}" 
+                  disabled="{{disabled}}"/>
             </view>
         </view>
     </view>

@@ -1,3 +1,6 @@
+<view class="flex-item" wx:if="{{canDownloadEnrollmentList}}">
+  <button class="uniformBtn" bindtap="onDownloadEnrollmentList">Download Enrollments List</button>
+</view>
 <view class="weui-cells weui-cells_after-title">
   <navigator class="weui-cell" wx:for="{{aEnrollmentList}}" wx:key="nickName">
     <view class="firstCol">{{index+1}}</view>

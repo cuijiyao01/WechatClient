@@ -14,6 +14,9 @@ Page({
       wx.request({
         url: app.globalData.host + '/ranking/points/' + userId,
         method: 'GET',
+        header: {
+          'Authorization': app.globalData.jwtToken
+        },
         success: function (res) {
           console.log(res.data);
           that.setData({

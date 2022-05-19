@@ -195,13 +195,13 @@ Page({
         let sessionPerPage = res.data.retObj;
         if (pageNum === 1) {
           let length = sessionPerPage.length;
-          if (length >= 0 && length < 5) {
+          if (length >= 0 && length < PAGE_SIZE) {
             this.setData({
               [name]: res.data.retObj,
               [name + 'IsNoData']: true,
               [name + 'IsPullDownLoading']: false
             });
-          } else if (length === 5) {
+          } else if (length === PAGE_SIZE) {
             this.setData({
               [name]: res.data.retObj,
               [name + 'IsPullDownLoading']: false
@@ -209,7 +209,7 @@ Page({
           } else {
             this.setData({
               [name + 'IsNoData']: true,
-              [name + 'IsPullDownLoading']: false
+              [name + 'IsPullDownLoading']: true
             });
           }
           
@@ -269,13 +269,17 @@ Page({
     });
   },
 
-  getUserInfo: function (e) {
-    console.log(e)
-    if (e.detail.userInfo) {
-      this.addUser(e.detail.userInfo);
-    } else {
-      console.log(e.detail.errMsg)
-    }
+  getUserProfile: function (e) {
+    wx.getUserProfile({
+      desc: '用于完善会员资料', 
+      success: (res) => {
+        this.addUser(res.userInfo);
+        console.log('获取成功: ',res)
+      },
+      error: (err) =>{
+        console.log(err.errMsg)
+      }
+    })
   },
 
   addUser: function (user) {
@@ -287,6 +291,9 @@ Page({
       wx.request({
         url: app.globalData.host + '/user/save',
         method: 'POST',
+        header: {
+          'Authorization': app.globalData.jwtToken
+        },
         data: user,
         success: function (res) {
           console.log(res.data);
@@ -311,6 +318,9 @@ Page({
     wx.request({
       url: app.globalData.host + '/user/totalPoints/' + openid,
       method: 'GET',
+      header: {
+        'Authorization': app.globalData.jwtToken
+      },
       success: function (res) {
         that.setData({
           totalPoints: res.data.retObj
@@ -327,6 +337,9 @@ Page({
     wx.request({
       url: app.globalData.host + '/user/groups/' + openid,
       method: 'GET',
+      header: {
+        'Authorization': app.globalData.jwtToken
+      },
       success: function (res) {
         var groups = res.data.retObj;
         for(var i = 0; i < groups.length; i++){
@@ -364,6 +377,12 @@ Page({
     if (userInfo != 'undefined' && userInfo.id){
       this.getTotalPoints(userInfo.id);
       this.getGroups(userInfo.id);
+    }
+    var verifyEmail = wx.getStorageSync('verifyEmail');
+    if (!verifyEmail) {
+      wx.navigateTo({
+        url: '../welcome/welcome',
+      });
     }
   },
 

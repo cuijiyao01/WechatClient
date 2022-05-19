@@ -3,7 +3,7 @@
 </wxs>
 <view class="page {{isT2User ? 'page-with-t2entries' : ''}}">
   <view class="userinfo">
-    <button class="loginButton" type="primary" plain="true" wx:if="{{!hasUserInfo}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo">
+    <button class="loginButton" type="primary" plain="true" wx:if="{{!hasUserInfo}}" bindtap="getUserProfile">
       登录
     </button>
     <view wx:else class="myInfoCard" bindtap='goToProfilePage'>

@@ -5,13 +5,19 @@
   background-color: #fff;
 }
 
+.paragraph {
+  font-size: 28rpx;
+  padding: 10rpx 16rpx;
+  margin: 0rpx 0rpx 0 20rpx;
+  background: #ffffff;
+}
 .label {
   display: inline-block;
   font-size: 28rpx;
   background: #e8e8ed;
   border-radius: 10rpx;
   padding: 10rpx 16rpx;
-  margin: 20rpx 20rpx 0 20rpx;
+  margin: 5rpx 20rpx 40rpx 30rpx;
 }
 
 .joinBtn {
@@ -82,14 +88,14 @@
   margin-left: 20rpx;
 }
 
-.session_topic text{
+.session_topic > .text {
   overflow: hidden;
   word-break: break-all;
   color: #333;
   line-height: 1.25rem;
 }
 
-.session_like image {
+.session_like > .image {
   width: 40rpx;
   height: 40rpx;
 }
@@ -108,7 +114,7 @@
   margin-right: 10rpx;
 }
 
-.title_in_rank text {
+.title_in_rank > .text {
   overflow: hidden;
   text-overflow: ellipsis;
   word-wrap: break-word;
@@ -118,4 +124,56 @@
   -webkit-box-orient: vertical;
   color: rgb(0, 0, 0);
   line-height: 1.25rem;
+}
+.prize_history_text {
+  margin-top: 10rpx;
+  margin-left: 26rpx;
+  font-size: 1.2rem;
+}
+.prize_block {
+  background: #e8e8ed;
+  border-radius: 10rpx;
+  padding: 10rpx 20rpx;
+  margin: 20rpx 20rpx 40rpx 30rpx;
+}
+
+.prize_name {
+  font-size: 1.2rem;
+}
+.prize_attr {
+  font-size: 0.8rem;
+  color: gray;
+}
+.prize_status {
+  padding: 10rpx 20rpx;
+  float: right;
+  font-size: 0.8rem;
+}
+.get_my_prize_button {
+  margin: 10rpx 0rpx 10rpx 0rpx;
+  height: 2rem;
+  width: 99%;
+  text-align: center;
+  font-size: 0.8rem;
+}
+.REDEEMED {
+  color: gray;
+}
+.OVERDUE {
+  color: red;
+}
+.OPEN {
+  color: green;
+}
+.no_prize {
+  opacity: 0.4;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.prize_img {
+  width: 100%;
+  margin-top: 200rpx;
+  height: 100rpx;
 }

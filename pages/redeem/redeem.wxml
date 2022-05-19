@@ -1,0 +1,32 @@
+<!--pages/redeem/redeem.wxml-->
+<view class="redeem_list">
+  <view class="address_picker">
+    City*
+    <picker bindchange="bindPickerChange" mode="selector" range="{{addressList}}" range-key="city"
+      value="{{addressIndex}}" aria-haspopup="true">
+      <view wx:if="{{addressIndex==null}}" class="weui-select weui-select_in-select-after redeem-prefix placeholder">
+        Select your City</view>
+      <view wx:if="{{addressIndex!=null}}" class="weui-select weui-select_in-select-after redeem-prefix">
+        {{addressList[addressIndex].city}}
+      </view>
+    </picker>
+    <view class="address_detial">
+      {{addressList[addressIndex].addressInfo}}
+    </view>
+  </view>
+  <view class="name input_prefix">
+    Name(Option)
+    <input class="redeem_input" bindinput="bindNameInput" placeholder="Please enter your Name"></input>
+  </view>
+  <view class="phone input_prefix">
+    Mobile Phone*
+    <input class="redeem_input" type="number" bindinput="bindPhoneInput"
+      placeholder="Please enter your mobile phone number"></input>
+  </view>
+  <view class="inumber input_prefix">
+    SAP ID*
+    <input class="redeem_input" bindinput="bindInumberInput" placeholder="Please enter your I/C Number"></input>
+  </view>
+  <button class="uniformBtn submit_button {{wxss_prefix}}" role="button" aria-disabled="false"
+    bindtap="onClickSubmit">Submit</button>
+</view>

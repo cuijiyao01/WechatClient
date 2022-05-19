@@ -1,12 +1,15 @@
 <view class="page">
   <view class="userinfo">
     <block>
-      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <image class="userinfo-avatar" src="{{userInfo.avatarUrl ? userInfo.avatarUrl : '../../images/avatar.png'}}"
+        mode="cover"></image>
       <view class="userinfo-personalinfo">
         <view class="userinfo-nickname">{{userInfo.nickName}}</view>
         <view class="userinfo-gender">
-          <image wx:if="{{userInfo.gender==2}}" style="width: 20px; height: 20px;" src="../../images/gender_girl.png"></image>
-          <image wx:else="{{userInfo.gender==1}}" style="width: 20px; height: 20px;" src="../../images/gender_boy.png"></image>
+          <image wx:if="{{userInfo.gender==2}}" style="width: 20px; height: 20px;" src="../../images/gender_girl.png">
+          </image>
+          <image wx:else="{{userInfo.gender==1}}" style="width: 20px; height: 20px;" src="../../images/gender_boy.png">
+          </image>
         </view>
       </view>
     </block>
@@ -15,51 +18,56 @@
     <view class="weui-tab">
       <view class="weui-navbar">
         <block wx:for="{{tabs}}" wx:key="*this">
-          <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
+          <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}"
+            bindtap="tabClick">
             <view class="weui-navbar__title">{{item}}</view>
           </view>
         </block>
-        <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
+        <view class="weui-navbar__slider"
+          style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);">
+        </view>
       </view>
       <view class="weui-tab__panel">
         <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
           <view class="radarContaniner">
             <canvas canvas-id="radarCanvas" class="radarCanvas" bindtouchstart="touchHandler"></canvas>
-            </view>
+          </view>
         </view>
         <view class="weui-tab__content capabilitySubTab introduction" hidden="{{activeIndex != 1}}">
           <view>
             <i-icon type="brush" size="28" color="#80848f" />
-            <text>{{userInfo.signature == null ? 'No data' : userInfo.signature}}</text>
+            <text>{{userInfo.signature == '' || userInfo.signature == null ? 'No data'  : userInfo.signature}}</text>
           </view>
           <view>
             <i-icon type="group" size="28" color="#80848f" />
-            <text>{{userInfo.department == null ? 'No data' : userInfo.department}}</text>
+            <text>{{userInfo.department == '' || userInfo.signature == null ? 'No data' : userInfo.department}}</text>
           </view>
           <view>
-            <i-icon type="coordinates" size="28" color="#80848f"/>
-            <text>{{userInfo.seat == null ? 'No data' : userInfo.seat}}</text>
+            <i-icon type="coordinates" size="28" color="#80848f" />
+            <text>{{userInfo.seat == '' || userInfo.signature == null ? 'No data' : userInfo.seat}}</text>
           </view>
           <view>
-            <i-icon type="eit" size="28" color="#80848f"/>
-            <text>{{userInfo.blog == null ? 'No data' : userInfo.blog}}</text>
+            <i-icon type="eit" size="28" color="#80848f" />
+            <text>{{userInfo.blog == '' || userInfo.signature == null ? 'No data' : userInfo.blog}}</text>
           </view>
           <view class="githubInfo">
             <image src="../../images/github.png"></image>
-            <text>{{userInfo.github == null ? 'No data' : userInfo.github}}</text>
+            <text>{{userInfo.github == '' || userInfo.signature == null ? 'No data' : userInfo.github}}</text>
           </view>
 
         </view>
-        <view class="weui-tab__content capabilitySubTab" hidden="{{activeIndex != 2}}">   
+        <view class="weui-tab__content capabilitySubTab" hidden="{{activeIndex != 2}}">
           <view class="skillItem" wx:for="{{skillPoints}}" wx:key="index">
             <view class="skillContent">
               <text class="skillTag">{{item.name}} . {{item.points}}</text>
             </view>
             <view wx:if="{{!item.endorsed}}">
-              <i-icon type="add" size="28" color="#0076cb" custom="sfAdd" data-skillIndex="{{index}}" bindtap="addSkillPoints"/>
+              <i-icon type="add" size="28" color="#0076cb" custom="sfAdd" data-skillIndex="{{index}}"
+                bindtap="addSkillPoints" />
             </view>
             <view wx:else>
-              <i-icon type="right" size="28" color="#0076cb" custom="sfRight" data-skillIndex="{{index}}" bindtap="revertAddSkillPoints"/>
+              <i-icon type="right" size="28" color="#0076cb" custom="sfRight" data-skillIndex="{{index}}"
+                bindtap="revertAddSkillPoints" />
             </view>
           </view>
         </view>

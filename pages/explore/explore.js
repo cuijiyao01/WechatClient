@@ -23,9 +23,10 @@ Page({
     scrollLeft: 0,
     showFilterPopup: false,
     directions: [],
-    hotSessions: [],
+    bannerImgs: [],
     sessions: [],
     upComingSessions: [],
+    subDirections: [],
     pageNum: 1,
     showNoData: 'false',
     difficultyLevels: CONST.DIFFICULTY_LEVELS,
@@ -40,46 +41,80 @@ Page({
     hasUserInfo: false,
   },
 
+  showNicknamePopup:function(){
+    this.homepopup.showPopup();
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.loadBanner();
     this.init();
   },
 
-  init: function(){
+  loadBanner: function () {
+    return WXRequest.get('/banner/list/').then(res => {
+      if (res.data.msg === 'ok') {
+        this.setData({
+          bannerImgs: res.data.retObj
+        })
+      }
+    }).catch(e => {
+      console.log(e);
+    });
+  },
+
+  init: function () {
     this._setLoadingText('isLoading', true);
     WXRequest.post('/session/all', {
       pageNum: 1,
       pageSize: 10,
-      upcoming: 1
+      upcoming: 1,
+      digitalSchool: 1
     }).then(res => {
       this._setLoadingText('isLoading', false);
       if (res.data.msg === 'ok') {
-        console.log(res.data);
         let swiperHeight = this.getCoumptedSwiperHeight(res.data.retObj.upComingSessions.length);
         let directions = res.data.retObj.directions;
-        let newDirections = directions.splice(0, 0, { id: 1, name: "Up Coming", imageSrc: null });
+        console.log(directions);
+        let firstItem;
+        // 筛选出 Labs China Digital School direction
+        for (var i = 0; i < directions.length; i++) {
+          if (directions[i].id == 15) {
+            firstItem = directions[i];
+            directions.splice(i, 1);
+          }
+        }
+        directions.splice(0, 0, firstItem);
+        directions.splice(0, 0, {
+          id: 0,
+          name: "Up Coming",
+          imageSrc: null
+        });
+        console.log(res.data.retObj.sessions)
         this.setData({
           directions: res.data.retObj.directions,
+          subDirections: res.data.retObj.subDirections,
           hotSessions: res.data.retObj.hotSessions,
+          //  sessions: res.data.retObj.sessions,
           sessions: res.data.retObj.upComingSessions,
           upComingSessions: res.data.retObj.upComingSessions,
           swiperHeight: swiperHeight,
-          showNoData: res.data.retObj.upComingSessions.length === 0
+          showNoData: res.data.retObj.sessions.length === 0
         });
       }
     }).catch(e => {
-        this._setLoadingText('isLoading', false);
-        console.log(e)
+      this._setLoadingText('isLoading', false);
+      console.log(e)
     });
   },
 
   swichNav: function (evt) {
     let cur = evt.target.dataset.current;
     this._resetData();
-    if (this.data.selectedTabIndex === cur) { 
-      return false; 
+    if (this.data.selectedTabIndex === cur) {
+      return false;
     } else {
       this.loadNewTabItemData(cur);
     }
@@ -87,7 +122,7 @@ Page({
   switchTab: function (evt) {
     this._resetData();
     let cur = evt.detail.current;
-    this.loadNewTabItemData(cur);    
+    this.loadNewTabItemData(cur);
   },
 
   loadNewTabItemData: function (selectedTabIndex) {
@@ -95,15 +130,10 @@ Page({
       selectedTabIndex: selectedTabIndex
     });
     console.log("new selectedTabIndex is " + selectedTabIndex);
-    if (selectedTabIndex === 0){
-      let swiperHeight = this.getCoumptedSwiperHeight(this.data.upComingSessions.length);
-      this.setData({
-        swiperHeight: swiperHeight,
-        sessions: this.data.upComingSessions,
-        showNoData: this.data.upComingSessions.length === 0
-      })
-    }
-    else {
+    if (selectedTabIndex === 0) {
+      this._setLoadingText('isLoading', true);
+      this._getUpcomingSessions();
+    } else {
       let directionId = this.data.directions[selectedTabIndex].id;
       let options = {
         "pageNum": 1,
@@ -117,7 +147,7 @@ Page({
 
   getCoumptedSwiperHeight: function (count) {
     let itemsHeight = count * 200;
-    let swiperHeight = itemsHeight > this.data.listVisibleHeight  ? itemsHeight : this.data.listVisibleHeight;
+    let swiperHeight = itemsHeight > this.data.listVisibleHeight ? itemsHeight : this.data.listVisibleHeight;
     return swiperHeight;
   },
   goToSearchPage: function (evt) {
@@ -131,12 +161,28 @@ Page({
       showFilterPopup: true
     });
   },
- 
+
   goDetail: function (e) {
     let id = e.currentTarget.id;
     wx.navigateTo({
       url: '../session/eventDetail?id=' + id,
     })
+  },
+
+  goLink: function (e) {
+    let url = e.currentTarget.id;
+    console.log('url:' + url);
+    if (url) {
+      wx.navigateTo({
+        // url: '../webview/jam?url=' + url,
+        url: '../jamPage/jamPage?url=' + url
+      })
+    } else {
+      wx.navigateTo({
+        url: '../subSchool/subSchool?',
+      })
+    }
+
   },
 
   onTagChange: function (evt) {
@@ -170,7 +216,7 @@ Page({
       return;
     }
     let selectedIndex = this.data.selectedTabIndex;
-    let directionId = this.data.directions[selectedIndex].id;    
+    let directionId = this.data.directions[selectedIndex].id;
     WXRequest.post('/session/list', {
       "pageNum": 1,
       "pageSize": 10,
@@ -215,11 +261,35 @@ Page({
     });
   },
 
+  _getUpcomingSessions: function (pageNum) {
+    if (!pageNum) {
+      pageNum = this.data.pageNum;
+    }
+    WXRequest.post('/session/upcoming', {
+      pageNum: pageNum,
+      pageSize: 10
+    }).then(res => {
+      this._setLoadingText('isLoading', false);
+      let upcominglength = res.data.retObj.upComingSessions.length;
+      let swiperHeight = this.getCoumptedSwiperHeight(upcominglength);
+      this.setData({
+        swiperHeight: swiperHeight,
+        sessions: res.data.retObj.upComingSessions,
+        upComingSessions: res.data.retObj.upComingSessions,
+        showNoData: upcominglength === 0
+      })
+    }).catch(e => {
+      this._setLoadingText('isLoading', false);
+      console.log(e)
+    });
+  },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    
+    
   },
 
   /**
@@ -234,6 +304,17 @@ Page({
         hasUserInfo: true
       })
     }
+    var verifyEmail = wx.getStorageSync('verifyEmail');
+    if (!verifyEmail) {
+      wx.navigateTo({
+        url: '../welcome/welcome',
+      });
+    }
+    this.homepopup = this.selectComponent("#homepopup");
+    if (verifyEmail && (wx.getStorageSync('reminded')!=1)){
+      this.showNicknamePopup();
+    }
+    this.onPullDownRefresh();
   },
 
   /**
@@ -255,24 +336,25 @@ Page({
    */
   onPullDownRefresh: function () {
     console.log('onPullDownRefresh...');
+    this._setLoadingText('isNoMoreData', false);
+    this.setData({
+      pageNum: 1
+    });
     let selectedIndex = this.data.selectedTabIndex;
     if (selectedIndex === 0) {
-      let swiperHeight = this.getCoumptedSwiperHeight(this.data.upComingSessions.length);
-      this.setData({    
-        sessions: this.data.upComingSessions,
-        swiperHeight: swiperHeight,
-        showNoData: this.data.upComingSessions.length === 0
-      })
-    }
-    else {
-      let directionId = this.data.directions[selectedIndex].id;
-      let options = {
-        "pageNum": 1,
-        "pageSize": 10,
-        "directionId": directionId
-      };
       this._setLoadingText('isLoading', true);
-      this._fetchSessionList(options);
+      this._getUpcomingSessions(1);
+    } else {
+      if (this.data.directions.length > 0) {
+        let directionId = this.data.directions[selectedIndex].id;
+        let options = {
+          "pageNum": 1,
+          "pageSize": 10,
+          "directionId": directionId
+        };
+        this._setLoadingText('isLoading', true);
+        this._fetchSessionList(options);
+      }
     }
     wx.stopPullDownRefresh();
   },
@@ -289,35 +371,39 @@ Page({
     this.setData({
       pageNum: pageNum
     });
-    WXRequest.post('/session/list', {
-      "pageNum": pageNum,
-      "pageSize": 10,
-      "directionId": directionId
-      // "orderField": "total_members"
-    }).then(res => {
-      this._setLoadingText('isLoading', false);
-      if (res.data.msg === 'ok') {
-        console.log(this.data.sessions);
-        if (res.data.retObj.length) {
-          let newSessions = this.data.sessions.concat(res.data.retObj)
-          let swiperHeight = this.getCoumptedSwiperHeight(newSessions.length);
-          this.setData({
-            sessions: newSessions,
-            swiperHeight: swiperHeight,
-            showNoData: false
-          });
-          console.log(this.data.sessions);
-        } else {
-          if (!this.data.loadingStatusVals.isNoMoreData) {
-            this._setLoadingText('isNoMoreData', true);
+    if (selectedIndex === 0) {
+      this._getUpcomingSessions();
+    } else {
+      WXRequest.post('/session/list', {
+        "pageNum": pageNum,
+        "pageSize": 10,
+        "directionId": directionId
+        // "orderField": "total_members"
+      }).then(res => {
+        this._setLoadingText('isLoading', false);
+        if (res.data.msg === 'ok') {
+          console.log(pageNum);
+          if (res.data.retObj.length) {
+            let newSessions = this.data.sessions.concat(res.data.retObj)
+            let swiperHeight = this.getCoumptedSwiperHeight(newSessions.length);
+            this.setData({
+              sessions: newSessions,
+              swiperHeight: swiperHeight,
+              showNoData: false
+            });
+            console.log(this.data.sessions);
+          } else {
+            if (!this.data.loadingStatusVals.isNoMoreData) {
+              this._setLoadingText('isNoMoreData', true);
+            }
           }
         }
-      }
-      this._setLoadingText('isLoading', false);
-    }).catch(e => {
-      console.log(e)
-      this._setLoadingText('isLoading', false);
-    });
+        this._setLoadingText('isLoading', false);
+      }).catch(e => {
+        console.log(e)
+        this._setLoadingText('isLoading', false);
+      });
+    }
   },
 
   _setLoadingText: function (propName, status) {
@@ -325,7 +411,7 @@ Page({
     this.setData({
       loadingStatusVals: this.data.loadingStatusVals,
     });
-    if (propName === 'isNoMoreData' ) {
+    if (propName === 'isNoMoreData') {
       this.setData({
         swiperHeight: this.data.swiperHeight + 85
       })

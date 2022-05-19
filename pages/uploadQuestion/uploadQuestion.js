@@ -33,6 +33,9 @@ Page({
     wx.request({
       url: app.globalData.host + '/question/load/' + sessionId,
       method: 'GET',
+      header: {
+        'Authorization': app.globalData.jwtToken
+      },
       success: function (res) {
         if (res.data.msg === 'ok') {
           that.setData({ questions: res.data.retObj });
@@ -76,6 +79,9 @@ Page({
     wx.request({
       url: app.globalData.host + '/question/delete/' + quesId,
       method: 'DELETE',
+      header: {
+        'Authorization': app.globalData.jwtToken
+      },
       success: function (res) {
         if (res.data.msg === 'ok') {
           Util.showToast('Success', 'success', 2000);
@@ -102,6 +108,9 @@ Page({
       wx.request({
         url: app.globalData.host + '/question/publish/' + that.data.sessionId,
         method: 'GET',
+        header: {
+          'Authorization': app.globalData.jwtToken
+        },
         success: function (res) {
           if (res.data.msg === 'ok') {
             Util.showToast('Success', 'success', 2000);

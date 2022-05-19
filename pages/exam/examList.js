@@ -20,6 +20,9 @@ Page({
     wx.request({
       url: app.globalData.host + '/exam/load/session',
       method: 'GET',
+      header: {
+        'Authorization': app.globalData.jwtToken
+      },
       success: function (res) {
         if (res.data.msg === 'ok') {
           if (res.data.retObj.length > 0) {

@@ -2,15 +2,24 @@
 <import src="../components/templates/loadingText.wxml"/>
 <wxs src="../../utils/formatter.wxs" module="formatter">
 </wxs>
+<view>
+    <homepopup id='homepopup' 
+      title='New feature' 
+      content='If your nickname appears to be "微信用户", you can change it in profile page now. ' 
+      btn_no='Ignore' 
+      btn_ok='Change now'
+      bind:error="_error"  
+      bind:success="_success"></homepopup>
+</view>  
 <view class="page">
   <view class="exploreHeader">
     <view class="searchInput">
-      <i-icon type="search" size="28" color="#80848f"/>
-      <input placeholder='Java SAPUI5 HANA' disabled ="false" bindtap="goToSearchPage"></input>
+     <!--<i-icon type="search" size="28" color="#80848f"/>
+      <input placeholder='Java SAPUI5 HANA' disabled ="false" bindtap="goToSearchPage"></input>--> 
       <swiper class="swiper" indicator-dots="true" autoplay="true" interval="5000" duration="1000">  
-        <block wx:for="{{hotSessions}}" wx:key="index">  
+        <block wx:for="{{bannerImgs}}" wx:key="index">  
           <swiper-item>
-           <image id="{{item.id}}" bindtap='goDetail' src="{{formatter.getImageUrl(item.tileImageSrc)}}" class="slide-image" mode="aspectFill"/>
+           <image lazy-load="true" id="{{item.linkUrl}}" bindtap='goLink' src="{{formatter.getImageUrl(item.imageSrc)}}" class="slide-image" mode="aspectFill"/>
           </swiper-item>  
         </block>  
       </swiper>
@@ -39,11 +48,12 @@
             <text class="topic">{{item.topic}}</text>
             <text class="completed" hidden="{{item.status !== 2}}">Done</text>
             </view>
-            <view class="speaker">{{item.owner.nickName}}</view>
+           <!-- <view class="speaker">{{item.owner.nickName}}</view> -->
+           <view class="speaker">{{subDirections[item.subDirection.id-1].name}} {{item.owner.nickName}}</view>
             <view class="location">
             {{formatter.getDate(item.startDate)}} | {{formatter.getDifficulty(item.difficulty)}}
             <view class="count">
-              <image src="../../images/mini_people.png"></image>
+              <image lazy-load="true" src="../../images/mini_people.png"></image>
               <text>{{item.enrollments}}</text>
             </view>
             </view>
@@ -59,11 +69,11 @@
     <view class="popup-container">
         <view class="tagContainer">
           <view class="title">Level</view>
-          <text data-tagValue="{{item.level}}" data-type="level" class="label {{selectedLevel==item.level?'selectedTag' : ''}}" wx:key="{{item.level}}" wx:for="{{difficultyLevels}}" bindtap="onTagChange">{{item.label}}</text>
+          <text data-tagValue="{{item.level}}" data-type="level" class="label {{selectedLevel==item.level?'selectedTag' : ''}}" wx:key="level" wx:for="{{difficultyLevels}}" bindtap="onTagChange">{{item.label}}</text>
         </view>
         <view class="tagContainer">
           <view class="title">Order By</view>
-          <text class="label {{selectedOrder==item.field?'selectedTag' : ''}}" data-tagValue="{{item.field}}" data-type="order" wx:key="{{item.id}}" wx:for="{{orderByFields}}" bindtap="onTagChange">{{item.label}}</text>
+          <text class="label {{selectedOrder==item.field?'selectedTag' : ''}}" data-tagValue="{{item.field}}" data-type="order" wx:key="id" wx:for="{{orderByFields}}" bindtap="onTagChange">{{item.label}}</text>
         </view>
         <button bindtap="comfirmFilter">Confirm</button>
     </view>
